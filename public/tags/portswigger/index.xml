@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>PortSwigger on Ep1cac</title>
+    <link>http://localhost:1313/tags/portswigger/</link>
+    <description>Recent content in PortSwigger on Ep1cac</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Ep1cac</copyright>
+    <lastBuildDate>Mon, 23 Sep 2024 10:59:43 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/portswigger/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Portswigger Lab: Brute-forcing a stay-logged-in cookie</title>
+      <link>http://localhost:1313/posts/cookie_brute/</link>
+      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
+      
+      <guid>http://localhost:1313/posts/cookie_brute/</guid>
+      <description><![CDATA[<h3 id="description">Description</h3>
+<p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
+<h3 id="walkthrough">Walkthrough</h3>
+<p>Navigate to the login page under &ldquo;My account&rdquo;. We will first create a stay-logged-in cookie with the user credentials given to us. Make sure check &ldquo;Stay logged in&rdquo;.</p>
+<p><img src="/img/portswigger/cookie-brute/stay_logged_in.png" alt="Login and enable persistent cookies"></p>
+<p>Now we can copy the cookie to analyze. Hit <code>Ctr-Shift-i</code> to open the Developer Tools panel and head to the &ldquo;Storage&rdquo; section. The value for the &ldquo;stay-logged-on&rdquo; field is our cookie.</p>
+<p><img src="/img/portswigger/cookie-brute/stay_logged_in_cookie.png" alt="Stay-logged-in cookie"></p>
+<p>The cookie is encoded in base64. Decoding it reveals that it is composed of the our username, &ldquo;:&rdquo;, and a hash.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ echo &#39;d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw&#39; | base64 -d                                    
+wiener:51dc30ddc473d43a6011e9ebba6ca770
+</code></pre><p>Given that our username was used as part of the cookie, we can reasonably infer that the hash is based on a predictable value like a timestamp, password, or maybe even the username again. In this case, it&rsquo;s the MD5 hash of our password. We can confirm this by hashing our password using MD5 and verifying it is identical to the hash in our cookie.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ echo -n &#39;peter&#39; | md5sum | cut -d &#39; &#39; -f1 
+51dc30ddc473d43a6011e9ebba6ca770
+</code></pre><p>We have now determined that the stay-logged-in cookie is <code>username:&lt;password MD5 hash&gt;</code> and base64-encoded. Since we have already been given a <a href="https://portswigger.net/web-security/authentication/auth-lab-passwords">list of passwords</a>, we can create a list of potential cookies for <code>carlos</code> by applying these rules. I provided a script that does this and saves the cookies into <code>cookies.txt</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># md5 hash -&gt; user:&lt;hash&gt; -&gt; base64 cookie</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        hash<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | md5sum | cut -d <span style="color:#e6db74">&#39; &#39;</span>  -f1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        cookie<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;carlos:</span>$hash<span style="color:#e6db74">&#34;</span> | base64<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$cookie<span style="color:#e6db74">&#34;</span> &gt;&gt; cookies.txt
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#66d9ef">$(</span>cat pass.txt<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Now we can brute force the stay-logged-in cookie for <code>carlos</code>. Logout and start Burp Suite. We are going to login again as <code>wiener</code> again, but this time we are going to intercept our web requests. Forward the POST request but capture the GET request for your account details.</p>
+<p><img src="/img/portswigger/cookie-brute/persistent_logon.png" alt="Web request"></p>
+<p>Copy it and save it into a file. Change the <code>id</code> query string&rsquo;s value to <code>carlos</code> and replace the stay-logged-in cookie with <code>FUZZ</code>. Now, we can brute force the cookie.</p>
+<pre tabindex="0"><code>ffuf -request request.txt -request-proto https -mode clusterbomb -w cookies.txt:FUZZ -r
+</code></pre><p>We see a change in the webserver&rsquo;s response after supplying one of the cookies.</p>
+<p><img src="/img/portswigger/cookie-brute/success.png" alt="Cookie brute force"></p>
+<p>Now we can simply use our cookie to take over  <code>carlos</code>. Once again, we open the developer tools and head to storage &gt; cookies. Right click and add another item with the name as &ldquo;stay-logged-in&rdquo; and the value as the cookie we got.</p>
+<p><img src="/img/portswigger/cookie-brute/add_cookie.png" alt="Add carlos&rsquo; cookie"></p>
+<p>Refresh the page and we are now logged in as <code>carlos</code>.</p>
+<p><img src="/img/portswigger/cookie-brute/carlos_pwned.png" alt="Takeover success"></p>
+<hr>
+<h3 id="beyond-pwn">Beyond Pwn</h3>
+<p>Note that finding the cookie for <code>carlos</code> is similar to a password dictionary attack. In this particular though, there is a IP ban for incorrect login attempts. By brute forcing the cookie instead of password, we are able to bypass the IP ban.</p>
+<p>Also worth mentioning is that we can also get the <code>carlos</code> user&rsquo;s password while brute forcing his cookie.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># md5 hash -&gt; user:&lt;hash&gt; -&gt; base64 cookie &amp;&amp; cookie-password map</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        hash<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | md5sum | cut -d <span style="color:#e6db74">&#39; &#39;</span>  -f1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        cookie<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;carlos:</span>$hash<span style="color:#e6db74">&#34;</span> | base64<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$cookie<span style="color:#e6db74">&#34;</span> &gt;&gt; cookies.txt
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$cookie<span style="color:#e6db74">: </span>$line<span style="color:#e6db74">&#34;</span> &gt;&gt; map.txt
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#66d9ef">$(</span>cat pass.txt<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Once we successfully authenticate with a cookie, we can find its corresponding password through the map.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ grep &#39;Y2FybG9zOmVmNmU2NWVmYzE4OGU3ZGZmZDczMzViNjQ2YTg1YTIx&#39; map.txt                    
+Y2FybG9zOmVmNmU2NWVmYzE4OGU3ZGZmZDczMzViNjQ2YTg1YTIx: thomas
+</code></pre><p>This can be useful when checking for password reuse and may help us access more services in a real engagement.</p>
+]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>

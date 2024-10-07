@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>Tags on Ep1cac</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on Ep1cac</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Ep1cac</copyright>
+    <lastBuildDate>Mon, 23 Sep 2024 10:59:43 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Broken Authentication</title>
+      <link>http://localhost:1313/tags/broken-authentication/</link>
+      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/broken-authentication/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Cookies</title>
+      <link>http://localhost:1313/tags/cookies/</link>
+      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/cookies/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>PortSwigger</title>
+      <link>http://localhost:1313/tags/portswigger/</link>
+      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/portswigger/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Web Security</title>
+      <link>http://localhost:1313/tags/web-security/</link>
+      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/web-security/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Active Directory</title>
+      <link>http://localhost:1313/tags/active-directory/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/active-directory/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Git</title>
+      <link>http://localhost:1313/tags/git/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/git/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Kerberoast</title>
+      <link>http://localhost:1313/tags/kerberoast/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/kerberoast/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>THM</title>
+      <link>http://localhost:1313/tags/thm/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/thm/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Unqoted Service Path</title>
+      <link>http://localhost:1313/tags/unqoted-service-path/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/unqoted-service-path/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Windows</title>
+      <link>http://localhost:1313/tags/windows/</link>
+      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/windows/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>FreeBSD</title>
+      <link>http://localhost:1313/tags/freebsd/</link>
+      <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/freebsd/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>HTB</title>
+      <link>http://localhost:1313/tags/htb/</link>
+      <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/htb/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>LFI</title>
+      <link>http://localhost:1313/tags/lfi/</link>
+      <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/lfi/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Port Forwarding</title>
+      <link>http://localhost:1313/tags/port-forwarding/</link>
+      <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/port-forwarding/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Unix</title>
+      <link>http://localhost:1313/tags/unix/</link>
+      <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/unix/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>VNC</title>
+      <link>http://localhost:1313/tags/vnc/</link>
+      <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/vnc/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>
