@@ -104,7 +104,7 @@ root     syslogd    390   7  udp4   *:514                 *:*
 ssh -N -L 5801:127.0.0.1:5801 charix@10.10.10.84
 
 # Forward Port 5901
-ssh -N -L 5801:127.0.0.1:5801 charix@10.10.10.84
+ssh -N -L 5901:127.0.0.1:5901 charix@10.10.10.84
 </code></pre><p>Now we can do some more enumeration.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~]
 └─$ sudo nmap -p5801,5901 127.0.0.1 -sV --script=default

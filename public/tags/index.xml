@@ -6,7 +6,67 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 23 Sep 2024 10:59:43 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Binary Exploitation</title>
+      <link>http://localhost:1313/tags/binary-exploitation/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/binary-exploitation/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Buffer Overflow</title>
+      <link>http://localhost:1313/tags/buffer-overflow/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/buffer-overflow/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Code Review</title>
+      <link>http://localhost:1313/tags/code-review/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/code-review/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Pwn</title>
+      <link>http://localhost:1313/tags/pwn/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/pwn/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>X86</title>
+      <link>http://localhost:1313/tags/x86/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/x86/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
     
     
     <item>

