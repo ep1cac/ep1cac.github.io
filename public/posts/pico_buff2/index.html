@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="" lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<html class="" lang="en"><head>
     
     <meta name="robots" content="noai, noimageai">
     <meta name="viewport" content="width=device-width" />
@@ -39,11 +39,11 @@
 
     
     
-    <link type="text/css" rel="stylesheet" href=http://localhost:1313/css/styles.92a5dd122dc2f6b3f4e1ddbdc5136b6ddc6386b3fd22c6fb8daa45dad3fc4e84b98b7a7dd7949fea7fdea189c7d1adbb213c24cf54b346b49a9ac53976accd44.css integrity="sha512-kqXdEi3C9rP04d29xRNrbdxjhrP9Isb7japF2tP8ToS5i3p915Sf6n/eoYnH0a27ITwkz1SzRrSamsU5dqzNRA==" />
+    <link type="text/css" rel="stylesheet" href=https://ep1cac.github.io/css/styles.92a5dd122dc2f6b3f4e1ddbdc5136b6ddc6386b3fd22c6fb8daa45dad3fc4e84b98b7a7dd7949fea7fdea189c7d1adbb213c24cf54b346b49a9ac53976accd44.css integrity="sha512-kqXdEi3C9rP04d29xRNrbdxjhrP9Isb7japF2tP8ToS5i3p915Sf6n/eoYnH0a27ITwkz1SzRrSamsU5dqzNRA==" />
 <meta name="author" content="Ep1cac" />
 
     
-        <meta name="keywords" content='Binary Exploitation, Buffer Overflow, Code Review, Pwn, x86' />
+        <meta name="keywords" content='Binary Exploitation, Buffer Overflow, Code Review, Pico, Pwn, x86' />
     
     
         <meta name="description" content="&gt;Description&lt;/h3&gt;
@@ -69,16 +69,18 @@
         
             <meta property="article:tag" content="Code Review" />
         
+            <meta property="article:tag" content="Pico" />
+        
             <meta property="article:tag" content="Pwn" />
         
             <meta property="article:tag" content="x86" />
         
     
-    <meta property="og:url" content="http://localhost:1313/posts/pico_buff2/" />
+    <meta property="og:url" content="https://ep1cac.github.io/posts/pico_buff2/" />
     
     
     <meta property="og:image"
-        content="http://localhost:1313/img/icon.svg" />
+        content="https://ep1cac.github.io/img/icon.svg" />
     
         <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
 &lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() func" />
@@ -86,9 +88,9 @@
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:domain"
-      content='localhost:1313'
+      content='ep1cac.github.io'
 />
-<meta property="twitter:url" content="http://localhost:1313/posts/pico_buff2/" />
+<meta property="twitter:url" content="https://ep1cac.github.io/posts/pico_buff2/" />
 
 
     <meta name="twitter:title" content="PicoCTF: Buffer Overflow 2" />
@@ -96,7 +98,7 @@
     
     
     <meta name="twitter:image"
-        content="http://localhost:1313/img/icon.svg" />
+        content="https://ep1cac.github.io/img/icon.svg" />
     
         <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
 &lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() func" />
@@ -414,7 +416,7 @@ frame for <code>win()</code>.</p>
 <p>Unlike x64 binaries, all function arguments in x86 programs are passed directly onto the stack.
 After jumping to <code>win()</code>, we will also need to overflow <code>eip</code> before we can pass in arg1 and arg2.
 In my exploit script I set <code>eip</code> to be overflowed with the address of <code>main()</code> for the sake of
-having a valid return address, but any 4 byte value should work since the flag is being printed directly in <code>win()</code> and we won&rsquo;t need to jump to another address.</p>
+having a valid return address, but any 4 byte value should work since the flag is being printed directly in <code>win()</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -452,8 +454,7 @@ the local binary to the remote pico server.</p>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Change from local binary to remote pico server.</span>
-</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;saturn.picoctf.net&#34;</span>, <span style="color:#ae81ff">54042</span>) 
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;saturn.picoctf.net&#34;</span>, <span style="color:#ae81ff">54042</span>) <span style="color:#75715e"># Changed from binary to pico server.</span>
 </span></span><span style="display:flex;"><span>elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./vuln&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>buffer_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">112</span>
@@ -497,6 +498,10 @@ the local binary to the remote pico server.</p>
             <a
                 
                 href="/tags/code-review/">#Code Review</a>
+        
+            <a
+                
+                href="/tags/pico/">#Pico</a>
         
             <a
                 

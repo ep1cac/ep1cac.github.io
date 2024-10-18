@@ -141,7 +141,7 @@ p.interactive()
 ```
 
 I didn't get a clear indication as to whether my payload succeeded, so I added a breakpoint
-at the ```win()``` function through gdb. If ```win()``` is called, the program will pause execution.
+at the ```win()``` function through gdb. If ```win()``` is called, the program will pause at the breakpoint.
 
 ```python
 #!/usr/bin/python3
@@ -199,7 +199,7 @@ frame for ```win()```.
 Unlike x64 binaries, all function arguments in x86 programs are passed directly onto the stack.
 After jumping to ```win()```, we will also need to overflow ```eip``` before we can pass in arg1 and arg2.
 In my exploit script I set ```eip``` to be overflowed with the address of ```main()``` for the sake of
-having a valid return address, but any 4 byte value should work since the flag is being printed directly in ```win()``` and we won't need to jump to another address.
+having a valid return address, but any 4 byte value should work since the flag is being printed directly in ```win()```.
 
 ```python
 #!/usr/bin/python3
@@ -244,8 +244,7 @@ the local binary to the remote pico server.
 from pwn import *
 
 
-# Change from local binary to remote pico server.
-p = remote("saturn.picoctf.net", 54042) 
+p = remote("saturn.picoctf.net", 54042) # Changed from binary to pico server.
 elf = ELF("./vuln")
 
 buffer_size = 112
