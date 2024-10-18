@@ -78,7 +78,7 @@ We can also see that we need a dummy flag in order for the program to execute co
 
 To overflow the buffer, we first need to find the offset of the eip register. eip stands for 
 "Extended Instruction Pointer" and as its name suggests, points to the next instruction to be 
-executed in x86 systems. We want to write the address of ```win()``` to it. To find the address,
+executed. We want to write the address of ```win()``` to it. To find the address,
 we can analyze ```vuln``` in gdb...
 
 ```
