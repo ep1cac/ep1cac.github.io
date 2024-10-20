@@ -160,7 +160,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 10.83 seconds
 ```
 
-VNC is running on port 5901. VNC is a system designed to share screens. This means that a user using VNC can interact with... The VNC password file is usually stored in ```~/.vnc/passwd```. This path does not exist for ```charix``` though, but there was a ```passwd``` file that we extracted from ```secret.zip```. We can check if it it indeed a VNC password file by attempting to extract its password:
+VNC is running on port 5901. VNC is a system designed to share screens. This means that a user using VNC can interact with... The VNC password file is usually stored in ```~/.vnc/passwd```. This path does not exist for ```charix``` though, but there was a ```passwd``` file that we extracted from ```secret.zip```. We can check if it it indeed a VNC password file by attempting to extract a VNC password:
 
 ```
 ┌──(kali㉿kali)-[/tmp]
@@ -177,5 +177,5 @@ Success! Now that we are certain we have a VNC password file, we can use it to c
 
 ![vnc successful connect](/img/poison/vnc_pwn.png)
 
-Congrats, you've rooted Poison!
+And with that, we have root on the machine.
 
