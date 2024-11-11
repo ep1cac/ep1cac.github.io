@@ -1,80 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Tags on Ep1cac</title>
-    <link>https://ep1cac.github.io/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
+    <lastBuildDate>Mon, 11 Nov 2024 12:54:22 -0600</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
     
     
     <item>
-      <title>Binary Exploitation</title>
-      <link>https://ep1cac.github.io/tags/binary-exploitation/</link>
-      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      <title>Broken Access Control</title>
+      <link>http://localhost:1313/tags/broken-access-control/</link>
+      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/binary-exploitation/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>Buffer Overflow</title>
-      <link>https://ep1cac.github.io/tags/buffer-overflow/</link>
-      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
-      
-      <guid>https://ep1cac.github.io/tags/buffer-overflow/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>Code Review</title>
-      <link>https://ep1cac.github.io/tags/code-review/</link>
-      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
-      
-      <guid>https://ep1cac.github.io/tags/code-review/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>Pico</title>
-      <link>https://ep1cac.github.io/tags/pico/</link>
-      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
-      
-      <guid>https://ep1cac.github.io/tags/pico/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>Pwn</title>
-      <link>https://ep1cac.github.io/tags/pwn/</link>
-      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
-      
-      <guid>https://ep1cac.github.io/tags/pwn/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>X86</title>
-      <link>https://ep1cac.github.io/tags/x86/</link>
-      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
-      
-      <guid>https://ep1cac.github.io/tags/x86/</guid>
+      <guid>http://localhost:1313/tags/broken-access-control/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -83,10 +23,118 @@
     
     <item>
       <title>Broken Authentication</title>
-      <link>https://ep1cac.github.io/tags/broken-authentication/</link>
-      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
+      <link>http://localhost:1313/tags/broken-authentication/</link>
+      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/broken-authentication/</guid>
+      <guid>http://localhost:1313/tags/broken-authentication/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Jenkins</title>
+      <link>http://localhost:1313/tags/jenkins/</link>
+      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/jenkins/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>KeePass</title>
+      <link>http://localhost:1313/tags/keepass/</link>
+      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/keepass/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Linux</title>
+      <link>http://localhost:1313/tags/linux/</link>
+      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/linux/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Binary Exploitation</title>
+      <link>http://localhost:1313/tags/binary-exploitation/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/binary-exploitation/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Buffer Overflow</title>
+      <link>http://localhost:1313/tags/buffer-overflow/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/buffer-overflow/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Code Review</title>
+      <link>http://localhost:1313/tags/code-review/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/code-review/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Pico</title>
+      <link>http://localhost:1313/tags/pico/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/pico/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Pwn</title>
+      <link>http://localhost:1313/tags/pwn/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/pwn/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>X86</title>
+      <link>http://localhost:1313/tags/x86/</link>
+      <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/x86/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -95,10 +143,10 @@
     
     <item>
       <title>Cookies</title>
-      <link>https://ep1cac.github.io/tags/cookies/</link>
+      <link>http://localhost:1313/tags/cookies/</link>
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/cookies/</guid>
+      <guid>http://localhost:1313/tags/cookies/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -107,10 +155,10 @@
     
     <item>
       <title>PortSwigger</title>
-      <link>https://ep1cac.github.io/tags/portswigger/</link>
+      <link>http://localhost:1313/tags/portswigger/</link>
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/portswigger/</guid>
+      <guid>http://localhost:1313/tags/portswigger/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -119,10 +167,10 @@
     
     <item>
       <title>Web Security</title>
-      <link>https://ep1cac.github.io/tags/web-security/</link>
+      <link>http://localhost:1313/tags/web-security/</link>
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/web-security/</guid>
+      <guid>http://localhost:1313/tags/web-security/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -131,10 +179,10 @@
     
     <item>
       <title>Active Directory</title>
-      <link>https://ep1cac.github.io/tags/active-directory/</link>
+      <link>http://localhost:1313/tags/active-directory/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/active-directory/</guid>
+      <guid>http://localhost:1313/tags/active-directory/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -143,10 +191,10 @@
     
     <item>
       <title>Git</title>
-      <link>https://ep1cac.github.io/tags/git/</link>
+      <link>http://localhost:1313/tags/git/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/git/</guid>
+      <guid>http://localhost:1313/tags/git/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -155,10 +203,10 @@
     
     <item>
       <title>Kerberoast</title>
-      <link>https://ep1cac.github.io/tags/kerberoast/</link>
+      <link>http://localhost:1313/tags/kerberoast/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/kerberoast/</guid>
+      <guid>http://localhost:1313/tags/kerberoast/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -167,10 +215,10 @@
     
     <item>
       <title>THM</title>
-      <link>https://ep1cac.github.io/tags/thm/</link>
+      <link>http://localhost:1313/tags/thm/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/thm/</guid>
+      <guid>http://localhost:1313/tags/thm/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -179,10 +227,10 @@
     
     <item>
       <title>Unqoted Service Path</title>
-      <link>https://ep1cac.github.io/tags/unqoted-service-path/</link>
+      <link>http://localhost:1313/tags/unqoted-service-path/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/unqoted-service-path/</guid>
+      <guid>http://localhost:1313/tags/unqoted-service-path/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -191,10 +239,10 @@
     
     <item>
       <title>Windows</title>
-      <link>https://ep1cac.github.io/tags/windows/</link>
+      <link>http://localhost:1313/tags/windows/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/windows/</guid>
+      <guid>http://localhost:1313/tags/windows/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -203,10 +251,10 @@
     
     <item>
       <title>FreeBSD</title>
-      <link>https://ep1cac.github.io/tags/freebsd/</link>
+      <link>http://localhost:1313/tags/freebsd/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/freebsd/</guid>
+      <guid>http://localhost:1313/tags/freebsd/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -215,10 +263,10 @@
     
     <item>
       <title>HTB</title>
-      <link>https://ep1cac.github.io/tags/htb/</link>
+      <link>http://localhost:1313/tags/htb/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/htb/</guid>
+      <guid>http://localhost:1313/tags/htb/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -227,10 +275,10 @@
     
     <item>
       <title>LFI</title>
-      <link>https://ep1cac.github.io/tags/lfi/</link>
+      <link>http://localhost:1313/tags/lfi/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/lfi/</guid>
+      <guid>http://localhost:1313/tags/lfi/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -239,10 +287,10 @@
     
     <item>
       <title>Port Forwarding</title>
-      <link>https://ep1cac.github.io/tags/port-forwarding/</link>
+      <link>http://localhost:1313/tags/port-forwarding/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/port-forwarding/</guid>
+      <guid>http://localhost:1313/tags/port-forwarding/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -251,10 +299,10 @@
     
     <item>
       <title>Unix</title>
-      <link>https://ep1cac.github.io/tags/unix/</link>
+      <link>http://localhost:1313/tags/unix/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/unix/</guid>
+      <guid>http://localhost:1313/tags/unix/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -263,10 +311,10 @@
     
     <item>
       <title>VNC</title>
-      <link>https://ep1cac.github.io/tags/vnc/</link>
+      <link>http://localhost:1313/tags/vnc/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/tags/vnc/</guid>
+      <guid>http://localhost:1313/tags/vnc/</guid>
       <description><![CDATA[]]></description>
       
     </item>

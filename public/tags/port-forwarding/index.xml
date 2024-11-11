@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Port Forwarding on Ep1cac</title>
-    <link>https://ep1cac.github.io/tags/port-forwarding/</link>
+    <link>http://localhost:1313/tags/port-forwarding/</link>
     <description>Recent content in Port Forwarding on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 16 Sep 2024 20:59:17 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/port-forwarding/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
+    <lastBuildDate>Mon, 16 Sep 2024 20:59:17 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/port-forwarding/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
     
     
     <item>
       <title>Poison</title>
-      <link>https://ep1cac.github.io/posts/poison/</link>
+      <link>http://localhost:1313/posts/poison/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/poison/</guid>
+      <guid>http://localhost:1313/posts/poison/</guid>
       <description><![CDATA[<p><img src="/img/poison/poison.png#center" alt="Poison"></p>
 <h3 id="description">Description</h3>
 <p>Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.</p>
@@ -125,7 +125,7 @@ PORT     STATE SERVICE VERSION
 
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 10.83 seconds
-</code></pre><p>VNC is running on port 5901. VNC is a system designed to share screens. This means that a user using VNC can interact with&hellip; The VNC password file is usually stored in <code>~/.vnc/passwd</code>. This path does not exist for <code>charix</code> though, but there was a <code>passwd</code> file that we extracted from <code>secret.zip</code>. We can check if it it indeed a VNC password file by attempting to extract its password:</p>
+</code></pre><p>VNC is running on port 5901. VNC is a system designed to share screens. This means that a user using VNC can interact with&hellip; The VNC password file is usually stored in <code>~/.vnc/passwd</code>. This path does not exist for <code>charix</code> though, but there was a <code>passwd</code> file that we extracted from <code>secret.zip</code>. We can check if it it indeed a VNC password file by attempting to extract a VNC password:</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ cat secret | openssl enc -des-cbc -nopad -nosalt -K e84ad660c4721ae0 -iv 0000000000000000 -d
 VNCP@$$!
@@ -133,7 +133,7 @@ VNCP@$$!
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ vncviewer -passwd secret 127.0.0.1::5901
 </code></pre><p><img src="/img/poison/vnc_pwn.png" alt="vnc successful connect"></p>
-<p>Congrats, you&rsquo;ve rooted Poison!</p>
+<p>And with that, we have root on the machine.</p>
 ]]></description>
       
     </item>

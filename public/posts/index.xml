@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Posts on Ep1cac</title>
-    <link>https://ep1cac.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
+    <lastBuildDate>Mon, 11 Nov 2024 12:54:22 -0600</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Jeeves</title>
+      <link>http://localhost:1313/posts/jeeves/</link>
+      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
+      
+      <guid>http://localhost:1313/posts/jeeves/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
     
     
     <item>
       <title>PicoCTF: Buffer Overflow 2</title>
-      <link>https://ep1cac.github.io/posts/pico_buff2/</link>
+      <link>http://localhost:1313/posts/pico_buff2/</link>
       <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/pico_buff2/</guid>
+      <guid>http://localhost:1313/posts/pico_buff2/</guid>
       <description><![CDATA[<h3 id="description">Description</h3>
 <p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
 <h3 id="walkthrough">Walkthrough</h3>
@@ -71,7 +83,7 @@ call <code>win()</code> as well as pass in two arguments, <code>0xCAFEF00D</code
 └─$ echo &#39;pico{debug}&#39; &gt; flag.txt
 </code></pre><p>To overflow the buffer, we first need to find the offset of the eip register. eip stands for
 &ldquo;Extended Instruction Pointer&rdquo; and as its name suggests, points to the next instruction to be
-executed in x86 systems. We want to write the address of <code>win()</code> to it. To find the address,
+executed. We want to write the address of <code>win()</code> to it. To find the address,
 we can analyze <code>vuln</code> in gdb&hellip;</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~/Writeups/pico/buff2]
 └─$ gdb vuln
@@ -141,7 +153,7 @@ in our payload before <code>eip</code> starts being overwritten.</p>
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
 </span></span></code></pre></div><p>I didn&rsquo;t get a clear indication as to whether my payload succeeded, so I added a breakpoint
-at the <code>win()</code> function through gdb. If <code>win()</code> is called, the program will pause execution.</p>
+at the <code>win()</code> function through gdb. If <code>win()</code> is called, the program will pause at the breakpoint.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -285,10 +297,10 @@ the local binary to the remote pico server.</p>
     
     <item>
       <title>Portswigger Lab: Brute-forcing a stay-logged-in cookie</title>
-      <link>https://ep1cac.github.io/posts/cookie_brute/</link>
+      <link>http://localhost:1313/posts/cookie_brute/</link>
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/cookie_brute/</guid>
+      <guid>http://localhost:1313/posts/cookie_brute/</guid>
       <description><![CDATA[<h3 id="description">Description</h3>
 <p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
 <h3 id="walkthrough">Walkthrough</h3>
@@ -353,10 +365,10 @@ Y2FybG9zOmVmNmU2NWVmYzE4OGU3ZGZmZDczMzViNjQ2YTg1YTIx: thomas
     
     <item>
       <title>Enterprise</title>
-      <link>https://ep1cac.github.io/posts/enterprise/</link>
+      <link>http://localhost:1313/posts/enterprise/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/enterprise/</guid>
+      <guid>http://localhost:1313/posts/enterprise/</guid>
       <description><![CDATA[<p><img src="/img/enterprise/enterprise.png#center" alt="Enterprise"></p>
 <h3 id="description">Description</h3>
 <p><a href="https://tryhackme.com/r/room/enterprise">Enterprise</a> is a Hard difficulty Active Directory box on Tryhackme. We are in an assumed compromise scenario where our only target is a domain controller on the internal network. While privilege escalation was straightforward, there are multiple rabbit holes for initial access.</p>
@@ -688,10 +700,10 @@ C:\Windows\system32&gt;
     
     <item>
       <title>Poison</title>
-      <link>https://ep1cac.github.io/posts/poison/</link>
+      <link>http://localhost:1313/posts/poison/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/poison/</guid>
+      <guid>http://localhost:1313/posts/poison/</guid>
       <description><![CDATA[<p><img src="/img/poison/poison.png#center" alt="Poison"></p>
 <h3 id="description">Description</h3>
 <p>Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.</p>
@@ -802,7 +814,7 @@ PORT     STATE SERVICE VERSION
 
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 10.83 seconds
-</code></pre><p>VNC is running on port 5901. VNC is a system designed to share screens. This means that a user using VNC can interact with&hellip; The VNC password file is usually stored in <code>~/.vnc/passwd</code>. This path does not exist for <code>charix</code> though, but there was a <code>passwd</code> file that we extracted from <code>secret.zip</code>. We can check if it it indeed a VNC password file by attempting to extract its password:</p>
+</code></pre><p>VNC is running on port 5901. VNC is a system designed to share screens. This means that a user using VNC can interact with&hellip; The VNC password file is usually stored in <code>~/.vnc/passwd</code>. This path does not exist for <code>charix</code> though, but there was a <code>passwd</code> file that we extracted from <code>secret.zip</code>. We can check if it it indeed a VNC password file by attempting to extract a VNC password:</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ cat secret | openssl enc -des-cbc -nopad -nosalt -K e84ad660c4721ae0 -iv 0000000000000000 -d
 VNCP@$$!
@@ -810,7 +822,7 @@ VNCP@$$!
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ vncviewer -passwd secret 127.0.0.1::5901
 </code></pre><p><img src="/img/poison/vnc_pwn.png" alt="vnc successful connect"></p>
-<p>Congrats, you&rsquo;ve rooted Poison!</p>
+<p>And with that, we have root on the machine.</p>
 ]]></description>
       
     </item>

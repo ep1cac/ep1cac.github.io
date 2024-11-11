@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Pwn on Ep1cac</title>
-    <link>https://ep1cac.github.io/tags/pwn/</link>
+    <link>http://localhost:1313/tags/pwn/</link>
     <description>Recent content in Pwn on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/pwn/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
+    <lastBuildDate>Wed, 09 Oct 2024 14:23:13 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/pwn/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
     
     
     <item>
       <title>PicoCTF: Buffer Overflow 2</title>
-      <link>https://ep1cac.github.io/posts/pico_buff2/</link>
+      <link>http://localhost:1313/posts/pico_buff2/</link>
       <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/pico_buff2/</guid>
+      <guid>http://localhost:1313/posts/pico_buff2/</guid>
       <description><![CDATA[<h3 id="description">Description</h3>
 <p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
 <h3 id="walkthrough">Walkthrough</h3>
@@ -71,7 +71,7 @@ call <code>win()</code> as well as pass in two arguments, <code>0xCAFEF00D</code
 └─$ echo &#39;pico{debug}&#39; &gt; flag.txt
 </code></pre><p>To overflow the buffer, we first need to find the offset of the eip register. eip stands for
 &ldquo;Extended Instruction Pointer&rdquo; and as its name suggests, points to the next instruction to be
-executed in x86 systems. We want to write the address of <code>win()</code> to it. To find the address,
+executed. We want to write the address of <code>win()</code> to it. To find the address,
 we can analyze <code>vuln</code> in gdb&hellip;</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~/Writeups/pico/buff2]
 └─$ gdb vuln
@@ -141,7 +141,7 @@ in our payload before <code>eip</code> starts being overwritten.</p>
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
 </span></span></code></pre></div><p>I didn&rsquo;t get a clear indication as to whether my payload succeeded, so I added a breakpoint
-at the <code>win()</code> function through gdb. If <code>win()</code> is called, the program will pause execution.</p>
+at the <code>win()</code> function through gdb. If <code>win()</code> is called, the program will pause at the breakpoint.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
