@@ -8,6 +8,7 @@ tags:
 - KeePass
 - Broken Authentication
 - Broken Access Control
+- HTB
 ---
 
 ![Jeeves](/img/jeeves/jeeves.png#center)
