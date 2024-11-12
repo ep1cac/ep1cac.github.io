@@ -2,115 +2,112 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/broken-access-control/</loc>
+    <loc>https://ep1cac.github.io/tags/broken-access-control/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/broken-authentication/</loc>
+    <loc>https://ep1cac.github.io/tags/broken-authentication/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://ep1cac.github.io/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/jeeves/</loc>
+    <loc>https://ep1cac.github.io/tags/htb/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/jenkins/</loc>
+    <loc>https://ep1cac.github.io/posts/jeeves/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/keepass/</loc>
+    <loc>https://ep1cac.github.io/tags/jenkins/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/linux/</loc>
+    <loc>https://ep1cac.github.io/tags/keepass/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://ep1cac.github.io/posts/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://ep1cac.github.io/tags/</loc>
     <lastmod>2024-11-11T12:54:22-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/binary-exploitation/</loc>
+    <loc>https://ep1cac.github.io/tags/windows/</loc>
+    <lastmod>2024-11-11T12:54:22-06:00</lastmod>
+  </url><url>
+    <loc>https://ep1cac.github.io/tags/binary-exploitation/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/buffer-overflow/</loc>
+    <loc>https://ep1cac.github.io/tags/buffer-overflow/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/code-review/</loc>
+    <loc>https://ep1cac.github.io/tags/code-review/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/pico/</loc>
+    <loc>https://ep1cac.github.io/tags/pico/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/pico_buff2/</loc>
+    <loc>https://ep1cac.github.io/posts/pico_buff2/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/pwn/</loc>
+    <loc>https://ep1cac.github.io/tags/pwn/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/x86/</loc>
+    <loc>https://ep1cac.github.io/tags/x86/</loc>
     <lastmod>2024-10-09T14:23:13-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/cookies/</loc>
+    <loc>https://ep1cac.github.io/tags/cookies/</loc>
     <lastmod>2024-09-23T10:59:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/portswigger/</loc>
+    <loc>https://ep1cac.github.io/tags/portswigger/</loc>
     <lastmod>2024-09-23T10:59:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/cookie_brute/</loc>
+    <loc>https://ep1cac.github.io/posts/cookie_brute/</loc>
     <lastmod>2024-09-23T10:59:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/web-security/</loc>
+    <loc>https://ep1cac.github.io/tags/web-security/</loc>
     <lastmod>2024-09-23T10:59:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://ep1cac.github.io/about/</loc>
     <lastmod>2024-09-21T14:06:06-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/active-directory/</loc>
+    <loc>https://ep1cac.github.io/tags/active-directory/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/enterprise/</loc>
+    <loc>https://ep1cac.github.io/posts/enterprise/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/git/</loc>
+    <loc>https://ep1cac.github.io/tags/git/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/kerberoast/</loc>
+    <loc>https://ep1cac.github.io/tags/kerberoast/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/thm/</loc>
+    <loc>https://ep1cac.github.io/tags/thm/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/unqoted-service-path/</loc>
+    <loc>https://ep1cac.github.io/tags/unqoted-service-path/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/windows/</loc>
-    <lastmod>2024-09-17T15:11:37-05:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/freebsd/</loc>
+    <loc>https://ep1cac.github.io/tags/freebsd/</loc>
     <lastmod>2024-09-16T20:59:17-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/htb/</loc>
+    <loc>https://ep1cac.github.io/tags/lfi/</loc>
     <lastmod>2024-09-16T20:59:17-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/lfi/</loc>
+    <loc>https://ep1cac.github.io/posts/poison/</loc>
     <lastmod>2024-09-16T20:59:17-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/poison/</loc>
+    <loc>https://ep1cac.github.io/tags/port-forwarding/</loc>
     <lastmod>2024-09-16T20:59:17-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/port-forwarding/</loc>
+    <loc>https://ep1cac.github.io/tags/unix/</loc>
     <lastmod>2024-09-16T20:59:17-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/unix/</loc>
+    <loc>https://ep1cac.github.io/tags/vnc/</loc>
     <lastmod>2024-09-16T20:59:17-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/vnc/</loc>
-    <lastmod>2024-09-16T20:59:17-05:00</lastmod>
+    <loc>https://ep1cac.github.io/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://ep1cac.github.io/manifest/index.json</loc>
   </url><url>
-    <loc>http://localhost:1313/manifest/index.json</loc>
-  </url><url>
-    <loc>http://localhost:1313/search/</loc>
+    <loc>https://ep1cac.github.io/search/</loc>
   </url>
 </urlset>

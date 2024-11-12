@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Web Security on Ep1cac</title>
-    <link>http://localhost:1313/tags/web-security/</link>
+    <link>https://ep1cac.github.io/tags/web-security/</link>
     <description>Recent content in Web Security on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 23 Sep 2024 10:59:43 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/web-security/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Mon, 23 Sep 2024 10:59:43 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/web-security/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
     
     
     <item>
       <title>Portswigger Lab: Brute-forcing a stay-logged-in cookie</title>
-      <link>http://localhost:1313/posts/cookie_brute/</link>
+      <link>https://ep1cac.github.io/posts/cookie_brute/</link>
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
-      <guid>http://localhost:1313/posts/cookie_brute/</guid>
+      <guid>https://ep1cac.github.io/posts/cookie_brute/</guid>
       <description><![CDATA[<h3 id="description">Description</h3>
 <p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
 <h3 id="walkthrough">Walkthrough</h3>

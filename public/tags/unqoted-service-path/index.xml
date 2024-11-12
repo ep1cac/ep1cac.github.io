@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>Unqoted Service Path on Ep1cac</title>
-    <link>http://localhost:1313/tags/unqoted-service-path/</link>
+    <link>https://ep1cac.github.io/tags/unqoted-service-path/</link>
     <description>Recent content in Unqoted Service Path on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Tue, 17 Sep 2024 15:11:37 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/unqoted-service-path/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Tue, 17 Sep 2024 15:11:37 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/unqoted-service-path/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
     
     
     <item>
       <title>Enterprise</title>
-      <link>http://localhost:1313/posts/enterprise/</link>
+      <link>https://ep1cac.github.io/posts/enterprise/</link>
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
-      <guid>http://localhost:1313/posts/enterprise/</guid>
+      <guid>https://ep1cac.github.io/posts/enterprise/</guid>
       <description><![CDATA[<p><img src="/img/enterprise/enterprise.png#center" alt="Enterprise"></p>
 <h3 id="description">Description</h3>
 <p><a href="https://tryhackme.com/r/room/enterprise">Enterprise</a> is a Hard difficulty Active Directory box on Tryhackme. We are in an assumed compromise scenario where our only target is a domain controller on the internal network. While privilege escalation was straightforward, there are multiple rabbit holes for initial access.</p>

@@ -3,7 +3,7 @@ title: "Jeeves"
 date: 2024-11-11T12:54:22-06:00
 draft: false
 tags:
-- Linux
+- Windows
 - Jenkins
 - KeePass
 - Broken Authentication
