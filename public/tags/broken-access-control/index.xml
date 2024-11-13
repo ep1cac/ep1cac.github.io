@@ -246,7 +246,7 @@ Windows/
 6. Keys to the kingdom                                                    
 7. Walmart.com                                             www.walmart.com
 kpcli:/CEH&gt; 
-</code></pre><p>Inside the CEH groups, we find some entries and more groups. Further enumeartion reveals that the other groups are empty, so we can focus our efforts on the entries.</p>
+</code></pre><p>Inside the CEH group, we find some entries and more groups. Further enumeartion reveals that the other groups are empty, so we can focus our efforts on the entries.</p>
 <pre tabindex="0"><code>kpcli:/CEH&gt; ls *
 === Entries ===
 0. Backup stuff                                                           

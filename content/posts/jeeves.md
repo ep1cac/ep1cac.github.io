@@ -296,7 +296,7 @@ Windows/
 kpcli:/CEH> 
 ```
 
-Inside the CEH groups, we find some entries and more groups. Further enumeartion reveals that the other groups are empty, so we can focus our efforts on the entries.
+Inside the CEH group, we find some entries and more groups. Further enumeartion reveals that the other groups are empty, so we can focus our efforts on the entries.
 
 ```
 kpcli:/CEH> ls *
