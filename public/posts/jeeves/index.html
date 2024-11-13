@@ -276,7 +276,7 @@ HOP RTT      ADDRESS
 Read data files from: /usr/bin/../share/nmap
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Mon Nov 11 13:05:35 2024 -- 1 IP address (1 host up) scanned in 214.46 seconds
-</code></pre><p>I found several services, including SMB, RPC, and two HTTP servers on ports 80 and 50000. Enumerating the web server on port 80 and SMB do not reveal anything interesting. I was able to use RPC to find some endpoints, but I did not see anyway I could exploit the machines with the information.</p>
+</code></pre><p>I found several services, including SMB, RPC, and two HTTP servers on ports 80 and 50000. Enumerating the web server on port 80 and SMB do not reveal anything interesting. I was able to use RPC to find some endpoints, but I did not see anyway I could exploit Jeeves with the information.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~]
 └─$ impacket-rpcdump -p 135 10.10.10.63
 Impacket v0.12.0.dev1 - Copyright 2023 Fortra

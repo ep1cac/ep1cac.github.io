@@ -72,7 +72,7 @@ OS and Service detection performed. Please report any incorrect results at https
 # Nmap done at Mon Nov 11 13:05:35 2024 -- 1 IP address (1 host up) scanned in 214.46 seconds
 ```
 
-I found several services, including SMB, RPC, and two HTTP servers on ports 80 and 50000. Enumerating the web server on port 80 and SMB do not reveal anything interesting. I was able to use RPC to find some endpoints, but I did not see anyway I could exploit the machines with the information.
+I found several services, including SMB, RPC, and two HTTP servers on ports 80 and 50000. Enumerating the web server on port 80 and SMB do not reveal anything interesting. I was able to use RPC to find some endpoints, but I did not see anyway I could exploit Jeeves with the information.
 
 ```
 ┌──(kali㉿kali)-[~]
