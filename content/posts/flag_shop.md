@@ -120,7 +120,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
-However, when I tried to buy 2386093 flags, I am thrown deep into debt!
+However, when I try to buy 2386093 flags, I am thrown deep into debt!
 
 ```
 These knockoff Flags cost 900 each, enter desired quantity
