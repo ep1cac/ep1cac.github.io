@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+    
+    <meta name="robots" content="noai, noimageai">
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+    <link
+    rel="icon"
+    href='/favicon.png'
+/>
+<link
+    rel="shortcut icon"
+    href='/favicon.ico'
+    type="image/x-icon"
+/>
+<link
+    rel="apple-touch-icon"
+    href='/apple-touch-icon.png'
+/>
+
+    <link
+        rel="icon"
+        href='/logo.svg'
+        type="image/svg+xml"
+    />
+
+<title>
+        
+            PicoCTF: flag_shop  &ndash;
+        
+        Ep1cac
+    </title>
+
+    
+    <link href="/symbols-nerd-font/symbols-nerd-font.css" rel="stylesheet" integrity="SqW5hUbDk1THb+/o9+mQhLWLs67iY/ZZd8oDWaPUHPM6czrXoBrraS/IPO01ABSB34QVDeuhBD+AYGLPpecQpQ=="/>
+    <link href="/jetbrains-mono/jetbrains-mono.css" rel="stylesheet" integrity="KD6Cerdo1+0NOS06oSkDOIZF8ji7Vn2kVVhDx91gTCvDbqp+Aqa0eaIAu+Amv8NDoSnTy2E0pxLiIAfMFrcg5Q=="/>
+
+    
+    
+    <link type="text/css" rel="stylesheet" href=https://ep1cac.github.io/css/styles.92a5dd122dc2f6b3f4e1ddbdc5136b6ddc6386b3fd22c6fb8daa45dad3fc4e84b98b7a7dd7949fea7fdea189c7d1adbb213c24cf54b346b49a9ac53976accd44.css integrity="sha512-kqXdEi3C9rP04d29xRNrbdxjhrP9Isb7japF2tP8ToS5i3p915Sf6n/eoYnH0a27ITwkz1SzRrSamsU5dqzNRA==" />
+<meta name="author" content="Ep1cac" />
+
+    
+        <meta name="keywords" content='Code Review, Integer Overflow, PicoCTF' />
+    
+    
+        <meta name="description" content="&gt;Description&lt;/h3&gt;
+&lt;p&gt;flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag where we otherwise would have insufficient funds.&lt;/p&gt;" />
+    
+
+<meta property="og:site_name"
+    content='Ep1cac' />
+
+    <meta property="og:title" content="PicoCTF: flag_shop" />
+    <meta property="og:type" content="article" />
+    
+    <meta
+        property="article:author" content="Ep1cac" />
+    <meta
+        property="article:published_time"
+        content='2024-11-20T14:26:45Z-0600' />
+    
+        
+            <meta property="article:tag" content="Code Review" />
+        
+            <meta property="article:tag" content="Integer Overflow" />
+        
+            <meta property="article:tag" content="PicoCTF" />
+        
+    
+    <meta property="og:url" content="https://ep1cac.github.io/posts/flag_shop/" />
+    
+    
+    <meta property="og:image"
+        content="https://ep1cac.github.io/img/icon.svg" />
+    
+        <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;p&gt;flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag whe" />
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:domain"
+      content='ep1cac.github.io'
+/>
+<meta property="twitter:url" content="https://ep1cac.github.io/posts/flag_shop/" />
+
+
+    <meta name="twitter:title" content="PicoCTF: flag_shop" />
+    
+    
+    
+    <meta name="twitter:image"
+        content="https://ep1cac.github.io/img/icon.svg" />
+    
+        <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;p&gt;flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag whe" />
+    
+
+<link rel="manifest" href="/manifest/index.json" />
+</head>
+
+
+<body>
+        <div id="baseContainer"><header class="">
+<div class="titleAndSearchContainer">
+        <div id="titleContainer">
+            
+                <a class="unstyledLink" href="/">
+                    <img src='/logo.svg' alt='Logo'/>
+                </a>
+            
+            <div class="rightOfLogo">
+                <div class="titleAndHamburger">
+                    <h1>
+                        <a class="unstyledLink" href="/">Ep1cac</a>
+                        
+                    </h1>
+                    
+                </div>
+                <div id="wide_nav"><nav>
+    
+    <ul id="main-nav">
+        <li><a href="/">Home</a></li>
+        
+            <li><a href="/posts/">Posts</a></li>
+        
+        
+        
+        
+        
+        
+            <li><a href="/about">About</a></li>
+        
+        
+            <li><a href="/tags/">Tags</a></li>
+        
+        
+    </ul>
+</nav>
+</div>
+            </div>
+        </div>
+        <div class="search">
+    <input id="searchbar" type="text" placeholder='Search' />
+    <span class="nerdlink" onclick="newSearch();">&#xf002;</span>
+</div>
+<script>
+    function newSearch() {
+        let term = searchbar.value.trim();
+        if (!term) return;
+        location.href = `/search/?q=${term}`;
+    }
+    searchbar.onkeyup = (ev) => {if (ev.keyCode == 13) newSearch()};
+</script>
+
+    </div>
+    <div id="links">
+        
+        
+        <a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://www.linkedin.com/in/qihan-w-291838222/">
+    
+    
+        &#xf0e1;
+    
+    <span>
+        LinkedIn
+    </span>
+</a>
+<a
+    
+        rel="noreferrer"
+    
+    target="_blank"
+    class="nerdlink"
+    href="https://github.com/Ep1cac">
+    
+    
+        &#xf09b;
+    
+    <span>
+        Github
+    </span>
+</a>
+
+    </div>
+    
+
+</header>
+<div id="contentContainer">
+                <div id="content">
+                    <main>
+<article class="card single">
+    
+        <h1>PicoCTF: flag_shop</h1>
+    
+    
+        <p class="date">
+            <span title='Date'>󰃭 </span>
+    2024-11-20
+
+</p>
+    
+    
+    
+    
+    <div><h3 id="description">Description</h3>
+<p>flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag where we otherwise would have insufficient funds.</p>
+<h3 id="walkthrough">Walkthrough</h3>
+<h4 id="functionality-testing">Functionality Testing</h4>
+<p>Connecting to the Pico server, we get a menu with several options.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ nc jupiter.challenges.picoctf.org 9745
+Welcome to the flag exchange
+We sell flags
+
+1. Check Account Balance
+
+2. Buy Flags
+
+3. Exit
+
+ Enter a menu selection
+</code></pre><p>We can see our account balance.</p>
+<pre tabindex="0"><code> Enter a menu selection
+1
+
+
+
+ Balance: 1100 
+</code></pre><p>We can also buy flags, of which there are two options. Options 1 costs 900 each, whereas option 2, the &ldquo;1337 flag&rdquo;, costs 100000 each.</p>
+<pre tabindex="0"><code> Enter a menu selection
+2
+Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+1
+These knockoff Flags cost 900 each, enter desired quantity
+</code></pre><pre tabindex="0"><code>2
+Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+2
+1337 flags cost 100000 dollars, and we only have 1 in stock
+Enter 1 to buy one
+</code></pre><p>We are asked to buy a flag, presumably the 1337 flags, so let&rsquo;s get started.</p>
+<h4 id="code-review">Code Review</h4>
+<p>The first thing that caught my eye was the usage the unsecure <code>scanf()</code>. <code>scanf()</code> takes data from
+standard input and stores it to the address of a variable. However, it does not set a limit on the size of user input, meaning
+it is vulnerable to overflow. For this challenge, I did not need to exploit <code>scanf()</code>, but it is still a vulnerability worth
+keeping in mind.</p>
+<p>We also see that the <code>store.c</code> uses an integer to store the total cost of the flags in
+<code>total_cost</code>, meaning it can be interpreted as positive or negative. <code>total_cost</code> is derived by multiplying the cost of flag 1
+(900) with the number of flags our user wants to buy, so the number of flags we buy could flip the most significant bit of <code>total_cost</code> to 1,
+turning it into a negative number.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(auction_choice <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;These knockoff Flags cost 900 each, enter desired quantity</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> number_flags <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fflush</span>(stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>number_flags);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(number_flags <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> total_cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                    total_cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">900</span><span style="color:#f92672">*</span>number_flags;
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">The final cost is: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, total_cost);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span>(total_cost <span style="color:#f92672">&lt;=</span> account_balance){
+</span></span><span style="display:flex;"><span>                        account_balance <span style="color:#f92672">=</span> account_balance <span style="color:#f92672">-</span> total_cost;
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Your current balance after transaction: %d</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>, account_balance);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Not enough funds to complete purchase</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>                    }   
+</span></span><span style="display:flex;"><span>                }   
+</span></span><span style="display:flex;"><span>            }
+</span></span></code></pre></div><h4 id="exploitation">Exploitation</h4>
+<p>In two&rsquo;s complement, the most significant bit, or leftmost digit determines whether a number is positive (0) or negative (1).
+When our total cost ends up being greater than the maximum positive integer, the cost becomes negative if the most significant bit is 1.
+Since the price of a flag is 900, we can overflow our cost by buying <code>maximum_integer/price_per_flag</code> flags. Of course, this value needs to be
+rounded up (or +1 if the quotient is a whole number).</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ python3
+Python 3.12.6 (main, Sep  7 2024, 14:20:15) [GCC 14.2.0] on linux
+Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34; for more information.
+&gt;&gt;&gt; import math
+&gt;&gt;&gt; math.ceil(2147483647/900)
+2386093
+&gt;&gt;&gt; 2147483647/900
+2386092.941111111
+&gt;&gt;&gt; 
+</code></pre><p>However, when I tried to buy 2386093 flags, I am thrown deep into debt!</p>
+<pre tabindex="0"><code>These knockoff Flags cost 900 each, enter desired quantity
+2386093
+
+The final cost is: -2147483596
+
+Your current balance after transaction: -2147482600
+</code></pre><p>Let us figure out why this is happening. I&rsquo;ve provided a script below to find the binary representation of an integer.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;strings.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getBin</span>(<span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Usage: %s &lt;num&gt;&#34;</span>, argv[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">getBin</span>(<span style="color:#a6e22e">atoi</span>(argv[<span style="color:#ae81ff">1</span>]));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getBin</span>(<span style="color:#66d9ef">int</span> num)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> bin[<span style="color:#ae81ff">33</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">short</span> index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        bin[index] <span style="color:#f92672">=</span> (num <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">48</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">30</span>; i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>                index<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>                num <span style="color:#f92672">&amp;</span> i <span style="color:#f92672">?</span> (bin[index] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;1&#39;</span>) <span style="color:#f92672">:</span> (bin[index] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0&#39;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        bin[<span style="color:#ae81ff">32</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Number: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, num);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Binary: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, bin);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Calculating our expense, we get a positive number.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ ./int2bin $(( 0-2386093*900  ))
+Number: 2147483596
+Binary: 01111111111111111111111111001100
+</code></pre><p>However, we start with 1100 in our balance, not 0. If we recalculate our balance with that accounted for, we get a negative number.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ ./int2bin $(( 1100-2386093*900  ))
+Number: -2147482600
+Binary: 10000000000000000000010000011000
+</code></pre><p>The easiest way to fix our debacle would be to add 1100/900 when calculating the number of flags we need to buy since
+we will need to overflow an additional 1100 for flags that cost 900 each.</p>
+<pre tabindex="0"><code>&gt;&gt;&gt; math.ceil(2147483647/900+1100/900)
+2386095
+</code></pre><p>And now we have a large, positive amount of money after the transaction&hellip;</p>
+<pre tabindex="0"><code>These knockoff Flags cost 900 each, enter desired quantity
+2386095
+
+The final cost is: -2147481796
+
+Your current balance after transaction: 2147482896
+</code></pre><p>&hellip;and buy the 1337 flag.</p>
+<pre tabindex="0"><code>Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+2
+1337 flags cost 100000 dollars, and we only have 1 in stock
+Enter 1 to buy one1
+YOUR FLAG IS: picoCTF{m0n3y_&lt;redacted&gt;}
+Welcome to the flag exchange
+We sell flags
+</code></pre></div>
+</article>
+
+    <hr />
+    <p class="articleTagsContainer">
+        <span> </span>
+        <strong>Tags:</strong>
+        
+            <a
+                
+                href="/tags/code-review/">#Code Review</a>
+        
+            <a
+                
+                href="/tags/integer-overflow/">#Integer Overflow</a>
+        
+            <a
+                
+                href="/tags/picoctf/">#PicoCTF</a>
+        
+    </p>
+
+
+
+
+
+
+                    </main><footer>
+    <hr />
+
+<p><small>
+        2024 &copy; Ep1cac
+    </small></p>
+    <p><small>
+        <a href='https://gitlab.com/gabmus/hugo-ficurinia'>Ficurinia theme</a> for <a href='https://gohugo.io'>Hugo</a> by <a href='https://gabmus.org'>Gabriele Musco</a>. Licensed under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>GNU AGPLv3</a>.
+    </small></p>
+</footer>
+</div>
+            </div>
+        </div>
+
+
+</body>
+</html>

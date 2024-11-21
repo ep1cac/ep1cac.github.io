@@ -8,7 +8,7 @@ tags:
 - Code Review
 - x86
 - Pwn
-- Pico
+- PicoCTF
 ---
 
 ### Description
