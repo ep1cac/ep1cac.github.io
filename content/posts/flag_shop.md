@@ -64,7 +64,7 @@ Currently for sale
 Enter 1 to buy one
 ```
 
-We are asked to buy a flag, presumably the 1337 flags, so let's get started.
+We are asked to buy a flag, presumably the 1337 flag, so let's get started.
 
 
 #### Code Review
