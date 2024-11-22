@@ -117,7 +117,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 2386093
 >>> 2147483647/900
 2386092.941111111
->>> 
 ```
 
 However, when I try to buy 2386093 flags, I am thrown deep into debt!

@@ -54,7 +54,7 @@ Currently for sale
 2
 1337 flags cost 100000 dollars, and we only have 1 in stock
 Enter 1 to buy one
-</code></pre><p>We are asked to buy a flag, presumably the 1337 flags, so let&rsquo;s get started.</p>
+</code></pre><p>We are asked to buy a flag, presumably the 1337 flag, so let&rsquo;s get started.</p>
 <h4 id="code-review">Code Review</h4>
 <p>The first thing that caught my eye was the usage the unsecure <code>scanf()</code>. <code>scanf()</code> takes data from
 standard input and stores it to the address of a variable. However, it does not set a limit on the size of user input, meaning
@@ -97,8 +97,7 @@ Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34;
 2386093
 &gt;&gt;&gt; 2147483647/900
 2386092.941111111
-&gt;&gt;&gt; 
-</code></pre><p>However, when I tried to buy 2386093 flags, I am thrown deep into debt!</p>
+</code></pre><p>However, when I try to buy 2386093 flags, I am thrown deep into debt!</p>
 <pre tabindex="0"><code>These knockoff Flags cost 900 each, enter desired quantity
 2386093
 
