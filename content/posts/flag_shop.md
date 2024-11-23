@@ -70,7 +70,7 @@ We are asked to buy a flag, presumably the 1337 flag, so let's get started.
 #### Code Review
 The first thing that caught my eye was the usage the unsecure ```scanf()```. ```scanf()``` takes data from 
 standard input and stores it to the address of a variable. However, it does not set a limit on the size of user input, meaning
- it is vulnerable to overflow. For this challenge, I did not need to exploit ```scanf()```, but it is still a vulnerability worth 
+ it is vulnerable to overflow. For this challenge, we do not need to exploit ```scanf()```, but it is still something worth 
  keeping in mind.
 
 We also see that the ```store.c``` uses an integer to store the total cost of the flags in 
