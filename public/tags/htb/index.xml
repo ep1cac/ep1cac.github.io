@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>HTB on Ep1cac</title>
-    <link>https://ep1cac.github.io/tags/htb/</link>
+    <link>http://localhost:1313/tags/htb/</link>
     <description>Recent content in HTB on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 11 Nov 2024 12:54:22 -0600</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/htb/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
+    <lastBuildDate>Mon, 11 Nov 2024 12:54:22 -0600</lastBuildDate><atom:link href="http://localhost:1313/tags/htb/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
     
     
     <item>
       <title>Jeeves</title>
-      <link>https://ep1cac.github.io/posts/jeeves/</link>
+      <link>http://localhost:1313/posts/jeeves/</link>
       <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/jeeves/</guid>
+      <guid>http://localhost:1313/posts/jeeves/</guid>
       <description><![CDATA[<p><img src="/img/jeeves/jeeves.png#center" alt="Jeeves"></p>
 <h3 id="description">Description</h3>
 <p>Jeeves is a medium-difficult machine on HackTheBox. There is a Jenkins dashboard where unauthenticated users can access the Script Console and get a reverse shell. After the initial foothold, gaining access to a KeePass database file reveals Administrator&rsquo;s NTLM hash.</p>
@@ -359,10 +359,10 @@ C:\Windows\system32&gt;
     
     <item>
       <title>Poison</title>
-      <link>https://ep1cac.github.io/posts/poison/</link>
+      <link>http://localhost:1313/posts/poison/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/poison/</guid>
+      <guid>http://localhost:1313/posts/poison/</guid>
       <description><![CDATA[<p><img src="/img/poison/poison.png#center" alt="Poison"></p>
 <h3 id="description">Description</h3>
 <p>Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.</p>

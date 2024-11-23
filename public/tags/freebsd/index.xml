@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
   <channel>
     <title>FreeBSD on Ep1cac</title>
-    <link>https://ep1cac.github.io/tags/freebsd/</link>
+    <link>http://localhost:1313/tags/freebsd/</link>
     <description>Recent content in FreeBSD on Ep1cac</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 16 Sep 2024 20:59:17 -0500</lastBuildDate><atom:link href="https://ep1cac.github.io/tags/freebsd/index.xml" rel="self" type="application/rss+xml" /><icon>https://ep1cac.github.io/logo.svg</icon>
+    <lastBuildDate>Mon, 16 Sep 2024 20:59:17 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/freebsd/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
     
     
     <item>
       <title>Poison</title>
-      <link>https://ep1cac.github.io/posts/poison/</link>
+      <link>http://localhost:1313/posts/poison/</link>
       <pubDate>Mon, 16 Sep 2024 20:59:17 -0500</pubDate>
       
-      <guid>https://ep1cac.github.io/posts/poison/</guid>
+      <guid>http://localhost:1313/posts/poison/</guid>
       <description><![CDATA[<p><img src="/img/poison/poison.png#center" alt="Poison"></p>
 <h3 id="description">Description</h3>
 <p>Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.</p>

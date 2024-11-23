@@ -174,7 +174,7 @@ void getBin(int num)
 }
 ```
 
-Calculating our expense, we get a positive number.
+Calculating our remaining funds, we get 2147483596.
 
 ```
 ┌──(kali㉿kali)-[/tmp]
@@ -183,7 +183,7 @@ Number: 2147483596
 Binary: 01111111111111111111111111001100
 ```
 
-However, we start with 1100 in our balance, not 0. If we recalculate our balance with that accounted for, we get a negative number.
+However, we start with 1100 in our balance, not 0. If we recalculate our balance with that accounted for, we get -2147482600.
 
 ```
 ┌──(kali㉿kali)-[/tmp]
@@ -192,7 +192,7 @@ Number: -2147482600
 Binary: 10000000000000000000010000011000
 ```
 
-The easiest way to fix our debacle would be to add 1100/900 when calculating the number of flags we need to buy since 
+The easiest way to fix this debacle would be to add 1100/900 when calculating the number of flags we need to buy since 
 we will need to overflow an additional 1100 for flags that cost 900 each. 
 
 ```
@@ -200,7 +200,7 @@ we will need to overflow an additional 1100 for flags that cost 900 each.
 2386095
 ```
 
-And now we have a large, positive amount of money after the transaction...
+And now we have 2147482896 in our account after the transaction, more than enough to buy the 1337 flag.
 
 ```
 These knockoff Flags cost 900 each, enter desired quantity
@@ -210,8 +210,6 @@ The final cost is: -2147481796
 
 Your current balance after transaction: 2147482896
 ```
-
-...and buy the 1337 flag.
 
 ```
 Currently for sale
