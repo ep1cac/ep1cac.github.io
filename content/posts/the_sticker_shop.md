@@ -11,7 +11,7 @@ tags:
 ![The Sticker Shop](/img/the_sticker_shop/the_sticker_shop.png#center)
 
 ### Description
-The Sticker Shop is an easy-rated challenge on Tryhackme. We exfiltrate ```flag.txt``` from the web server through a XSS attack.
+[The Sticker Shop](https://tryhackme.com/r/room/thestickershop) is an easy-rated challenge on Tryhackme. We exfiltrate ```flag.txt``` from the web server through a XSS attack.
 
 
 ### Walkthrough
