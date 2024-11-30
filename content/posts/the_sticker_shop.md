@@ -112,7 +112,7 @@ Access-Control-Allow-Headers: Represents the HTTP headers that are permitted.
 
 Now to whitelist any host[^1], the HTTP POST and OPTIONS, as well as the Content-Type header. I spun up a Flask server to do this:
 
-[^1]: The request from flag shop comes from a random high port and there is no way to allow traffic from any port on a host.
+[^1]: The request from flag shop comes from a random high port and there is no built-in method in CORS for wildcard port matching.
 
 ```python
 from flask import Flask, request
