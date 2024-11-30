@@ -54,7 +54,6 @@ A quick and dirty way of doing this would be embedding ```flag.txt```'s contents
         .then(data => {
             sendData(data);
         })
-        .catch(error => console.error('Error:', error));
 </script>
 ```
 
