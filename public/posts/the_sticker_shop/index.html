@@ -301,7 +301,7 @@ THM{&lt;flag&gt;}
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">data</span>)
 </span></span><span style="display:flex;"><span>        })
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span></code></pre></div><p>The problem is that the browser sends a preflight request due to the content type, so netcat is out of the question&hellip;</p>
+</span></span></code></pre></div><p>The problem is that the POST request is no longer &ldquo;simple&rdquo; because the content type is now <code>application/json</code>, so the browser now sends a preceding preflight request, meaning netcat is out of the question&hellip;</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ nc -nvlp 80
 listening on [any] 80 ...

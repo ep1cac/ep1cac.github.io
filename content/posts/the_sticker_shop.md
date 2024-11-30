@@ -127,7 +127,7 @@ For structured data, using json may be a better option.
 </script>
 ```
 
-The problem is that the browser sends a preflight request due to the content type, so netcat is out of the question...
+The problem is that the POST request is no longer "simple" because the content type is now ```application/json```, so the browser now sends a preceding preflight request, meaning netcat is out of the question...
 
 ```
 ┌──(kali㉿kali)-[/tmp]
