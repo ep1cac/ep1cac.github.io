@@ -2,10 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/code-review/</loc>
-    <lastmod>2024-11-20T14:26:45-06:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/the_sticker_shop/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/thm/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/web-exploitation/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/xss/</loc>
+    <lastmod>2024-11-29T16:02:41-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/code-review/</loc>
     <lastmod>2024-11-20T14:26:45-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/integer-overflow/</loc>
@@ -15,12 +33,6 @@
     <lastmod>2024-11-20T14:26:45-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/flag_shop/</loc>
-    <lastmod>2024-11-20T14:26:45-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2024-11-20T14:26:45-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-11-20T14:26:45-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/broken-access-control/</loc>
@@ -84,9 +96,6 @@
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/kerberoast/</loc>
-    <lastmod>2024-09-17T15:11:37-05:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/thm/</loc>
     <lastmod>2024-09-17T15:11:37-05:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/unqoted-service-path/</loc>

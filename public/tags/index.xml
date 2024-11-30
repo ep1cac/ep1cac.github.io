@@ -6,7 +6,43 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Wed, 20 Nov 2024 14:26:45 -0600</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Fri, 29 Nov 2024 16:02:41 -0600</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>THM</title>
+      <link>http://localhost:1313/tags/thm/</link>
+      <pubDate>Fri, 29 Nov 2024 16:02:41 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/thm/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Web Exploitation</title>
+      <link>http://localhost:1313/tags/web-exploitation/</link>
+      <pubDate>Fri, 29 Nov 2024 16:02:41 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/web-exploitation/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>XSS</title>
+      <link>http://localhost:1313/tags/xss/</link>
+      <pubDate>Fri, 29 Nov 2024 16:02:41 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/xss/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
     
     
     <item>
@@ -231,18 +267,6 @@
       <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
       
       <guid>http://localhost:1313/tags/kerberoast/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>THM</title>
-      <link>http://localhost:1313/tags/thm/</link>
-      <pubDate>Tue, 17 Sep 2024 15:11:37 -0500</pubDate>
-      
-      <guid>http://localhost:1313/tags/thm/</guid>
       <description><![CDATA[]]></description>
       
     </item>

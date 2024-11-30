@@ -254,7 +254,7 @@ Enter 1 to buy one
 <h4 id="code-review">Code Review</h4>
 <p>The first thing that caught my eye was the usage the unsecure <code>scanf()</code>. <code>scanf()</code> takes data from
 standard input and stores it to the address of a variable. However, it does not set a limit on the size of user input, meaning
-it is vulnerable to overflow. For this challenge, I did not need to exploit <code>scanf()</code>, but it is still a vulnerability worth
+it is vulnerable to overflow. For this challenge, we do not need to exploit <code>scanf()</code>, but it is still something worth
 keeping in mind.</p>
 <p>We also see that the <code>store.c</code> uses an integer to store the total cost of the flags in
 <code>total_cost</code>, meaning it can be interpreted as positive or negative. <code>total_cost</code> is derived by multiplying the cost of flag 1
