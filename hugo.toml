@@ -9,7 +9,7 @@ defaultContentLanguage = "en"
 # you can use markdown inside this field
 copyright = "Ep1cac"
 
-# paginate = 5  # number of articles per page in the index
+paginate = 10  # number of articles per page in the index
 summaryLength = 20  # number of words for article summaries
 
 
