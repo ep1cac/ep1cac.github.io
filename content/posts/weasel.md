@@ -8,6 +8,7 @@ tags:
 - Linux
 - AlwaysInstallElevated
 - Autologon
+- Null Session
 ---
 
 ![Weasel](/img/weasel/weasel.png)
