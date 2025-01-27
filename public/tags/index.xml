@@ -6,7 +6,103 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Mon, 23 Dec 2024 12:13:37 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Sat, 25 Jan 2025 21:58:19 -0600</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Broken Access Control</title>
+      <link>http://localhost:1313/tags/broken-access-control/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/broken-access-control/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Command Injection</title>
+      <link>http://localhost:1313/tags/command-injection/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/command-injection/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>HTB</title>
+      <link>http://localhost:1313/tags/htb/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/htb/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Linux</title>
+      <link>http://localhost:1313/tags/linux/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/linux/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Security Misconfiguration</title>
+      <link>http://localhost:1313/tags/security-misconfiguration/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/security-misconfiguration/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Session Hijacking</title>
+      <link>http://localhost:1313/tags/session-hijacking/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/session-hijacking/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Spring Boot</title>
+      <link>http://localhost:1313/tags/spring-boot/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/spring-boot/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Web Security</title>
+      <link>http://localhost:1313/tags/web-security/</link>
+      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
+      
+      <guid>http://localhost:1313/tags/web-security/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
     
     
     <item>
@@ -34,11 +130,23 @@
     
     
     <item>
-      <title>Linux</title>
-      <link>http://localhost:1313/tags/linux/</link>
+      <title>Null Session</title>
+      <link>http://localhost:1313/tags/null-session/</link>
       <pubDate>Mon, 23 Dec 2024 12:13:37 -0500</pubDate>
       
-      <guid>http://localhost:1313/tags/linux/</guid>
+      <guid>http://localhost:1313/tags/null-session/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>THM</title>
+      <link>http://localhost:1313/tags/thm/</link>
+      <pubDate>Mon, 23 Dec 2024 12:13:37 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/thm/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -63,18 +171,6 @@
       <pubDate>Mon, 23 Dec 2024 12:13:37 -0500</pubDate>
       
       <guid>http://localhost:1313/tags/wsl-escape/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>THM</title>
-      <link>http://localhost:1313/tags/thm/</link>
-      <pubDate>Fri, 29 Nov 2024 16:02:41 -0600</pubDate>
-      
-      <guid>http://localhost:1313/tags/thm/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -142,35 +238,11 @@
     
     
     <item>
-      <title>Broken Access Control</title>
-      <link>http://localhost:1313/tags/broken-access-control/</link>
-      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
-      
-      <guid>http://localhost:1313/tags/broken-access-control/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
       <title>Broken Authentication</title>
       <link>http://localhost:1313/tags/broken-authentication/</link>
       <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
       
       <guid>http://localhost:1313/tags/broken-authentication/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>HTB</title>
-      <link>http://localhost:1313/tags/htb/</link>
-      <pubDate>Mon, 11 Nov 2024 12:54:22 -0600</pubDate>
-      
-      <guid>http://localhost:1313/tags/htb/</guid>
       <description><![CDATA[]]></description>
       
     </item>
@@ -267,18 +339,6 @@
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
       <guid>http://localhost:1313/tags/portswigger/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>Web Security</title>
-      <link>http://localhost:1313/tags/web-security/</link>
-      <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
-      
-      <guid>http://localhost:1313/tags/web-security/</guid>
       <description><![CDATA[]]></description>
       
     </item>

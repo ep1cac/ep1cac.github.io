@@ -12,8 +12,12 @@
         
         
     
-    "articles": [{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/search/","summary":"","tags":[],"title":"Search"}],
-    "test": "Weasel   The Sticker Shop   PicoCTF: flag_shop   Jeeves   PicoCTF: Buffer Overflow 2   Portswigger Lab: Brute-forcing a stay-logged-in cookie   About   Enterprise   Poison   Manifest   Search   ",
+        
+        
+        
+    
+    "articles": [{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/manifest/index.json","summary":"","tags":[],"title":"Manifest"},{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/search/","summary":"","tags":[],"title":"Search"}],
+    "test": "CozyHosting   Weasel   The Sticker Shop   PicoCTF: flag_shop   Jeeves   PicoCTF: Buffer Overflow 2   Portswigger Lab: Brute-forcing a stay-logged-in cookie   About   Enterprise   Poison   Manifest   Search   ",
     "page": "2",
     "next": ""
 }

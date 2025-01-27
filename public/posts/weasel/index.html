@@ -43,7 +43,7 @@
 <meta name="author" content="Ep1cac" />
 
     
-        <meta name="keywords" content='AlwaysInstallElevated, Autologon, Linux, Windows, WSL Escape' />
+        <meta name="keywords" content='AlwaysInstallElevated, Autologon, Linux, Null Session, THM, Windows, WSL Escape' />
     
     
         <meta name="description" content="asel/weasel.png&#34; alt=&#34;Weasel&#34;&gt;&lt;/p&gt;
@@ -69,6 +69,10 @@
             <meta property="article:tag" content="Autologon" />
         
             <meta property="article:tag" content="Linux" />
+        
+            <meta property="article:tag" content="Null Session" />
+        
+            <meta property="article:tag" content="THM" />
         
             <meta property="article:tag" content="Windows" />
         
@@ -515,7 +519,7 @@ winPEASany.exe
 dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv&gt;ren Usersdatasci-teamwinpeas.exe winpeas.exe
 </code></pre><p>Running WinPEAS reveals a couple things of interest. First, <code>dev-datasci-lowpriv</code> has permissions to run Windows Installer packages with elevated privileges.</p>
 <p><img src="/img/weasel/install_elevated.png" alt="Winpeas AlwaysInstallElevated"></p>
-<p><code>dev-datasci-lowpriv</code> also has its plaintext credentials stored for AutoLogon.</p>
+<p><code>dev-datasci-lowpriv</code> also has its credentials stored for AutoLogon.</p>
 <p><img src="/img/weasel/autologin.png" alt="AutoLogon credentials"></p>
 <p>Now all we need to do is create a malicious .msi file and install it on the Windows host for privilege escalation. I generated one using msfvenom.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
@@ -572,6 +576,14 @@ nt authority\system
         
             <a
                 
+                href="/tags/null-session/">#Null Session</a>
+        
+            <a
+                
+                href="/tags/thm/">#THM</a>
+        
+            <a
+                
                 href="/tags/windows/">#Windows</a>
         
             <a
@@ -589,7 +601,7 @@ nt authority\system
     <hr />
 
 <p><small>
-        2024 &copy; Ep1cac
+        2025 &copy; Ep1cac
     </small></p>
     <p><small>
         <a href='https://gitlab.com/gabmus/hugo-ficurinia'>Ficurinia theme</a> for <a href='https://gohugo.io'>Hugo</a> by <a href='https://gabmus.org'>Gabriele Musco</a>. Licensed under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>GNU AGPLv3</a>.

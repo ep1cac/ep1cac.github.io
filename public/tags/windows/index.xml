@@ -312,7 +312,7 @@ winPEASany.exe
 dev-datasci-lowpriv@DEV-DATASCI-JUP C:\Users\dev-datasci-lowpriv&gt;ren Usersdatasci-teamwinpeas.exe winpeas.exe
 </code></pre><p>Running WinPEAS reveals a couple things of interest. First, <code>dev-datasci-lowpriv</code> has permissions to run Windows Installer packages with elevated privileges.</p>
 <p><img src="/img/weasel/install_elevated.png" alt="Winpeas AlwaysInstallElevated"></p>
-<p><code>dev-datasci-lowpriv</code> also has its plaintext credentials stored for AutoLogon.</p>
+<p><code>dev-datasci-lowpriv</code> also has its credentials stored for AutoLogon.</p>
 <p><img src="/img/weasel/autologin.png" alt="AutoLogon credentials"></p>
 <p>Now all we need to do is create a malicious .msi file and install it on the Windows host for privilege escalation. I generated one using msfvenom.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
