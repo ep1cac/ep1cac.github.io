@@ -291,7 +291,7 @@ cozyhosting=#
  admin     | $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm | Admin
 ```
 
-I was only able to crack the password hash for ```admin```. We can test for password reuse.
+I was only able to crack the password hash for ```admin```, which doesn't provide much for directly, but we can test for password reuse.
 
 ```
 ┌──(kali㉿kali)-[/tmp]
@@ -299,7 +299,7 @@ I was only able to crack the password hash for ```admin```. We can test for pass
 $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm:manchesterunited
 ```
 
-Looking at the users, ```root```, ```josh```, and ```postgres``` seem worth looking into.
+Looking at system users, ```root```, ```josh```, and ```postgres``` seem worth looking into.
 ```
 app@cozyhosting:/app$ cat /etc/passwd | grep -v nologin | grep -v false
 root:x:0:0:root:/root:/bin/bash

