@@ -10,11 +10,11 @@ tags:
 
 ![The Sticker Shop](/img/the_sticker_shop/the_sticker_shop.png#center)
 
-### Description
+## Description
 [The Sticker Shop](https://tryhackme.com/r/room/thestickershop) is an easy-rated challenge on Tryhackme. We exfiltrate ```flag.txt``` from the web server through a XSS attack.
 
 
-### Walkthrough
+## Walkthrough
 We are told that we need to read the flag at ```http://10.10.102.204:8080/flag.txt```. However, visiting the URL, we are met with a 401 Unauthorized message, meaning we are not authenticated to view the file.
 
 ![Direct access 401 forbidden](/img/the_sticker_shop/401.png)
@@ -60,7 +60,7 @@ A quick and dirty way of doing this would be embedding ```flag.txt```'s contents
 ![Quick and dirty GET flag](/img/the_sticker_shop/flag_get.png)
 
 ---
-### Beyond Pwn
+## Beyond Pwn
 
 But what if you want to read a file that is much larger, or you don't want the data to be visible in the URL, perhaps for greater stealth? In that case, you would be better off using POST instead of GET.
 For unstructured data, sending data as plaintext will suffice.

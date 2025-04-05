@@ -13,10 +13,10 @@ tags:
 
 ![Enterprise](/img/enterprise/enterprise.png#center)
 
-### Description
+## Description
 [Enterprise](https://tryhackme.com/r/room/enterprise) is a Hard difficulty Active Directory box on Tryhackme. We are in an assumed compromise scenario where our only target is a domain controller on the internal network. While privilege escalation was straightforward, there are multiple rabbit holes for initial access.
 
-### Recon
+## Recon
 I began my recon on the machine was a nmap scan.
 ```
 # Nmap 7.94SVN scan initiated Wed Sep 18 17:50:36 2024 as: nmap -p- -A -v -oN nmap.scan -T5 10.10.62.141
@@ -239,7 +239,7 @@ The Github page has a single repository that doesn't hold any useful information
 
 
 
-### Foothold
+## Foothold
 The PowerShell script takes in a username and password and gets the system information of all computers within an active directory network. While the ```$userName``` and ```$userPassword``` fields are empty, we can see that there has been more than one change pushed to this repository.
 
 ![mgmtScript.ps1 Repository history](/img/enterprise/git_history.png)
@@ -324,7 +324,7 @@ hashcat -a 0 kerberoast.txt /usr/share/wordlists/rockyou.txt
 Eventually, it cracks.
 
 
-### Privilege Escalation
+## Privilege Escalation
 With the new credentials for the ```bitbucket``` service account, I connected to the domain controller through RDP.
 
 ```

@@ -47,7 +47,7 @@
     
     
         <meta name="description" content="e_sticker_shop/the_sticker_shop.png#center&#34; alt=&#34;The Sticker Shop&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://tryhackme.com/r/room/thestickershop&#34;&gt;The Sticker Shop&lt;/a&gt; is an easy-rated challenge on Tryhackme. We exfiltrate &lt;code&gt;flag.txt&lt;/code&gt; from the web server through a XSS attack.&lt;/p&gt;" />
     
 
@@ -78,7 +78,7 @@
         content="http://localhost:1313/img/icon.svg" />
     
         <meta property="og:description" content="&lt;p&gt;&lt;img src=&#34;/img/the_sticker_shop/the_sticker_shop.png#center&#34; alt=&#34;The Sticker Shop&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://tryhackme." />
     
 
@@ -97,7 +97,7 @@
         content="http://localhost:1313/img/icon.svg" />
     
         <meta name="twitter:description" content="&lt;p&gt;&lt;img src=&#34;/img/the_sticker_shop/the_sticker_shop.png#center&#34; alt=&#34;The Sticker Shop&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://tryhackme." />
     
 
@@ -215,9 +215,9 @@
     
     
     <div><p><img src="/img/the_sticker_shop/the_sticker_shop.png#center" alt="The Sticker Shop"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p><a href="https://tryhackme.com/r/room/thestickershop">The Sticker Shop</a> is an easy-rated challenge on Tryhackme. We exfiltrate <code>flag.txt</code> from the web server through a XSS attack.</p>
-<h3 id="walkthrough">Walkthrough</h3>
+<h2 id="walkthrough">Walkthrough</h2>
 <p>We are told that we need to read the flag at <code>http://10.10.102.204:8080/flag.txt</code>. However, visiting the URL, we are met with a 401 Unauthorized message, meaning we are not authenticated to view the file.</p>
 <p><img src="/img/the_sticker_shop/401.png" alt="Direct access 401 forbidden"></p>
 <p>If we backtrack to the webapp&rsquo;s homepage, we see that there is a page for submitting feedback where we can presumably send content to the sticker shop staff. This might be our way in.</p>
@@ -246,7 +246,7 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
 </span></span></code></pre></div><p><img src="/img/the_sticker_shop/flag_get.png" alt="Quick and dirty GET flag"></p>
 <hr>
-<h3 id="beyond-pwn">Beyond Pwn</h3>
+<h2 id="beyond-pwn">Beyond Pwn</h2>
 <p>But what if you want to read a file that is much larger, or you don&rsquo;t want the data to be visible in the URL, perhaps for greater stealth? In that case, you would be better off using POST instead of GET.
 For unstructured data, sending data as plaintext will suffice.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;

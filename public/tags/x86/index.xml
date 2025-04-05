@@ -15,9 +15,9 @@
       <pubDate>Wed, 09 Oct 2024 14:23:13 -0500</pubDate>
       
       <guid>http://localhost:1313/posts/pico_buff2/</guid>
-      <description><![CDATA[<h3 id="description">Description</h3>
+      <description><![CDATA[<h2 id="description">Description</h2>
 <p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
-<h3 id="walkthrough">Walkthrough</h3>
+<h2 id="walkthrough">Walkthrough</h2>
 <p>After downloading the vulnerable binary and its source code, the first thing I did was to view the source code.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">

@@ -15,11 +15,11 @@ tags:
 ![Weasel](/img/weasel/weasel.png)
 
 
-### Description
+## Description
 Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.
 
 
-### Recon
+## Recon
 First thing's first. Let's start with a nmap scan.
 
 ```
@@ -185,7 +185,7 @@ drwxrwxr-x 6 kali kali 220 Dec 22 21:15 ..
 067470c5ddsadc54153ghfjd817d15b5d5f5341e56b0dsad78a
 ```
 
-### Foothold
+## Foothold
 We are able to use this token to login to Jupyter Notebook on port 8888, where we can edit ```weasel.ipynb``` or create a new Jupyter notebook file to get a shell.
 
 ![Jupyter authenticated](/img/weasel/logon.png)
@@ -208,7 +208,7 @@ bash: no job control in this shell
 (base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ 
 ```
 
-### Breaking out of WSL
+## Breaking out of WSL
 Checking sudo permissions is something I always do early one since it's usually an easy win, so I quickly found that ```/home/dev-datasci/.local/bin/jupyter``` can be executed with root privileges without a password.
 
 ```
@@ -351,7 +351,7 @@ We can therefore ssh onto the Windows host OS.
 └─$ ssh -i dev-datasci-lowpriv_id_ed25519 dev-datasci-lowpriv@10.10.34.193
 ```
 
-### Privilege Escalation
+## Privilege Escalation
 We can use WinPEAS to facilitate our enumeration. I transferred it to the Windows host through scp.
 
 ```

@@ -174,7 +174,7 @@ summaryLength = 70  # number of words for article summaries
     home = ["HTML", "JSON"]
 ```
 
-### Supported icons
+## Supported icons
 
 For the `[[menu.icons]]` menu. They match identifier, name and url can be whatever. Here's a list of supported identifiers:
 

@@ -47,7 +47,7 @@
     
     
         <meta name="description" content="ison/poison.png#center&#34; alt=&#34;Poison&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.&lt;/p&gt;" />
     
 
@@ -84,7 +84,7 @@
         content="http://localhost:1313/img/icon.svg" />
     
         <meta property="og:description" content="&lt;p&gt;&lt;img src=&#34;/img/poison/poison.png#center&#34; alt=&#34;Poison&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Poison is a Medium difficulty FreeBSD box. Exploitation i" />
     
 
@@ -103,7 +103,7 @@
         content="http://localhost:1313/img/icon.svg" />
     
         <meta name="twitter:description" content="&lt;p&gt;&lt;img src=&#34;/img/poison/poison.png#center&#34; alt=&#34;Poison&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Poison is a Medium difficulty FreeBSD box. Exploitation i" />
     
 
@@ -221,9 +221,9 @@
     
     
     <div><p><img src="/img/poison/poison.png#center" alt="Poison"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>We start by running a Nmap scan against the target.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~]
 └─$ sudo nmap -p- -A 10.10.10.84 -T5   
@@ -271,13 +271,13 @@ Nmap done: 1 IP address (1 host up) scanned in 120.47 seconds
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>echo -n <span style="color:#e6db74">&#34;</span>$encoded_pass<span style="color:#e6db74">&#34;</span>
 </span></span></code></pre></div><p>After running the script, we get our password <code>Charix!2#4%6&amp;8(0</code>.</p>
-<h3 id="foothold">Foothold</h3>
+<h2 id="foothold">Foothold</h2>
 <p>We have a password, but we don&rsquo;t know any users we could potentially authenticate as. Recall that the webpage can read files. Since we know that the target machine is likely FreeBSD, a Unix-like OS, we can try to read the <code>/etc/passwd</code> to find users.</p>
 <p><img src="/img/poison/traversal_passwd.png" alt="/etc/passwd file"></p>
 <p>Notice there are three users: <code>root</code>, <code>toor</code>, and <code>charix</code> that seem interesting. We can spray our password against these accounts via ssh. It is true that <code>Charix!2#4%6&amp;8(0</code> is likely the password for <code>charix</code>, it&rsquo;s still worth checking the other accounts for password reuse.</p>
 <p><img src="/img/poison/pass_spray.png" alt="Password spray"></p>
 <p>And now we can authenticate as <code>charix</code> to the server.</p>
-<h3 id="privilege-escalation">Privilege Escalation</h3>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>Now that we have a shell, we can move onto privilege escalation. Feel free to grab the user flag, but there is also a <code>secret.zip</code> file that might be interesting. It&rsquo;s password protected though, and I find files easier to investigate when they are on my local machine. So I transferred the zip file to Kali.</p>
 <p>On Kali:</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]

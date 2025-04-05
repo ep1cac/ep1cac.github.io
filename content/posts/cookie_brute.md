@@ -9,11 +9,11 @@ tags:
 - Broken Authentication
 ---
 
-### Description
+## Description
 The "Brute-forcing a stay-logged-in cookie" lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack. 
 
 
-### Walkthrough
+## Walkthrough
 Navigate to the login page under "My account". We will first create a stay-logged-in cookie with the user credentials given to us. Make sure check "Stay logged in".
 
 ![Login and enable persistent cookies](/img/portswigger/cookie-brute/stay_logged_in.png)
@@ -76,7 +76,7 @@ Refresh the page and we are now logged in as ```carlos```.
 ![Takeover success](/img/portswigger/cookie-brute/carlos_pwned.png)
 
 ***
-### Beyond Pwn
+## Beyond Pwn
 Note that finding the cookie for ```carlos``` is similar to a password dictionary attack. In this particular though, there is a IP ban for incorrect login attempts. By brute forcing the cookie instead of password, we are able to bypass the IP ban.
 
 Also worth mentioning is that we can also get the ```carlos``` user's password while brute forcing his cookie. 

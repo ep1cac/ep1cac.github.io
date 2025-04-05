@@ -47,7 +47,7 @@
     
     
         <meta name="description" content="zyhosting/cozyhosting.png&#34; alt=&#34;CozyHosting&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding an exposed user session and exploitating an authenticated
 command injection vulnerability. After gaining a shell, we find hardcoded user credentials and exploit sudo permissions to escalate to root.&lt;/p&gt;" />
     
@@ -89,7 +89,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
         content="http://localhost:1313/img/icon.svg" />
     
         <meta property="og:description" content="&lt;p&gt;&lt;img src=&#34;/img/cozyhosting/cozyhosting.png&#34; alt=&#34;CozyHosting&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;CozyHosting is an easy-rated challenge on HackThe" />
     
 
@@ -108,7 +108,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
         content="http://localhost:1313/img/icon.svg" />
     
         <meta name="twitter:description" content="&lt;p&gt;&lt;img src=&#34;/img/cozyhosting/cozyhosting.png&#34; alt=&#34;CozyHosting&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;CozyHosting is an easy-rated challenge on HackThe" />
     
 
@@ -226,10 +226,10 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
     
     
     <div><p><img src="/img/cozyhosting/cozyhosting.png" alt="CozyHosting"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding an exposed user session and exploitating an authenticated
 command injection vulnerability. After gaining a shell, we find hardcoded user credentials and exploit sudo permissions to escalate to root.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>Starting off with a nmap scan, we find 2 open TCP ports: 22 and 80.</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Sun Jan 26 14:49:51 2025 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.11.230
 Increasing send delay for 10.10.11.230 from 0 to 5 due to 599 out of 1496 dropped probes since last increase.
@@ -308,7 +308,7 @@ Target: http://cozyhosting.htb/
 Task Completed
 </code></pre><p>Visiting <code>/actuator/sessions</code> reveals a user session for <code>kanderson</code>.</p>
 <p><img src="/img/cozyhosting/sessions.png" alt="exposed Actuator sessions"></p>
-<h3 id="foothold">Foothold</h3>
+<h2 id="foothold">Foothold</h2>
 <p>We can take over <code>kanderson</code>&rsquo;s session by adding his JSESSIONID cookie to our browser and refreshing the page.</p>
 <p><img src="/img/cozyhosting/hijacking.png" alt="Replacing cookie"></p>
 <p>If not automatically redirected to <code>http://cozyhosting.htb/admin</code>, heading there should now reveal the Admin dashboard.</p>
@@ -335,7 +335,7 @@ listening on [any] 21 ...
 connect to [10.10.14.60] from (UNKNOWN) [10.10.11.230] 35240
 whoami
 app
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>After stabilizing the shell, I started enumeration. There is a <code>cloudhosting-0.0.1.jar</code> file in the directory we land in. We can transfer this file
 to our local machine for further analysis.</p>
 <pre tabindex="0"><code>app@cozyhosting:/app$ ls -al

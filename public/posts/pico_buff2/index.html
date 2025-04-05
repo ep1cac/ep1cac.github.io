@@ -46,7 +46,7 @@
         <meta name="keywords" content='Binary Exploitation, Buffer Overflow, Code Review, PicoCTF, Pwn, x86' />
     
     
-        <meta name="description" content="&gt;Description&lt;/h3&gt;
+        <meta name="description" content="&gt;Description&lt;/h2&gt;
 &lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.&lt;/p&gt;" />
     
 
@@ -82,7 +82,7 @@
     <meta property="og:image"
         content="http://localhost:1313/img/icon.svg" />
     
-        <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+        <meta property="og:description" content="&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() func" />
     
 
@@ -100,7 +100,7 @@
     <meta name="twitter:image"
         content="http://localhost:1313/img/icon.svg" />
     
-        <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+        <meta name="twitter:description" content="&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() func" />
     
 
@@ -217,9 +217,9 @@
     
     
     
-    <div><h3 id="description">Description</h3>
+    <div><h2 id="description">Description</h2>
 <p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
-<h3 id="walkthrough">Walkthrough</h3>
+<h2 id="walkthrough">Walkthrough</h2>
 <p>After downloading the vulnerable binary and its source code, the first thing I did was to view the source code.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">

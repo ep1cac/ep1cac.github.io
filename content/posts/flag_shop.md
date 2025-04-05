@@ -9,11 +9,11 @@ tags:
 ---
 
 
-### Description
+## Description
 flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag where we otherwise would have insufficient funds.
 
-### Walkthrough
-#### Functionality Testing
+## Walkthrough
+### Functionality Testing
 Connecting to the Pico server, we get a menu with several options.
 
 ```
@@ -67,7 +67,7 @@ Enter 1 to buy one
 We are asked to buy a flag, presumably the 1337 flag, so let's get started.
 
 
-#### Code Review
+### Code Review
 The first thing that caught my eye was the usage the unsecure ```scanf()```. ```scanf()``` takes data from 
 standard input and stores it to the address of a variable. However, it does not set a limit on the size of user input, meaning
  it is vulnerable to overflow. For this challenge, we do not need to exploit ```scanf()```, but it is still something worth 
@@ -101,7 +101,7 @@ turning it into a negative number.
 ```
 
 
-#### Exploitation
+### Exploitation
 In two's complement, the most significant bit, or leftmost digit determines whether a number is positive (0) or negative (1). 
 When our total cost ends up being greater than the maximum positive integer, the cost becomes negative if the most significant bit is 1.
 Since the price of a flag is 900, we can overflow our cost by buying ```maximum_integer/price_per_flag``` flags. Of course, this value needs to be

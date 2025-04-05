@@ -11,11 +11,11 @@ tags:
 - PicoCTF
 ---
 
-### Description
+## Description
 Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.
 
 
-### Walkthrough
+## Walkthrough
 After downloading the vulnerable binary and its source code, the first thing I did was to view the source code.
 
 ```c

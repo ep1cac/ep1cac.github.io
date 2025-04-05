@@ -46,7 +46,7 @@
         <meta name="keywords" content='Code Review, Integer Overflow, PicoCTF' />
     
     
-        <meta name="description" content="&gt;Description&lt;/h3&gt;
+        <meta name="description" content="&gt;Description&lt;/h2&gt;
 &lt;p&gt;flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag where we otherwise would have insufficient funds.&lt;/p&gt;" />
     
 
@@ -76,7 +76,7 @@
     <meta property="og:image"
         content="http://localhost:1313/img/icon.svg" />
     
-        <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+        <meta property="og:description" content="&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag whe" />
     
 
@@ -94,7 +94,7 @@
     <meta name="twitter:image"
         content="http://localhost:1313/img/icon.svg" />
     
-        <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+        <meta name="twitter:description" content="&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag whe" />
     
 
@@ -211,10 +211,10 @@
     
     
     
-    <div><h3 id="description">Description</h3>
+    <div><h2 id="description">Description</h2>
 <p>flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag where we otherwise would have insufficient funds.</p>
-<h3 id="walkthrough">Walkthrough</h3>
-<h4 id="functionality-testing">Functionality Testing</h4>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="functionality-testing">Functionality Testing</h3>
 <p>Connecting to the Pico server, we get a menu with several options.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ nc jupiter.challenges.picoctf.org 9745
@@ -251,7 +251,7 @@ Currently for sale
 1337 flags cost 100000 dollars, and we only have 1 in stock
 Enter 1 to buy one
 </code></pre><p>We are asked to buy a flag, presumably the 1337 flag, so let&rsquo;s get started.</p>
-<h4 id="code-review">Code Review</h4>
+<h3 id="code-review">Code Review</h3>
 <p>The first thing that caught my eye was the usage the unsecure <code>scanf()</code>. <code>scanf()</code> takes data from
 standard input and stores it to the address of a variable. However, it does not set a limit on the size of user input, meaning
 it is vulnerable to overflow. For this challenge, we do not need to exploit <code>scanf()</code>, but it is still something worth
@@ -279,7 +279,7 @@ turning it into a negative number.</p>
 </span></span><span style="display:flex;"><span>                    }   
 </span></span><span style="display:flex;"><span>                }   
 </span></span><span style="display:flex;"><span>            }
-</span></span></code></pre></div><h4 id="exploitation">Exploitation</h4>
+</span></span></code></pre></div><h3 id="exploitation">Exploitation</h3>
 <p>In two&rsquo;s complement, the most significant bit, or leftmost digit determines whether a number is positive (0) or negative (1).
 When our total cost ends up being greater than the maximum positive integer, the cost becomes negative if the most significant bit is 1.
 Since the price of a flag is 900, we can overflow our cost by buying <code>maximum_integer/price_per_flag</code> flags. Of course, this value needs to be

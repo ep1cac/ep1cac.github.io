@@ -13,10 +13,10 @@ tags:
 
 ![Jeeves](/img/jeeves/jeeves.png#center)
 
-### Description
+## Description
 Jeeves is a medium-difficult machine on HackTheBox. There is a Jenkins dashboard where unauthenticated users can access the Script Console and get a reverse shell. After the initial foothold, gaining access to a KeePass database file reveals Administrator's NTLM hash.
 
-### Recon
+## Recon
 Starting off with a nmap scan:
 ```
 # Nmap 7.94SVN scan initiated Mon Nov 11 13:02:01 2024 as: nmap -p- -A -v -T4 -oN /tmp/nmap.scan 10.10.10.63
@@ -156,7 +156,7 @@ Jenkins is an open source CI/CD server. In this case, anonymous users have full 
 ```<authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>```
 
 
-### Foothold
+## Foothold
 We can leverage our permissions to access the Script Console by going to "Mange Jenkins" > "Script Console". 
 
 ![Jenkins Script Console](/img/jeeves/script_console.png)
@@ -175,7 +175,7 @@ C:\Users\Administrator\.jenkins>
 ```
 
 
-### Privilege Escalation
+## Privilege Escalation
 I always go for low-hanging fruit first when escalating privileges. Looking at my user privilege, I saw that we have the SEImpersonatePrivilege. We can potentially impersonate a high-privileged user.
 
 ```

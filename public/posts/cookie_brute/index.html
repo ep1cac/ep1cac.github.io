@@ -46,7 +46,7 @@
         <meta name="keywords" content='Broken Authentication, Cookies, PortSwigger, Web Security' />
     
     
-        <meta name="description" content="&gt;Description&lt;/h3&gt;
+        <meta name="description" content="&gt;Description&lt;/h2&gt;
 &lt;p&gt;The &amp;ldquo;Brute-forcing a stay-logged-in cookie&amp;rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.&lt;/p&gt;" />
     
 
@@ -78,7 +78,7 @@
     <meta property="og:image"
         content="http://localhost:1313/img/icon.svg" />
     
-        <meta property="og:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+        <meta property="og:description" content="&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;The &amp;ldquo;Brute-forcing a stay-logged-in cookie&amp;rdquo; lab by PortSwigger features a web application whose stay-logged" />
     
 
@@ -96,7 +96,7 @@
     <meta name="twitter:image"
         content="http://localhost:1313/img/icon.svg" />
     
-        <meta name="twitter:description" content="&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;
+        <meta name="twitter:description" content="&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
 &lt;p&gt;The &amp;ldquo;Brute-forcing a stay-logged-in cookie&amp;rdquo; lab by PortSwigger features a web application whose stay-logged" />
     
 
@@ -213,9 +213,9 @@
     
     
     
-    <div><h3 id="description">Description</h3>
+    <div><h2 id="description">Description</h2>
 <p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
-<h3 id="walkthrough">Walkthrough</h3>
+<h2 id="walkthrough">Walkthrough</h2>
 <p>Navigate to the login page under &ldquo;My account&rdquo;. We will first create a stay-logged-in cookie with the user credentials given to us. Make sure check &ldquo;Stay logged in&rdquo;.</p>
 <p><img src="/img/portswigger/cookie-brute/stay_logged_in.png" alt="Login and enable persistent cookies"></p>
 <p>Now we can copy the cookie to analyze. Hit <code>Ctr-Shift-i</code> to open the Developer Tools panel and head to the &ldquo;Storage&rdquo; section. The value for the &ldquo;stay-logged-on&rdquo; field is our cookie.</p>
@@ -250,7 +250,7 @@ wiener:51dc30ddc473d43a6011e9ebba6ca770
 <p>Refresh the page and we are now logged in as <code>carlos</code>.</p>
 <p><img src="/img/portswigger/cookie-brute/carlos_pwned.png" alt="Takeover success"></p>
 <hr>
-<h3 id="beyond-pwn">Beyond Pwn</h3>
+<h2 id="beyond-pwn">Beyond Pwn</h2>
 <p>Note that finding the cookie for <code>carlos</code> is similar to a password dictionary attack. In this particular though, there is a IP ban for incorrect login attempts. By brute forcing the cookie instead of password, we are able to bypass the IP ban.</p>
 <p>Also worth mentioning is that we can also get the <code>carlos</code> user&rsquo;s password while brute forcing his cookie.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash

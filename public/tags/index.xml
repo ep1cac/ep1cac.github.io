@@ -6,7 +6,103 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Ep1cac</copyright>
-    <lastBuildDate>Sat, 25 Jan 2025 21:58:19 -0600</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    <lastBuildDate>Thu, 03 Apr 2025 13:48:40 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Decompiling</title>
+      <link>http://localhost:1313/tags/decompiling/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/decompiling/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Hardcoded Secrets</title>
+      <link>http://localhost:1313/tags/hardcoded-secrets/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/hardcoded-secrets/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Hashcracking</title>
+      <link>http://localhost:1313/tags/hashcracking/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/hashcracking/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>HTB</title>
+      <link>http://localhost:1313/tags/htb/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/htb/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Linux</title>
+      <link>http://localhost:1313/tags/linux/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/linux/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Path Traversal</title>
+      <link>http://localhost:1313/tags/path-traversal/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/path-traversal/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Reverse Engineering</title>
+      <link>http://localhost:1313/tags/reverse-engineering/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/reverse-engineering/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
+    
+    
+    <item>
+      <title>Solar-PuTTY</title>
+      <link>http://localhost:1313/tags/solar-putty/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/tags/solar-putty/</guid>
+      <description><![CDATA[]]></description>
+      
+    </item>
+    
     
     
     <item>
@@ -27,30 +123,6 @@
       <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
       
       <guid>http://localhost:1313/tags/command-injection/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>HTB</title>
-      <link>http://localhost:1313/tags/htb/</link>
-      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
-      
-      <guid>http://localhost:1313/tags/htb/</guid>
-      <description><![CDATA[]]></description>
-      
-    </item>
-    
-    
-    
-    <item>
-      <title>Linux</title>
-      <link>http://localhost:1313/tags/linux/</link>
-      <pubDate>Sat, 25 Jan 2025 21:58:19 -0600</pubDate>
-      
-      <guid>http://localhost:1313/tags/linux/</guid>
       <description><![CDATA[]]></description>
       
     </item>

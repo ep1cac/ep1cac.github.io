@@ -16,9 +16,9 @@
       
       <guid>http://localhost:1313/posts/jeeves/</guid>
       <description><![CDATA[<p><img src="/img/jeeves/jeeves.png#center" alt="Jeeves"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Jeeves is a medium-difficult machine on HackTheBox. There is a Jenkins dashboard where unauthenticated users can access the Script Console and get a reverse shell. After the initial foothold, gaining access to a KeePass database file reveals Administrator&rsquo;s NTLM hash.</p>
-<h3 id="recon">Recon</h3>
+<h2 id="recon">Recon</h2>
 <p>Starting off with a nmap scan:</p>
 <pre tabindex="0"><code># Nmap 7.94SVN scan initiated Mon Nov 11 13:02:01 2024 as: nmap -p- -A -v -T4 -oN /tmp/nmap.scan 10.10.10.63
 adjust_timeouts2: packet supposedly had rtt of -211723 microseconds.  Ignoring time.
@@ -142,7 +142,7 @@ by Ben &#34;epi&#34; Risher 🤓                 ver: 2.11.0
 <p><img src="/img/jeeves/jenkins_web.png" alt="Jenkins Server"></p>
 <p>Jenkins is an open source CI/CD server. In this case, anonymous users have full access to the dashboard. This happens when the Jenkins authorization strategy is set to Unsecured. After compromising the machine, I confirmed this was the case by checking <code>config.xml</code> and finding the unsecured authorization strategy in use.</p>
 <p><code>&lt;authorizationStrategy class=&quot;hudson.security.AuthorizationStrategy$Unsecured&quot;/&gt;</code></p>
-<h3 id="foothold">Foothold</h3>
+<h2 id="foothold">Foothold</h2>
 <p>We can leverage our permissions to access the Script Console by going to &ldquo;Mange Jenkins&rdquo; &gt; &ldquo;Script Console&rdquo;.</p>
 <p><img src="/img/jeeves/script_console.png" alt="Jenkins Script Console"></p>
 <p>Here we can execute a Groovy code to get a reverse shell. I got mine from revshells, but it is worth noting that Java shells also work because Groovy is a superset of Java and also runs on the JVM.</p>
@@ -154,7 +154,7 @@ Microsoft Windows [Version 10.0.10586]
 (c) 2015 Microsoft Corporation. All rights reserved.
 
 C:\Users\Administrator\.jenkins&gt;
-</code></pre><h3 id="privilege-escalation">Privilege Escalation</h3>
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
 <p>I always go for low-hanging fruit first when escalating privileges. Looking at my user privilege, I saw that we have the SEImpersonatePrivilege. We can potentially impersonate a high-privileged user.</p>
 <pre tabindex="0"><code>C:\Temp&gt;whoami /priv
 whoami /priv
@@ -363,9 +363,9 @@ C:\Windows\system32&gt;
       <pubDate>Mon, 23 Sep 2024 10:59:43 -0500</pubDate>
       
       <guid>http://localhost:1313/posts/cookie_brute/</guid>
-      <description><![CDATA[<h3 id="description">Description</h3>
+      <description><![CDATA[<h2 id="description">Description</h2>
 <p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
-<h3 id="walkthrough">Walkthrough</h3>
+<h2 id="walkthrough">Walkthrough</h2>
 <p>Navigate to the login page under &ldquo;My account&rdquo;. We will first create a stay-logged-in cookie with the user credentials given to us. Make sure check &ldquo;Stay logged in&rdquo;.</p>
 <p><img src="/img/portswigger/cookie-brute/stay_logged_in.png" alt="Login and enable persistent cookies"></p>
 <p>Now we can copy the cookie to analyze. Hit <code>Ctr-Shift-i</code> to open the Developer Tools panel and head to the &ldquo;Storage&rdquo; section. The value for the &ldquo;stay-logged-on&rdquo; field is our cookie.</p>
@@ -400,7 +400,7 @@ wiener:51dc30ddc473d43a6011e9ebba6ca770
 <p>Refresh the page and we are now logged in as <code>carlos</code>.</p>
 <p><img src="/img/portswigger/cookie-brute/carlos_pwned.png" alt="Takeover success"></p>
 <hr>
-<h3 id="beyond-pwn">Beyond Pwn</h3>
+<h2 id="beyond-pwn">Beyond Pwn</h2>
 <p>Note that finding the cookie for <code>carlos</code> is similar to a password dictionary attack. In this particular though, there is a IP ban for incorrect login attempts. By brute forcing the cookie instead of password, we are able to bypass the IP ban.</p>
 <p>Also worth mentioning is that we can also get the <code>carlos</code> user&rsquo;s password while brute forcing his cookie.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash

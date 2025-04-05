@@ -15,12 +15,12 @@ tags:
 
 ![CozyHosting](/img/cozyhosting/cozyhosting.png)
 
-### Description
+## Description
 CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding an exposed user session and exploitating an authenticated 
 command injection vulnerability. After gaining a shell, we find hardcoded user credentials and exploit sudo permissions to escalate to root.
 
 
-### Recon
+## Recon
 Starting off with a nmap scan, we find 2 open TCP ports: 22 and 80.
 
 ```
@@ -112,7 +112,7 @@ Visiting ```/actuator/sessions``` reveals a user session for ```kanderson```.
 ![exposed Actuator sessions](/img/cozyhosting/sessions.png)
 
 
-### Foothold
+## Foothold
 
 We can take over ```kanderson```'s session by adding his JSESSIONID cookie to our browser and refreshing the page.
 
@@ -161,7 +161,7 @@ app
 ```
 
 
-### Privilege Escalation
+## Privilege Escalation
 After stabilizing the shell, I started enumeration. There is a ```cloudhosting-0.0.1.jar``` file in the directory we land in. We can transfer this file
  to our local machine for further analysis.
 

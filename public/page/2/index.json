@@ -16,8 +16,12 @@
         
         
     
-    "articles": [{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/manifest/index.json","summary":"","tags":[],"title":"Manifest"},{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/search/","summary":"","tags":[],"title":"Search"}],
-    "test": "CozyHosting   Weasel   The Sticker Shop   PicoCTF: flag_shop   Jeeves   PicoCTF: Buffer Overflow 2   Portswigger Lab: Brute-forcing a stay-logged-in cookie   About   Enterprise   Poison   Manifest   Search   ",
+        
+        
+        
+    
+    "articles": [{"date":"2024-09-16","image":"","imageAlt":"","link":"http://localhost:1313/posts/poison/","summary":"\u003cp\u003e\u003cimg src=\"/img/poison/poison.png#center\" alt=\"Poison\"\u003e\u003c/p\u003e\n\u003ch2 id=\"description\"\u003eDescription\u003c/h2\u003e\n\u003cp\u003ePoison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.\u003c/p\u003e","tags":["FreeBSD","HTB","LFI","Port Forwarding","Unix","VNC"],"title":"Poison"},{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/manifest/index.json","summary":"","tags":[],"title":"Manifest"},{"date":"0001-01-01","image":"","imageAlt":"","link":"http://localhost:1313/search/","summary":"","tags":[],"title":"Search"}],
+    "test": "Instant   CozyHosting   Weasel   The Sticker Shop   PicoCTF: flag_shop   Jeeves   PicoCTF: Buffer Overflow 2   Portswigger Lab: Brute-forcing a stay-logged-in cookie   About   Enterprise   Poison   Manifest   Search   ",
     "page": "2",
     "next": ""
 }

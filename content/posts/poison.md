@@ -13,10 +13,10 @@ tags:
 
 ![Poison](/img/poison/poison.png#center)
 
-### Description
+## Description
 Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.
 
-### Recon
+## Recon
 We start by running a Nmap scan against the target.
 ```
 ┌──(kali㉿kali)-[~]
@@ -77,7 +77,7 @@ echo -n "$encoded_pass"
 
 After running the script, we get our password ```Charix!2#4%6&8(0```.
 
-### Foothold
+## Foothold
 We have a password, but we don't know any users we could potentially authenticate as. Recall that the webpage can read files. Since we know that the target machine is likely FreeBSD, a Unix-like OS, we can try to read the ```/etc/passwd``` to find users.
 
 ![/etc/passwd file](/img/poison/traversal_passwd.png)
@@ -88,7 +88,7 @@ Notice there are three users: ```root```, ```toor```, and ```charix``` that seem
 
 And now we can authenticate as ```charix``` to the server.
 
-### Privilege Escalation
+## Privilege Escalation
 Now that we have a shell, we can move onto privilege escalation. Feel free to grab the user flag, but there is also a ```secret.zip``` file that might be interesting. It's password protected though, and I find files easier to investigate when they are on my local machine. So I transferred the zip file to Kali.
 
 On Kali:

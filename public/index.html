@@ -204,6 +204,57 @@
 <article class="card postlistitem">
     <div>
         <h2>
+            <a href="http://localhost:1313/posts/instant/">Instant</a>
+        </h2>
+        <p class="date">
+            <span title='Date'>󰃭 </span>
+    2025-04-03
+
+
+                | 
+                <span title='Tags'> </span>
+                
+                    <a href="/tags/decompiling">#Decompiling</a>
+                
+                    <a href="/tags/hardcoded-secrets">#Hardcoded Secrets</a>
+                
+                    <a href="/tags/hashcracking">#Hashcracking</a>
+                
+                    <a href="/tags/hashcracking">#Hashcracking</a>
+                
+                    <a href="/tags/htb">#HTB</a>
+                
+                    <a href="/tags/linux">#Linux</a>
+                
+                    <a href="/tags/path-traversal">#Path Traversal</a>
+                
+                    <a href="/tags/reverse-engineering">#Reverse Engineering</a>
+                
+                    <a href="/tags/solar-putty">#Solar-PuTTY</a>
+                
+            
+        </p>
+        
+            
+        
+        
+            <div class="articlePreview">
+                <p>
+                    
+                        <p><img src="/img/instant/instant.png" alt="Instant"></p>
+<h2 id="description">Description</h2>
+<p>Instant is a medium-difficulty Linux box from Hack The Box. We discover a hardcoded JWT token and a couple of subdomains from a downloadable apk file, from which we exploit a path traversal vulnerability to read a ssh private key and gain a foothold. Credentials from the instant webapp db can then be used to decrypt a Solar-PuTTY session backup file to find the password for root.</p>
+                    
+                </p>
+                <p><a href="http://localhost:1313/posts/instant/">Continue reading </a></p>
+            </div>
+        
+    </div>
+    <hr />
+</article>
+<article class="card postlistitem">
+    <div>
+        <h2>
             <a href="http://localhost:1313/posts/cozyhosting/">CozyHosting</a>
         </h2>
         <p class="date">
@@ -240,7 +291,7 @@
                 <p>
                     
                         <p><img src="/img/cozyhosting/cozyhosting.png" alt="CozyHosting"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>CozyHosting is an easy-rated challenge on HackTheBox. The foothold involves finding an exposed user session and exploitating an authenticated
 command injection vulnerability. After gaining a shell, we find hardcoded user credentials and exploit sudo permissions to escalate to root.</p>
                     
@@ -288,7 +339,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
                 <p>
                     
                         <p><img src="/img/weasel/weasel.png" alt="Weasel"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Weasel is a Medium difficulty challenge on Tryhackme. We get a foothold on WSL through Jupyter Notebook and find a SSH key that allows us to SSH into the Windows host. Finally, we escalate privileges by exploiting AlwaysInstallElevated with a malicious Windows Installer file.</p>
                     
                 </p>
@@ -327,7 +378,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
                 <p>
                     
                         <p><img src="/img/the_sticker_shop/the_sticker_shop.png#center" alt="The Sticker Shop"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p><a href="https://tryhackme.com/r/room/thestickershop">The Sticker Shop</a> is an easy-rated challenge on Tryhackme. We exfiltrate <code>flag.txt</code> from the web server through a XSS attack.</p>
                     
                 </p>
@@ -365,7 +416,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
             <div class="articlePreview">
                 <p>
                     
-                        <h3 id="description">Description</h3>
+                        <h2 id="description">Description</h2>
 <p>flag_shop is a challenge on PicoCTF where an integer overflow vulnerability allows for the purchase of an 1337 flag where we otherwise would have insufficient funds.</p>
                     
                 </p>
@@ -410,7 +461,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
                 <p>
                     
                         <p><img src="/img/jeeves/jeeves.png#center" alt="Jeeves"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Jeeves is a medium-difficult machine on HackTheBox. There is a Jenkins dashboard where unauthenticated users can access the Script Console and get a reverse shell. After the initial foothold, gaining access to a KeePass database file reveals Administrator&rsquo;s NTLM hash.</p>
                     
                 </p>
@@ -454,7 +505,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
             <div class="articlePreview">
                 <p>
                     
-                        <h3 id="description">Description</h3>
+                        <h2 id="description">Description</h2>
 <p>Buffer Overflow 2 is a binary exploitation challenge that involves overflowing a buffer to not only call the win() function, but also to successfully pass the necessary arguments to it.</p>
                     
                 </p>
@@ -494,7 +545,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
             <div class="articlePreview">
                 <p>
                     
-                        <h3 id="description">Description</h3>
+                        <h2 id="description">Description</h2>
 <p>The &ldquo;Brute-forcing a stay-logged-in cookie&rdquo; lab by PortSwigger features a web application whose stay-logged-in cookies are vulnerable to attack.</p>
                     
                 </p>
@@ -539,7 +590,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
                 <p>
                     
                         <p><img src="/img/enterprise/enterprise.png#center" alt="Enterprise"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p><a href="https://tryhackme.com/r/room/enterprise">Enterprise</a> is a Hard difficulty Active Directory box on Tryhackme. We are in an assumed compromise scenario where our only target is a domain controller on the internal network. While privilege escalation was straightforward, there are multiple rabbit holes for initial access.</p>
                     
                 </p>
@@ -584,7 +635,7 @@ command injection vulnerability. After gaining a shell, we find hardcoded user c
                 <p>
                     
                         <p><img src="/img/poison/poison.png#center" alt="Poison"></p>
-<h3 id="description">Description</h3>
+<h2 id="description">Description</h2>
 <p>Poison is a Medium difficulty FreeBSD box. Exploitation involves gaining a low-privilege shell through a vulnerable webapp and escalating privileges through improperly secured credentials.</p>
                     
                 </p>

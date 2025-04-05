@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/tags/decompiling/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/hardcoded-secrets/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/hashcracking/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/htb/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/instant/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/linux/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/path-traversal/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/reverse-engineering/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/solar-putty/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-04-03T13:48:40-05:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/tags/broken-access-control/</loc>
     <lastmod>2025-01-25T21:58:19-06:00</lastmod>
   </url><url>
@@ -11,18 +47,6 @@
     <loc>http://localhost:1313/posts/cozyhosting/</loc>
     <lastmod>2025-01-25T21:58:19-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-01-25T21:58:19-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/htb/</loc>
-    <lastmod>2025-01-25T21:58:19-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/linux/</loc>
-    <lastmod>2025-01-25T21:58:19-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-01-25T21:58:19-06:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/security-misconfiguration/</loc>
     <lastmod>2025-01-25T21:58:19-06:00</lastmod>
   </url><url>
@@ -30,9 +54,6 @@
     <lastmod>2025-01-25T21:58:19-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/spring-boot/</loc>
-    <lastmod>2025-01-25T21:58:19-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-01-25T21:58:19-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/web-security/</loc>

